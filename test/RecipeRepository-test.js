@@ -58,4 +58,10 @@ describe('Recipe', () => {
   it.skip('Recipes should be instances of Recipe', function() {
     expect(recipeRepository.recipes).to.be.an.instanceof(Recipe)
   })
+
+  it('Should be able to filter recipes based on tags', function() {
+    let filteredRecipes = recipeRepository.filterByTag("starter");
+    expect(filteredRecipes).to.deep.equal([595736])
+
+  })
 })
