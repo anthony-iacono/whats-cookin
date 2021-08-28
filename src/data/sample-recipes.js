@@ -217,7 +217,8 @@ const sampleRecipeData = [
         "lunch",
         "main course",
         "main dish",
-        "dinner"
+        "dinner",
+        "appetizer"
       ]
     },
     {
