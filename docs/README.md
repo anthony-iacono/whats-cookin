@@ -1,5 +1,11 @@
 # What's Cookin'? Starter Kit 
 
+****
+Overview of project and goals
+Overview of technologies used, your code architecture, challenges, wins, and any other reflections
+Screenshots/gifs of your app
+****
+
 The details of this project are outlined in the <a href="https://frontend.turing.edu/projects/What%27sCookin-PartOne.html" target="\__blank">project spec</a>.
 
 ## Set Up 
