@@ -26,12 +26,17 @@ describe('Recipe', () => {
   })
 
   it('Should be able to filter recipes based on one tag', function() {
-    let filteredRecipes = recipeRepository.filterByTag(['starter']);
-    expect(filteredRecipes).to.deep.equal([595736]);
+    recipeRepository.filterByTag(['starter']);
+    expect(recipeRepository.matchingRecipes).to.deep.equal([595736]);
   })
 
   it('Should be able to filter recipes based on more than one tag', function() {
-    let filteredRecipes = recipeRepository.filterByTag(['starter', 'sauce']);
-    expect(filteredRecipes).to.deep.equal([595736, 412309]);
+    recipeRepository.filterByTag(['starter', 'sauce']);
+    expect(recipeRepository.matchingRecipes).to.deep.equal([595736, 412309]);
+  })
+
+  it('Should be able to filter recipes based on a single keyword string', function() {
+    recipeRepository.filterByName('Maple Dijon Apple Cider Grilled Pork Chops');
+    expect(recipeRepository.matchingRecipes).to.deep.equal([678353]);
   })
 })
