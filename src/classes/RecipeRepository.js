@@ -1,21 +1,43 @@
 class RecipeRepository {
   constructor(recipes) {
     this.recipes = recipes;
+    this.matchingRecipes = [];
   }
 
   filterByTag(userTags) {
-    const matchingRecipes = [];
     userTags.forEach(userTag => {
       this.recipes.forEach(recipe => {
-        if (recipe.tags.includes(userTag) && !matchingRecipes.includes(recipe.id)) {
-          matchingRecipes.push(recipe.id)
+        if (recipe.tags.includes(userTag)
+        && !this.matchingRecipes.includes(recipe.id)) {
+          this.matchingRecipes.push(recipe.id)
         }
       })
     })
-    return matchingRecipes;
+    return this.matchingRecipes;
+  }
+
+  filterByKeyWord(keywords) {
+    filterByName();
+    filterByIngredient();
+  }
+
+  filterByName(keyWords) {
+    this.recipes.forEach(recipe => {
+      if (recipe.name === keyWords
+      && !this.matchingRecipes.includes(recipe.id)) {
+        this.matchingRecipes.push(recipe.id)
+      }
+    })
+  }
+    // user puts in keyword that is a string and then we look through each recipe name and find matches and we push them into an array
+
+  filterByIngredient(keyWords) {
+
   }
 }
-
+/*
+user should be able to search by keyword and ingredient so we should be able to
+*/
 export default RecipeRepository;
 // A RecipeRepository should hold onto all Recipe objects.
 // [x] It should have a parameter to take in recipe data.
