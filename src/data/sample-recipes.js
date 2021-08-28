@@ -326,4 +326,5 @@ const sampleRecipeData = [
       "tags": [
         "sauce"
       ]
-    },
+    }
+  ]
