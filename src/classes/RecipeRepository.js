@@ -38,9 +38,9 @@ class RecipeRepository {
 
   translateIngredient(keyWords) {
     return this.ingredients.find(ingredient => ingredient.name === keyWords).id;
-    }
   }
 }
+
 /*
 user should be able to search by ingredient
 say user searches for sucrose as a string

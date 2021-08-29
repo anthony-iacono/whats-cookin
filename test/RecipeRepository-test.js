@@ -1,11 +1,13 @@
 import { expect } from 'chai';
 import RecipeRepository from '../src/classes/RecipeRepository';
 import sampleRecipeData from '../src/data/sample-recipes';
+import sampleIngredientsData from '../src/data/sample-ingredients';
 
 describe('Recipe', () => {
   let recipeRepository;
   beforeEach(function() {
-    recipeRepository = new RecipeRepository(sampleRecipeData);
+    recipeRepository = new RecipeRepository(sampleRecipeData, sampleIngredientsData);
+
   })
 
 
@@ -38,5 +40,10 @@ describe('Recipe', () => {
   it('Should be able to filter recipes based on a single keyword string', function() {
     recipeRepository.filterByName('Maple Dijon Apple Cider Grilled Pork Chops');
     expect(recipeRepository.matchingRecipes).to.deep.equal([678353]);
+  })
+
+  it('it should be able to translate a keyword to an id', function() {
+    const id = recipeRepository.translateIngredient('wheat flour');
+    expect(id).to.equal(20081);
   })
 })
