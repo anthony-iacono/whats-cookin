@@ -1,6 +1,7 @@
 class RecipeRepository {
-  constructor(recipes) {
+  constructor(recipes, ingredients) {
     this.recipes = recipes;
+    this.ingredients = ingredients;
     this.matchingRecipes = [];
   }
 
@@ -34,9 +35,18 @@ class RecipeRepository {
   filterByIngredient(keyWords) {
 
   }
+
+  translateIngredient(keyWords) {
+    return this.ingredients.find(ingredient => ingredient.name === keyWords).id;
+    }
+  }
 }
 /*
-user should be able to search by keyword and ingredient so we should be able to
+user should be able to search by ingredient
+say user searches for sucrose as a string
+take string and access ingredients to find matching id and grab the id
+use id to iterate through recipes and grab all recipes with that ingredient
+then we push matching recipes into the matchingRecipes array IF it's not already there.
 */
 export default RecipeRepository;
 // A RecipeRepository should hold onto all Recipe objects.
