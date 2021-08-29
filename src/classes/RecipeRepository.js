@@ -33,6 +33,13 @@ class RecipeRepository {
     // user puts in keyword that is a string and then we look through each recipe name and find matches and we push them into an array
 
   filterByIngredient(keyWords) {
+    const id = this.translateIngredient(keyWords);
+      this.matchingRecipes = this.recipes.filter(recipe => {
+        recipe.ingredients.find(ingredient => ingredient.id === id)
+      })
+    // this.recipes.forEach(recipe => {
+    //   recipe.find()
+    })
 
   }
 
