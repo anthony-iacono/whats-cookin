@@ -46,4 +46,9 @@ describe('Recipe', () => {
     const id = recipeRepository.translateIngredient('wheat flour');
     expect(id).to.equal(20081);
   })
+
+  it('should be able to filter by ingredient', function () {
+    recipeRepository.filterByIngredient('wheat flour');
+    expect(recipeRepository.matchingRecipes).to.deep.equal([595736]);
+  })
 })
