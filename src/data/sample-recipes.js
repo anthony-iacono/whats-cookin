@@ -107,7 +107,7 @@ const sampleRecipeData = [
           "number": 6
         }
       ],
-      "name": "Loaded Chocolate Chip Pudding Cookie Cups",
+      "name": "Loaded Chocolate Chip Pudding Cookie Cups Sauce",
       "tags": [
         "antipasti",
         "starter",
@@ -217,7 +217,8 @@ const sampleRecipeData = [
         "lunch",
         "main course",
         "main dish",
-        "dinner"
+        "dinner",
+        "appetizer"
       ]
     },
     {
@@ -304,7 +305,7 @@ const sampleRecipeData = [
         {
           "id": 1042047,
           "quantity": {
-            "amount": 1.5,
+            "amount":  1.5,
             "unit": "tablespoons"
           }
         },
@@ -328,3 +329,5 @@ const sampleRecipeData = [
       ]
     }
   ]
+
+export default sampleRecipeData;
