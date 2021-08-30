@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import Recipe from '../src/classes/Recipe';
+import Ingredient from '../src/classes/Ingredient';
 import sampleRecipeData from '../src/data/sample-recipes';
 
 describe('Recipe', function() {
@@ -19,7 +20,7 @@ describe('Recipe', function() {
   it('should hold imported values', function() {
     expect(recipe.id).to.equal(sampleRecipeData[0].id);
     expect(recipe.image).to.equal(sampleRecipeData[0].image);
-    expect(recipe.ingredients).to.deep.equal(sampleRecipeData[0].ingredients);
+    expect(recipe.ingredients).to.deep.equal(sampleRecipeData[0].ingredients.map(ingredient => new Ingredient(ingredient)));
     expect(recipe.instructions).to.deep.equal(sampleRecipeData[0].instructions);
     expect(recipe.name).to.equal(sampleRecipeData[0].name);
     expect(recipe.tags).to.deep.equal(sampleRecipeData[0].tags);
@@ -27,11 +28,11 @@ describe('Recipe', function() {
 
   it('should determine the names of ingredients needed', function() {
     const ingredients = ['wheat flour', 'bicarbonate of soda', 'eggs', 'sucrose', 'instant vanilla pudding', 'brown sugar', 'salt', 'fine sea salt', 'semi sweet chips', 'unsalted butter', 'vanilla']
-    expect(recipe.findIngredientName()).deep.equal(ingredients);
+    expect(recipe.findIngredientsName()).deep.equal(ingredients);
   });
 
   it('should get the cost of its ingredients', function() {
-    expect(recipe.getCost()).to.equal(5921)
+    expect(recipe.costInCents).to.equal(17776)
   })
 
   it('should get the instructions', function() {
