@@ -1,6 +1,8 @@
+import Recipe from './Recipe';
+
 class RecipeRepository {
   constructor(recipes, ingredients) {
-    this.recipes = recipes;
+    this.recipes = recipes.map(recipe => new Recipe(recipe));
     this.ingredients = ingredients;
     this.matchingRecipes = [];
   }
@@ -17,41 +19,74 @@ class RecipeRepository {
     return this.matchingRecipes;
   }
 
-  filterByKeyWord(keywords) {
-    filterByName();
-    filterByIngredient();
+  filterByKeyword(keywords) {
+    filterByName(keywords);
+    filterByIngredient(keywords);
   }
 
-  filterByName(keyWords) {
+  // filterByName(keywords) {
+  //   this.recipes.forEach(recipe => {
+  //     if (recipe.name === keywords
+  //     && !this.matchingRecipes.includes(recipe.id)) {
+  //       this.matchingRecipes.push(recipe.id)
+  //     }
+  //   })
+  // }
+
+  filterByName(keywords) {
+    const splitKeywords = keywords.split(' ');
+
     this.recipes.forEach(recipe => {
-      if (recipe.name === keyWords
+      let nameContainsKeyword = true;
+      splitKeywords.forEach(keyword => {
+        if (!recipe.name.includes(keyword)) {
+          nameContainsKeyword = false;
+          return;
+        }
+        if (!this.matchingRecipes.includes(recipe.id) && nameContainsKeyword) {
+          this.matchingRecipes.push(recipe.id)
+        }
+      })
+    })
+  }
+
+// [x] break up user's keyword string into array of keywords
+// [x] iterate over the recipe names
+  // [ ] iterate over the keyword array
+    // check if current recipe name includes current keyword
+      // if it doesn't match, return false
+      // else continue to next keyword
+// push id of any recipe whose name contains all of the keywords to new array
+// return the array
+
+  filterByIngredient(keywords) {
+    const id = this.translateIngredient(keywords);
+    this.recipes.forEach(recipe => {
+      recipe.ingredients.forEach(ingredient => {
+        if (ingredient.id === id
         && !this.matchingRecipes.includes(recipe.id)) {
           this.matchingRecipes.push(recipe.id)
         }
       })
-    }
-    // user puts in keyword that is a string and then we look through each recipe name and find matches and we push them into an array
+    })
+  }
 
-    filterByIngredient(keyWords) {
-      const id = this.translateIngredient(keyWords);
-      this.recipes.forEach(recipe => {
-        recipe.ingredients.forEach(ingredient => {
-          if (ingredient.id === id
-          && !this.matchingRecipes.includes(recipe.id)) {
-            this.matchingRecipes.push(recipe.id)
-          }
-        })
+
+  filterByIngredient(keywords) {
+    const id = this.translateIngredient(keywords);
+    this.recipes.forEach(recipe => {
+      recipe.ingredients.forEach(ingredient => {
+        if (ingredient.id === id
+        && !this.matchingRecipes.includes(recipe.id)) {
+          this.matchingRecipes.push(recipe.id)
+        }
       })
-    }
-      // this.matchingRecipes = this.recipes.filter(recipe => {
-      //   recipe.ingredients.find(ingredient => ingredient.id === id)
-      // })
-      // this.recipes.forEach(recipe => {
-      //   recipe.find()
+    })
+  }
 
-      translateIngredient(keyWords) {
-        return this.ingredients.find(ingredient => ingredient.name === keyWords).id;
-      }
+  translateIngredient(keywords) {
+    return this.ingredients.find(ingredient => ingredient.name === keywords).id;
+  }
 }
 
     /*
@@ -65,7 +100,7 @@ class RecipeRepository {
     // A RecipeRepository should hold onto all Recipe objects.
     // [x] It should have a parameter to take in recipe data.
     // [x] It should have methods to determine:
-    // [ ] A filtered list of recipes based on one or more tags.
+    // [x] A filtered list of recipes based on one or more tags.
     // [ ] A filtered list of recipes based on its name or ingredients.
 
     // const recipesByTag = this.recipes.filter(recipe => {
