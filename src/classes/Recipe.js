@@ -1,4 +1,5 @@
 import sampleIngredientsData from '../data/sample-ingredients';
+import Ingredient from './Ingredient';
 
 
 class Recipe {
@@ -9,40 +10,21 @@ class Recipe {
     this.instructions = recipe.instructions;
     this.name = recipe.name;
     this.tags = recipe.tags;
-    this.costInCents = 0;
+    this.costInCents = this.getCost();
   }
 
-  findIngredientName() {
-    let ingredientNames = [];
-    sampleIngredientsData.map(sampleIng => {
-      if (this.ingredients.map(ing => ing.id).includes(sampleIng.id)) {
-        ingredientNames.push(sampleIng.name)
-      }
-    })
-    return ingredientNames
+  findIngredientsName() {
+    return this.ingredients.map(ingredient => ingredient.name);
   };
 
 
 
   getCost() {
-    const quantity = this.ingredients.map(ingredients => ingredients.quantity.amount);
-    // let counter = 0;
-    // sampleIngredientsData.map(sampleIng => {
-    //   if (this.ingredients.map(ing => ing.id).includes(sampleIng.id)) {
-    //     this.costInCents = this.costInCents + (sampleIng.estimatedCostInCents * quantity[counter])
-    //     counter = counter++
-    //   }
-    // })
-    // return this.costInCents
-
-  const test = this.ingredients.map(ingredient => {
-      sampleIngredientsData.find(sampleIngredient => sampleIngredient.id === ingredient.id)
+    let total = 0;
+    this.ingredients.forEach(ingredient => {
+      total = total + ingredient.cost;
     })
-    console.log(test)
-  }
-
-  getIngredientCost() {
-
+    return total;
   }
 
   getInstructions() {
