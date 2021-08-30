@@ -1,4 +1,3 @@
-import sampleIngredientsData from '../data/sample-ingredients';
 import Ingredient from './Ingredient';
 
 
@@ -17,8 +16,6 @@ class Recipe {
     return this.ingredients.map(ingredient => ingredient.name);
   };
 
-
-
   getCost() {
     let total = 0;
     this.ingredients.forEach(ingredient => {
@@ -31,9 +28,5 @@ class Recipe {
     return this.instructions;
   }
 }
-
-
-
-
 
 export default Recipe;

@@ -1,4 +1,4 @@
-import sampleIngredientsData from '../data/sample-ingredients';
+import ingredientsData from '../data/ingredients';
 
 class Ingredient {
   constructor(ingredient) {
@@ -10,12 +10,12 @@ class Ingredient {
   }
 
   getCost() {
-    const matchingIng = sampleIngredientsData.find(ingredient => ingredient.id === this.id) 
+    const matchingIng = ingredientsData.find(ingredient => ingredient.id === this.id)
     return matchingIng.estimatedCostInCents * this.amount
   }
 
   getName() {
-    return sampleIngredientsData.find(ingredient => ingredient.id === this.id).name
+    return ingredientsData.find(ingredient => ingredient.id === this.id).name
   }
 }
 
