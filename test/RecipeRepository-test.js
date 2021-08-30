@@ -3,15 +3,13 @@ import RecipeRepository from '../src/classes/RecipeRepository';
 import sampleRecipeData from '../src/data/sample-recipes';
 import sampleIngredientsData from '../src/data/sample-ingredients';
 
-describe('Recipe', () => {
+describe('Recipe', function() {
   let recipeRepository;
   beforeEach(function() {
     recipeRepository = new RecipeRepository(sampleRecipeData, sampleIngredientsData);
-
   })
 
-
-  it('Should be a function', () => {
+  it('Should be a function', function() {
     expect(RecipeRepository).to.be.a('function');
   });
 
