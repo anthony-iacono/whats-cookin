@@ -15,7 +15,9 @@ describe('Ingredient', function() {
 
   it('should calculate its own cost', function() {
     expect(ingredient.cost).to.equal(213);
+  });
 
-  })
-
+  it('should be able to find its name', function() {
+    expect(ingredient.name).to.equal('wheat flour');
+  });
 });

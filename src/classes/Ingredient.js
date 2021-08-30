@@ -6,7 +6,7 @@ class Ingredient {
     this.amount = ingredient.quantity.amount;
     this.unit = ingredient.quantity.unit;
     this.cost = this.getCost();
-
+    this.name = this.getName();
   }
 
   getCost() {
@@ -14,13 +14,9 @@ class Ingredient {
     return matchingIng.estimatedCostInCents * this.amount
   }
 
-
+  getName() {
+    return sampleIngredientsData.find(ingredient => ingredient.id === this.id).name
+  }
 }
-
-
-
-
-
-
 
 export default Ingredient;
