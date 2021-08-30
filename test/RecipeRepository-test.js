@@ -7,7 +7,10 @@ import Recipe from '../src/classes/Recipe';
 describe('Recipe', function() {
   let recipeRepository;
   beforeEach(function() {
-    recipeRepository = new RecipeRepository(sampleRecipeData, sampleIngredientsData);
+    recipeRepository = new RecipeRepository(
+      sampleRecipeData,
+      sampleIngredientsData
+    );
   })
 
   it('Should be a function', function() {
@@ -36,18 +39,13 @@ describe('Recipe', function() {
     expect(recipeRepository.matchingRecipes).to.deep.equal([595736, 412309]);
   })
 
-  it('Should be able to filter recipes based on a single keyword string', function() {
-    recipeRepository.filterByName('Sauce');
+  it('Should be able to filter recipes by a single keyword string', function() {
+    recipeRepository.filterByKeyword('Sauce');
     expect(recipeRepository.matchingRecipes).to.deep.equal([595736, 412309]);
   })
 
-  it('it should be able to translate a keyword to an id', function() {
-    const id = recipeRepository.translateIngredient('wheat flour');
-    expect(id).to.equal(20081);
-  })
-
   it('should be able to filter by ingredient', function () {
-    recipeRepository.filterByIngredient('wheat flour');
+    recipeRepository.filterByKeyword('wheat flour');
     expect(recipeRepository.matchingRecipes).to.deep.equal([595736]);
   })
 })
