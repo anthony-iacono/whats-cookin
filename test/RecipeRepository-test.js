@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import RecipeRepository from '../src/classes/RecipeRepository';
 import sampleRecipeData from '../src/data/sample-recipes';
 import sampleIngredientsData from '../src/data/sample-ingredients';
+import Recipe from '../src/classes/Recipe';
 
 describe('Recipe', function() {
   let recipeRepository;
@@ -21,8 +22,8 @@ describe('Recipe', function() {
     expect(recipeRepository.recipes.length).to.equal(3);
   })
 
-  it.skip('Recipes should be instances of Recipe', function() {
-    expect(recipeRepository.recipes).to.be.an.instanceof(Recipe)
+  it('Recipes should be instances of Recipe', function() {
+    expect(recipeRepository.recipes[0]).to.be.an.instanceof(Recipe)
   })
 
   it('Should be able to filter recipes based on one tag', function() {
@@ -36,8 +37,8 @@ describe('Recipe', function() {
   })
 
   it('Should be able to filter recipes based on a single keyword string', function() {
-    recipeRepository.filterByName('Maple Dijon Apple Cider Grilled Pork Chops');
-    expect(recipeRepository.matchingRecipes).to.deep.equal([678353]);
+    recipeRepository.filterByName('Sauce');
+    expect(recipeRepository.matchingRecipes).to.deep.equal([595736, 412309]);
   })
 
   it('it should be able to translate a keyword to an id', function() {

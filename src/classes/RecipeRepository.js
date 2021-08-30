@@ -1,6 +1,8 @@
+import Recipe from './Recipe';
+
 class RecipeRepository {
   constructor(recipes, ingredients) {
-    this.recipes = recipes;
+    this.recipes = recipes.map(recipe => new Recipe(recipe));
     this.ingredients = ingredients;
     this.matchingRecipes = [];
   }
@@ -17,9 +19,9 @@ class RecipeRepository {
     return this.matchingRecipes;
   }
 
-  filterByKeyWord(keywords) {
-    filterByName();
-    filterByIngredient();
+  filterByKeyword(keywords) {
+    filterByName(keywords);
+    filterByIngredient(keywords);
   }
 
   // filterByName(keywords) {
