@@ -19,7 +19,7 @@
 - Day 8, Friday, 9/3: 4-5pm, 8-9pm
 - Day 9, Saturday, 9/4: 2-4pm
 - Day 10, Sunday, 9/5: 2-4pm
-- Day 11, Monday, 9/6: 4-5pm, 8-9pm
+- Day 11, Monday, 9/6: Labor Day: Off
 - Day 12, Tuesday, 9/7: 4-5pm, 8-9pm
 
 ### Communication
