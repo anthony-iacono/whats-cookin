@@ -32,7 +32,10 @@ describe('Recipe', function() {
 
   it('should get the cost of its ingredients', function() {
     expect(recipe.getCost()).to.equal(5921)
+  })
 
+  it('should get the instructions', function() {
+    expect(recipe.getInstructions()).to.equal(sampleRecipeData[0].instructions);
   })
 
 })

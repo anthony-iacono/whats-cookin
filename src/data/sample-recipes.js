@@ -305,7 +305,7 @@ const sampleRecipeData = [
         {
           "id": 1042047,
           "quantity": {
-            "amount": 1.5,
+            "amount":  1.5,
             "unit": "tablespoons"
           }
         },
