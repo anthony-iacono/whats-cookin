@@ -32,17 +32,25 @@ class RecipeRepository {
   // }
 
   filterByName(keywords) {
-    
-    let isAMatch = false;
+    const splitKeywords = keywords.split(' ');
 
     this.recipes.forEach(recipe => {
-      if ()
+      let nameContainsKeyword = true;
+      splitKeywords.forEach(keyword => {
+        if (!recipe.name.includes(keyword)) {
+          nameContainsKeyword = false;
+          return;
+        }
+        if (!this.matchingRecipes.includes(recipe.id) && nameContainsKeyword) {
+          this.matchingRecipes.push(recipe.id)
+        }
+      })
     })
   }
 
-// break up user's keyword string into array of keywords
-// iterate over the recipe names
-  // iterate over the keyword array
+// [x] break up user's keyword string into array of keywords
+// [x] iterate over the recipe names
+  // [ ] iterate over the keyword array
     // check if current recipe name includes current keyword
       // if it doesn't match, return false
       // else continue to next keyword

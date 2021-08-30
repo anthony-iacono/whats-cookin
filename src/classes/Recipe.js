@@ -1,5 +1,5 @@
 import sampleIngredientsData from '../data/sample-ingredients';
-
+import Ingredient from './Ingredient';
 
 class Recipe {
   constructor(recipe) {
