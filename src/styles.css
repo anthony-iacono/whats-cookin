@@ -1,5 +1,6 @@
 body {
-  background-image: url('https://thumbs.dreamstime.com/b/cooking-banner-kitchen-black-table-ingredients-food-top-view-free-space-your-text-cooking-banner-kitchen-black-table-164710545.jpg');
+  /* background-image: url('https://thumbs.dreamstime.com/b/cooking-banner-kitchen-black-table-ingredients-food-top-view-free-space-your-text-cooking-banner-kitchen-black-table-164710545.jpg'); */
+  background-color: gray;
   background-size: cover;
   background-repeat: no-repeat;
   width: 100vw;
