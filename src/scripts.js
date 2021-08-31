@@ -17,14 +17,22 @@ function displayRecipe(event) {
   const selectedRecipe = recipeRepository.recipes.find(recipe => recipe.id === clickedRecipeId)
   hide(allRecipes);
   show(recipePopout);
+  const instructionItems = selectedRecipe.instructions.forEach(instruction => {
+    `
+    <li>${instruction.instruction}</li>
+    `
+    })
   recipePopout.innerHTML = `
   <article>
   <h2>${selectedRecipe.name}</h2>
   <img src="${selectedRecipe.image}">
-  <p>${selectedRecipe.instructions}</p>
+  <ol class="instructions">
+  ${instructionItems}
+  </ol>
   <p>${selectedRecipe.ingredients}</p>
   </article>
   `
+
 };
 
 recipeRepository.recipes.forEach(recipe => {
