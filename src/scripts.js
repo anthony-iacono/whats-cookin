@@ -3,7 +3,7 @@ import apiCalls from './apiCalls';
 import RecipeRepository from './classes/RecipeRepository';
 import recipeData from './data/recipes';
 
-const allRecipes = document.querySelector('.js-all-recipes');
+const allRecipes = document.querySelector('.js-container');
 const container = document.querySelector('.js-container');
 const recipePopout = document.querySelector('.js-recipe-popout');
 const recipeRepository = new RecipeRepository(recipeData);
@@ -14,8 +14,9 @@ allRecipes.addEventListener('click', displayRecipe)
 function displayRecipe(event) {
   hide(allRecipes);
   show(recipePopout);
-  const clickedRecipeId = parseInt(event.target.parentNode.id)
+  const clickedRecipeId = parseInt(event.target.id)
   const selectedRecipe = recipeRepository.recipes.find(recipe => recipe.id === clickedRecipeId)
+  console.log(typeof event.target.id)
   fillPopout(selectedRecipe);
   displayPopoutIngredients(selectedRecipe);
   displayPopoutInstructions(selectedRecipe);
@@ -50,11 +51,13 @@ function displayPopoutInstructions(selectedRecipe) {
 
 function displayAllRecipes() {
   recipeRepository.recipes.forEach(recipe => {
-    const recipeCard = `<article class="recipe-card" id="${recipe.id}">
-    <h2>${recipe.name}</h2>
-    <img src="${recipe.image}">
+    const recipeCard = `<article class="recipe" id="${recipe.id}">
+    <h2 class="card-title">${recipe.name}</h2>
     </article>`;
-    allRecipes.innerHTML += recipeCard;
+    document.getElementById('row1').innerHTML += recipeCard;
+    let currentCard = document.getElementById(`${recipe.id}`)
+    currentCard.style.backgroundImage = `url("${recipe.image}")`;
+    currentCard.style.backgroundSize = "cover";
   });
 }
 
