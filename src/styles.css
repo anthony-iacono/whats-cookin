@@ -89,7 +89,7 @@ main {
 
 .rows {
   width: 94vw;
-  height: 15vh;
+  height: 25vh;
   align-content: center;
   margin-top: 1vh;
   margin-left: 3vw;
@@ -100,6 +100,7 @@ main {
 }
 
 .row-title {
+  width: 94vw;
   margin: 0vh 0vw 0vh 3vw;
   font-size: 4vh;
   color: white;
@@ -107,20 +108,34 @@ main {
 }
 
 .recipe {
-  width: 15%;
+  width: 20%;
   height: 98%;
-  border-radius: 20px;
-  background-color: green;
+  /* border-radius: 20px; */
+  background-color: white;
   margin-right: 3vw;
   display: inline-block;
   opacity: 1;
 }
 
-.card-title {
-  color: white;
+.recipe-image {
   width: 100%;
-  font-size: 1.5vmin;
-  overflow: wrap;
+  height: 75%;
+}
+
+.article-title {
+  /* color: white; */
+  width: 100%;
+  max-width: 100%;
+  height: 25%;
+  font-size: .5em;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+.article-title > h2 {
+  word-wrap: break-word;
+  height: 100%;
+  width: 100%;
 }
 
 .hidden {

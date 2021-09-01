@@ -14,7 +14,7 @@ allRecipes.addEventListener('click', displayRecipe)
 function displayRecipe(event) {
   hide(allRecipes);
   show(recipePopout);
-  const clickedRecipeId = parseInt(event.target.id)
+  const clickedRecipeId = parseInt(event.target.parentNode.id)
   const selectedRecipe = recipeRepository.recipes.find(recipe => recipe.id === clickedRecipeId)
   console.log(typeof event.target.id)
   fillPopout(selectedRecipe);
@@ -51,13 +51,18 @@ function displayPopoutInstructions(selectedRecipe) {
 
 function displayAllRecipes() {
   recipeRepository.recipes.forEach(recipe => {
-    const recipeCard = `<article class="recipe" id="${recipe.id}">
-    <h2 class="card-title">${recipe.name}</h2>
-    </article>`;
+    const recipeCard = `
+    <article class="recipe" id="${recipe.id}">
+      <div class="recipe-image" id="image${recipe.id}"></div>
+      <div class="article-title">
+        <h2 class="card-title">${recipe.name}</h2>
+      </div>
+    </article>
+    `;
     document.getElementById('row1').innerHTML += recipeCard;
-    let currentCard = document.getElementById(`${recipe.id}`)
-    currentCard.style.backgroundImage = `url("${recipe.image}")`;
-    currentCard.style.backgroundSize = "cover";
+    let currentCardImage = document.getElementById(`image${recipe.id}`)
+    currentCardImage.style.backgroundImage = `url("${recipe.image}")`;
+    currentCardImage.style.backgroundSize = "cover";
   });
 }
 
