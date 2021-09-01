@@ -3,13 +3,31 @@ import apiCalls from './apiCalls';
 import RecipeRepository from './classes/RecipeRepository';
 import recipeData from './data/recipes';
 
-const allRecipes = document.querySelector('.js-container');
-const container = document.querySelector('.js-container');
+const allRecipes = document.querySelector('.js-home');
+const container = document.querySelector('.js-home');
+const favoritesBtn = document.querySelector('.js-favorites-btn');
+const home = document.querySelector('.js-home');
+const homeBtn = document.querySelector('.js-home-btn');
 const recipePopout = document.querySelector('.js-recipe-popout');
 const recipeRepository = new RecipeRepository(recipeData);
+// const searchSection
+const favorites = document.querySelector('.js-favorites');
 
 window.onload = displayAllRecipes();
+homeBtn.addEventListener('click', returnHome)
+favoritesBtn.addEventListener('click', showFavorites)
 allRecipes.addEventListener('click', displayRecipe)
+
+function showFavorites() {
+  hide(recipePopout);
+  hide(home);
+  show(favorites);
+}
+
+function returnHome() {
+  hide(recipePopout);
+  show(home);
+}
 
 function displayRecipe(event) {
   hide(allRecipes);
@@ -68,3 +86,7 @@ function show(element) {
 function hide(element) {
   element.classList.add('hidden');
 }
+
+
+// Ideas
+// Meals to cook include function with Date.now that tracks how long the recipe has been stored, and removes it automatically if not cooked
