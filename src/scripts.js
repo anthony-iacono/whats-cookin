@@ -10,13 +10,21 @@ const home = document.querySelector('.js-home');
 const homeBtn = document.querySelector('.js-home-btn');
 const recipePopout = document.querySelector('.js-recipe-popout');
 const recipeRepository = new RecipeRepository(recipeData);
-// const searchSection
+const searchBox = document.querySelector('.js-search-box');
 const favorites = document.querySelector('.js-favorites');
 
 window.onload = displayAllRecipes();
 homeBtn.addEventListener('click', returnHome)
 favoritesBtn.addEventListener('click', showFavorites)
 allRecipes.addEventListener('click', displayRecipe)
+searchBox.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    console.log('search box value: ', searchBox.value);
+    showResults(searchBox.value);
+  }
+})
+
+// function show
 
 function showFavorites() {
   hide(recipePopout);
