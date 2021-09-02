@@ -4,6 +4,7 @@ class RecipeRepository {
   constructor(recipes) {
     this.recipes = recipes.map(recipe => new Recipe(recipe));
     this.matchingRecipes;
+    this.matchingTags;
   }
 
   filterByTag(userTags) {

@@ -3,50 +3,78 @@ import apiCalls from './apiCalls';
 import RecipeRepository from './classes/RecipeRepository';
 import recipeData from './data/recipes';
 
-const allRecipes = document.querySelector('.js-home');
-const container = document.querySelector('.js-home');
+const allRecipes = document.querySelector('.js-home-section');
+const container = document.querySelector('.js-home-section');
 const favoritesBtn = document.querySelector('.js-favorites-btn');
-const home = document.querySelector('.js-home');
+const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
 const recipePopout = document.querySelector('.js-recipe-popout');
 const recipeRepository = new RecipeRepository(recipeData);
 const searchBox = document.querySelector('.js-search-box');
-const favorites = document.querySelector('.js-favorites');
-const searchResults = document.querySelector('.js-results');
+const favoritesSection = document.querySelector('.js-favorites-section');
+const resultsSection = document.querySelector('.js-results-section');
+const searchSection = document.querySelector('.js-search-section')
+const tagsSection = document.querySelector('.js-tags-section');
 const allRecipesRow = document.getElementById('row1');
 
 window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
-homeBtn.addEventListener('click', returnHome)
-favoritesBtn.addEventListener('click', showFavorites)
+homeBtn.addEventListener('click', showHomeSection)
+favoritesBtn.addEventListener('click', showFavoritesSection)
 allRecipes.addEventListener('click', displayRecipe)
-searchResults.addEventListener('click', displayRecipe)
+resultsSection.addEventListener('click', displayRecipe)
 searchBox.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     e.preventDefault();
-    showResults(searchBox.value.toLowerCase());
+    displayResults(searchBox.value.toLowerCase());
   }
 })
 
-function showResults(searchTerms) {
-  hide(recipePopout, home, favorites);
-  show(searchResults);
+function displayResults(searchTerms) {
+  hide(recipePopout, homeSection, favoritesSection);
+  show(searchSection);
   recipeRepository.filterByKeyword(searchTerms);
   const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
-  displayRecipes(translatedRecipes, searchResults);
+  filterTags();
+  displayTags();
+  displayRecipes(translatedRecipes, resultsSection);
 }
 
-function showFavorites() {
-  hide(recipePopout, home);
+function filterTags() {
+  recipeRepository.matchingTags = [];
+  const translatedIds = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes)
+  // recipeRepository.filterByTag(userTags);
+  translatedIds.forEach(recipe => {
+    console.log(recipe);
+    recipe.tags.filter(tag => {
+      if (!recipeRepository.matchingTags.includes(tag)) {
+        recipeRepository.matchingTags.push(tag);
+      }
+    })
+  })
+}
+
+function displayTags() {
+  recipeRepository.matchingTags.forEach(tag => {
+    const tagCard = `
+    <article class="tag-card">
+    <p>${tag}</p>
+    </article>`
+    tagsSection.innerHTML += tagCard;
+  })
+}
+
+function showFavoritesSection() {
+  hide(recipePopout, homeSection);
   show(favorites);
 }
 
-function returnHome() {
-  hide(recipePopout, searchResults, favorites);
-  show(home);
+function showHomeSection() {
+  hide(recipePopout, resultsSection, favoritesSection);
+  show(homeSection);
 }
 
 function displayRecipe(event) {
-  hide(allRecipes, searchResults);
+  hide(allRecipes, resultsSection);
   show(recipePopout);
   const selectedRecipe = recipeRepository.recipes.find(recipe => event.target.classList.contains(recipe.id));
   fillPopout(selectedRecipe);
@@ -100,8 +128,8 @@ function hide(...views) {
   views.forEach(view => view.classList.add('hidden'));
 }
 
-function show(element) {
-  element.classList.remove('hidden');
+function show(...views) {
+  views.forEach(view => view.classList.remove('hidden'));
 }
 
 
