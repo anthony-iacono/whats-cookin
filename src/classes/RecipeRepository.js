@@ -52,6 +52,10 @@ class RecipeRepository {
       })
     })
   }
+
+  translateIdsToRecipes(recipeIds) {
+    return this.recipes.filter(recipe => recipeIds.includes(recipe.id));
+  }
 }
 
 export default RecipeRepository;

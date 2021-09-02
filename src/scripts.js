@@ -16,16 +16,15 @@ const searchResults = document.querySelector('.js-results');
 const allRecipesRow = document.getElementById('row1');
 const submitSearchBtn = document.querySelector('.js-search-btn');
 
-// window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
+window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
 homeBtn.addEventListener('click', returnHome)
 favoritesBtn.addEventListener('click', showFavorites)
 allRecipes.addEventListener('click', displayRecipe)
-submitSearchBtn.addEventListener('click', function(e) {
-  e.preventDefault();
-  // if (e.key === 'Enter') {
-  //   console.log('search box value: ', typeof searchBox.value);
+searchBox.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
     showResults(searchBox.value);
-  // }
+  }
 })
 
 function showResults(searchTerms) {
@@ -34,10 +33,11 @@ function showResults(searchTerms) {
   hide(favorites);
   // hide(home, favorites, recipePopout);
   show(searchResults);
-  console.log('search results:', searchResults);
   recipeRepository.filterByKeyword(searchTerms);
-  console.log(recipeRepository.matchingRecipes);
-  displayRecipes(recipeRepository.matchingRecipes, searchResults);
+  console.log('matching recipes: ', recipeRepository.matchingRecipes);
+  const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
+  console.log('translatedRecipes: ', translatedRecipes)
+  displayRecipes(translatedRecipes, searchResults);
 }
 
 function showFavorites() {
@@ -89,7 +89,7 @@ function displayPopoutInstructions(selectedRecipe) {
 
 function displayRecipes(recipes, section) {
   section.innerHTML = '';
-  recipeRepository.recipes.forEach(recipe => {
+  recipes.forEach(recipe => {
     const recipeCard = `
     <article class="recipe ${recipe.id}">
       <img class="recipe-image ${recipe.id}" src="${recipe.image}">
