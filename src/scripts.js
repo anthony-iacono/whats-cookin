@@ -23,7 +23,7 @@ searchResults.addEventListener('click', displayRecipe)
 searchBox.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     e.preventDefault();
-    showResults(searchBox.value);
+    showResults(searchBox.value.toLowerCase());
     searchBox.value = ''
   }
 })
@@ -32,9 +32,7 @@ function showResults(searchTerms) {
   hide(recipePopout, home, favorites);
   show(searchResults);
   recipeRepository.filterByKeyword(searchTerms);
-  console.log('matching recipes: ', recipeRepository.matchingRecipes);
   const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
-  console.log('translatedRecipes: ', translatedRecipes)
   displayRecipes(translatedRecipes, searchResults);
 }
 

@@ -27,15 +27,9 @@ class RecipeRepository {
 
   filterByName(keywords) {
     const splitKeywords = keywords.split(' ');
-
     this.recipes.forEach(recipe => {
-      let nameContainsKeyword = true;
       splitKeywords.forEach(keyword => {
-        if (!recipe.name.includes(keyword)) {
-          nameContainsKeyword = false;
-          return;
-        }
-        if (!this.matchingRecipes.includes(recipe.id) && nameContainsKeyword) {
+        if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipes.includes(recipe.id)) {
           this.matchingRecipes.push(recipe.id)
         }
       })
