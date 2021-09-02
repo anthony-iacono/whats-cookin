@@ -9,7 +9,7 @@ class Recipe {
     this.instructions = recipe.instructions;
     this.name = recipe.name;
     this.tags = recipe.tags;
-    this.costInCents = this.getCost();
+    this.cost = this.getCost();
   }
 
   findIngredientsName() {
@@ -21,7 +21,9 @@ class Recipe {
     this.ingredients.forEach(ingredient => {
       total = total + ingredient.cost;
     })
-    return total;
+    const dollars = Math.round(total / 100);
+    const cents = Math.round(total % 100);
+    return `$ ${dollars}.${cents}`;
   }
 
   getInstructions() {

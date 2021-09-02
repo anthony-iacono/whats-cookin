@@ -1,3 +1,145 @@
 body {
-  background-color: blueviolet;
+  /* background-image: url('https://thumbs.dreamstime.com/b/cooking-banner-kitchen-black-table-ingredients-food-top-view-free-space-your-text-cooking-banner-kitchen-black-table-164710545.jpg'); */
+  background-color: gray;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+}
+
+header {
+  height: 20vh;
+  width: 100vw;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+header > h1 {
+  margin: 0vh 0vw 0vh 10vw;
+  align-self: flex-start;
+  font-size: 5vh;
+  color: white;
+}
+
+nav {
+  width: 80vw;
+  margin-top: 3vh;
+  display: flex;
+  justify-content: space-around;
+  font-size: 2vh;
+  border-top: white solid;
+  border-bottom: white solid;
+  margin-bottom: 2vh;
+  text-align: center;
+}
+
+nav > button {
+  width: 5vw;
+  height: 4vh;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  font-size: 2vh;
+  opacity: 1;
+  background: none;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+main {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+}
+
+.box {
+  width:50%;
+  height: 90%;
+  border-radius: 15px;
+  background-color: grey;
+  position: relative;
+  z-index: 9;
+}
+
+.container {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+
+.pu {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.rows {
+  width: 94vw;
+  height: 25vh;
+  align-content: center;
+  margin-top: 1vh;
+  margin-left: 3vw;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+}
+
+.row-title {
+  width: 94vw;
+  margin: 0vh 0vw 0vh 3vw;
+  font-size: 4vh;
+  color: white;
+  border-bottom: white solid 1px;
+}
+
+.recipe {
+  width: 20%;
+  height: 98%;
+  /* border-radius: 20px; */
+  background-color: white;
+  margin-right: 3vw;
+  display: inline-block;
+  opacity: 1;
+}
+
+.recipe-image {
+  width: 100%;
+  height: 75%;
+  background-size: cover;
+}
+
+.article-title {
+  /* color: white; */
+  width: 100%;
+  max-width: 100%;
+  height: 25%;
+  font-size: .5em;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+.article-title > h2 {
+  word-wrap: break-word;
+  height: 100%;
+  width: 100%;
+  white-space: normal;
+}
+
+.hidden {
+  display: none;
 }

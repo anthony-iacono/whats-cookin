@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <title>Whats Cookin</title>
+    <title>What's Cookin'</title>
   </head>
   <body>
-    <h1>Whats Cookin</h1>
+    <header>
+      <h1>What's Cookin'</h1>
+      <nav>
+        <button class="js-home-btn">Home</button>
+        <button class="js-favorites-btn">Favorites</button>
+        <button class="js-explore-btn">Meals to Cook</button>
+        <input type="text" name="search" placeholder="search..."class="js-search-box"></input>
+      </nav>
+    </header>
+    <main>
+      <!-- <div class="all-recipes js-all-recipes"></div> -->
+      <div class="container js-home">
+        <div class="pu">
+          <h3 class="row-title">Favorites</h3>
+          <section class="rows" id="row1">
+          </section>
+          <h3 class="row-title">Meals to cook</h3>
+          <section class="rows">
+          </section>
+          <h3 class="row-title">Entrees</h3>
+          <section class="rows">
+          </section>
+          <h3 class="row-title">Sides</h3>
+          <section class="rows">
+          </section>
+          <h3 class="row-title">Drinks</h3>
+          <section class="rows">
+          </section>
+          <h3 class="row-title">Vegan</h3>
+          <section class="rows">
+          </section>
+          <h3 class="row-title">Desserts</h3>
+          <section class="rows">
+          </section>
+        </div>
+      </div>
+      <div class="box hidden">
+      </div>
+      <section class="js-recipe-popout hidden">
+      </section>
+      <section class="js-search-section hidden">
+      </section>
+      <section class="js-favorites hidden">
+      </section>
+    </main >
   </body>
 </html>

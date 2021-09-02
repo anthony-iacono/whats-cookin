@@ -1,9 +1,8 @@
 import Recipe from './Recipe';
 
 class RecipeRepository {
-  constructor(recipes, ingredients) {
+  constructor(recipes) {
     this.recipes = recipes.map(recipe => new Recipe(recipe));
-    this.ingredients = ingredients;
     this.matchingRecipes;
   }
 
