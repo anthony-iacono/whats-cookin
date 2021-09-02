@@ -19,10 +19,12 @@ window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
 homeBtn.addEventListener('click', returnHome)
 favoritesBtn.addEventListener('click', showFavorites)
 allRecipes.addEventListener('click', displayRecipe)
+searchResults.addEventListener('click', displayRecipe)
 searchBox.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     e.preventDefault();
     showResults(searchBox.value);
+    searchBox.value = ''
   }
 })
 
@@ -47,7 +49,7 @@ function returnHome() {
 }
 
 function displayRecipe(event) {
-  hide(allRecipes);
+  hide(allRecipes, searchResults);
   show(recipePopout);
   const selectedRecipe = recipeRepository.recipes.find(recipe => event.target.classList.contains(recipe.id));
   fillPopout(selectedRecipe);
