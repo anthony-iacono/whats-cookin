@@ -28,10 +28,7 @@ searchBox.addEventListener('keypress', function(e) {
 })
 
 function showResults(searchTerms) {
-  hide(recipePopout);
-  hide(home);
-  hide(favorites);
-  // hide(home, favorites, recipePopout);
+  hide(recipePopout, home, favorites);
   show(searchResults);
   recipeRepository.filterByKeyword(searchTerms);
   console.log('matching recipes: ', recipeRepository.matchingRecipes);
@@ -41,8 +38,7 @@ function showResults(searchTerms) {
 }
 
 function showFavorites() {
-  hide(recipePopout);
-  hide(home);
+  hide(recipePopout, home);
   show(favorites);
 }
 
@@ -102,11 +98,8 @@ function displayRecipes(recipes, section) {
   });
 }
 
-// function hide(...views) {
-//   views.forEach(view => view.classList.add('hidden'));
-// }
-function hide(element) {
-  element.classList.add('hidden');
+function hide(...views) {
+  views.forEach(view => view.classList.add('hidden'));
 }
 
 function show(element) {
