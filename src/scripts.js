@@ -12,19 +12,33 @@ const recipePopout = document.querySelector('.js-recipe-popout');
 const recipeRepository = new RecipeRepository(recipeData);
 const searchBox = document.querySelector('.js-search-box');
 const favorites = document.querySelector('.js-favorites');
+const searchResults = document.querySelector('.js-results');
+const allRecipesRow = document.getElementById('row1');
+const submitSearchBtn = document.querySelector('.js-search-btn');
 
-window.onload = displayAllRecipes();
+// window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
 homeBtn.addEventListener('click', returnHome)
 favoritesBtn.addEventListener('click', showFavorites)
 allRecipes.addEventListener('click', displayRecipe)
-searchBox.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    console.log('search box value: ', searchBox.value);
+submitSearchBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  // if (e.key === 'Enter') {
+  //   console.log('search box value: ', typeof searchBox.value);
     showResults(searchBox.value);
-  }
+  // }
 })
 
-// function show
+function showResults(searchTerms) {
+  hide(recipePopout);
+  hide(home);
+  hide(favorites);
+  // hide(home, favorites, recipePopout);
+  show(searchResults);
+  console.log('search results:', searchResults);
+  recipeRepository.filterByKeyword(searchTerms);
+  console.log(recipeRepository.matchingRecipes);
+  displayRecipes(recipeRepository.matchingRecipes, searchResults);
+}
 
 function showFavorites() {
   hide(recipePopout);
@@ -73,7 +87,8 @@ function displayPopoutInstructions(selectedRecipe) {
   });
 }
 
-function displayAllRecipes() {
+function displayRecipes(recipes, section) {
+  section.innerHTML = '';
   recipeRepository.recipes.forEach(recipe => {
     const recipeCard = `
     <article class="recipe ${recipe.id}">
@@ -83,16 +98,19 @@ function displayAllRecipes() {
       </div>
     </article>
     `;
-    document.getElementById('row1').innerHTML += recipeCard;
+    section.innerHTML += recipeCard;
   });
+}
+
+// function hide(...views) {
+//   views.forEach(view => view.classList.add('hidden'));
+// }
+function hide(element) {
+  element.classList.add('hidden');
 }
 
 function show(element) {
   element.classList.remove('hidden');
-}
-
-function hide(element) {
-  element.classList.add('hidden');
 }
 
 
