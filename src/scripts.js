@@ -14,7 +14,6 @@ const searchBox = document.querySelector('.js-search-box');
 const favorites = document.querySelector('.js-favorites');
 const searchResults = document.querySelector('.js-results');
 const allRecipesRow = document.getElementById('row1');
-const submitSearchBtn = document.querySelector('.js-search-btn');
 
 window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
 homeBtn.addEventListener('click', returnHome)
@@ -43,7 +42,7 @@ function showFavorites() {
 }
 
 function returnHome() {
-  hide(recipePopout);
+  hide(recipePopout, searchResults, favorites);
   show(home);
 }
 
