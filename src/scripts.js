@@ -24,7 +24,6 @@ searchBox.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     e.preventDefault();
     showResults(searchBox.value.toLowerCase());
-    searchBox.value = ''
   }
 })
 
