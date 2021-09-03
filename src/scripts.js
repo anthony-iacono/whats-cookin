@@ -29,35 +29,34 @@ function displayPopout(event) {
     event.target.classList.contains(recipe.id)
   });
   fillPopout(selectedRecipe);
-  displayPopoutIngredients(selectedRecipe);
-  displayPopoutInstructions(selectedRecipe);
+  displayIngredients(selectedRecipe);
+  displayInstructions(selectedRecipe);
 }
 
-function displayPopoutIngredients(selectedRecipe) {
+function displayIngredients(selectedRecipe) {
   selectedRecipe.ingredients.forEach(ingredient => {
     document.querySelector('.js-popout-ingredients').innerHTML +=
     `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
   });
 }
 
-function displayPopoutInstructions(selectedRecipe) {
+function displayInstructions(selectedRecipe) {
   selectedRecipe.instructions.forEach(instruction => {
-    document.querySelector('.js-popout-instructions')
-      .innerHTML += `<li>${instruction.instruction}</li>`;
+    document.querySelector('.js-popout-instructions').innerHTML +=
+    `<li>${instruction.instruction}</li>`;
   });
 }
 
 function displayRecipes(recipes, section) {
   section.innerHTML = '';
   recipes.forEach(recipe => {
-    const recipeCard = `
-    <article class="recipe ${recipe.id}">
+    const recipeCard =
+    `<article class="recipe ${recipe.id}">
       <img class="recipe-image ${recipe.id}" src="${recipe.image}">
       <div class="article-title ${recipe.id}">
         <h2 class="card-title ${recipe.id}">${recipe.name}</h2>
       </div>
-    </article>
-    `;
+    </article>`;
     section.innerHTML += recipeCard;
   });
 }
@@ -66,10 +65,10 @@ function displayResults(keywords) {
   hide(recipePopout, homeSection, favoritesSection);
   show(searchSection);
   recipeRepo.search(keywords);
-  const translatedRecipes = recipeRepo.convertToRecipes(recipeRepo.matchingIds);
   filterTags();
   displayTags();
-  displayRecipes(translatedRecipes, resultsSection);
+  const convertedRecipes = recipeRepo.convertToRecipes()
+  displayRecipes(convertedRecipes, resultsSection);
 }
 
 function displayTags() {
@@ -150,9 +149,8 @@ function updateSelectedTags(e) {
       const filteredRecipes = recipeRepo.filterByTag();
       displayRecipes(filteredRecipes, resultsSection);
     } else {
-      const translatedRecipes =
-      recipeRepo.convertToRecipes(recipeRepo.matchingIds);
-      displayRecipes(translatedRecipes, resultsSection);
+      const convertedRecipes = recipeRepo.convertToRecipes()
+      displayRecipes(convertedRecipes, resultsSection);
     }
   }
 }

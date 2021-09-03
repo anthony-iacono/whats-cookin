@@ -56,8 +56,8 @@ class RecipeRepository {
     }
   }
 
-  convertToRecipes(recipeIds) {
-    return this.recipes.filter(recipe => recipeIds.includes(recipe.id));
+  convertToRecipes() {
+    return this.recipes.filter(recipe => this.matchingIds.includes(recipe.id));
   }
 }
 
