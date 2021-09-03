@@ -7,6 +7,11 @@ class RecipeRepository {
     this.matchingTags;
   }
 
+  // when a tag's box is checked
+  // iterate through matchingRecipes
+    // use the fn we already have to display only recipes in matchingRecipes that have the tag
+    
+  // This method not currently used; consider removing it and its tests before submission
   filterByTag(userTags) {
     this.matchingRecipes = [];
     userTags.forEach(userTag => {
@@ -20,13 +25,13 @@ class RecipeRepository {
     return this.matchingRecipes;
   }
 
-  filterByKeyword(keywords) {
+  searchByKeyword(keywords) {
     this.matchingRecipes = [];
-    this.filterByName(keywords);
-    this.filterByIngredient(keywords);
+    this.searchByName(keywords);
+    this.searchByIngredient(keywords);
   }
 
-  filterByName(keywords) {
+  searchByName(keywords) {
     const splitKeywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
       splitKeywords.forEach(keyword => {
@@ -37,7 +42,18 @@ class RecipeRepository {
     })
   }
 
-  filterByIngredient(keywords) {
+  // searchByName(keywords) {
+  //   const splitKeywords = keywords.split(' ');
+  //   this.recipes.forEach(recipe => {
+  //     splitKeywords.forEach(keyword => {
+  //       if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipes.includes(recipe.id)) {
+  //         this.matchingRecipes.push(recipe.id)
+  //       }
+  //     })
+  //   })
+  // }
+
+  searchByIngredient(keywords) {
     const splitKeywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
       const ingredientNames = recipe.ingredients.map(ingredient => ingredient.name)

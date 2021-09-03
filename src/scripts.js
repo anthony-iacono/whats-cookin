@@ -32,7 +32,7 @@ searchBox.addEventListener('keypress', function(e) {
 function displayResults(searchTerms) {
   hide(recipePopout, homeSection, favoritesSection);
   show(searchSection);
-  recipeRepository.filterByKeyword(searchTerms);
+  recipeRepository.searchByKeyword(searchTerms);
   const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
   filterTags();
   displayTags();
@@ -68,7 +68,7 @@ function showFavoritesSection() {
 }
 
 function showHomeSection() {
-  hide(recipePopout, resultsSection, favoritesSection);
+  hide(recipePopout, resultsSection, favoritesSection, tagsSection);
   show(homeSection);
 }
 
