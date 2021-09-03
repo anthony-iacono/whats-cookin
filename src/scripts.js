@@ -18,10 +18,10 @@ const tagsSection = document.querySelector('.js-tags-section');
 const allRecipesRow = document.getElementById('row1');
 
 window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
-allRecipes.addEventListener('click', displayRecipe);
+allRecipes.addEventListener('click', displayPopout);
 favoritesBtn.addEventListener('click', showFavoritesSection);
 homeBtn.addEventListener('click', showHomeSection);
-resultsSection.addEventListener('click', displayRecipe);
+resultsSection.addEventListener('click', displayPopout);
 searchBox.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     e.preventDefault();
@@ -32,18 +32,25 @@ tagsSection.addEventListener('click', updateSelectedTags);
 
 function updateSelectedTags(e) {
   if (!e.target.matches('[type="checkbox"]')) {
-    console.log(1);
     return;
   } else if (e.target.checked) {
-    console.log(2);
     recipeRepository.selectedTags.push(event.target.name)
+    const filteredRecipes = recipeRepository.filterByTag();
+    displayRecipes(filteredRecipes, resultsSection);
   } else {
     recipeRepository.selectedTags = recipeRepository.selectedTags.filter(tag => {
-      console.log(3);
       return tag !== event.target.name;
     })
+    if(recipeRepository.selectedTags.length) {
+      const filteredRecipes = recipeRepository.filterByTag();
+      displayRecipes(filteredRecipes, resultsSection);
+    } else {
+      const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
+      displayRecipes(translatedRecipes, resultsSection);
+    }
   }
-  console.log(recipeRepository.selectedTags)
+  // const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
+  // displayRecipes(translatedRecipes, resultsSection);
 }
 
 function displayResults(searchTerms) {
@@ -55,6 +62,8 @@ function displayResults(searchTerms) {
   displayTags();
   displayRecipes(translatedRecipes, resultsSection);
 }
+
+
 
 function filterTags() {
   recipeRepository.matchingTags = [];
@@ -89,7 +98,7 @@ function showHomeSection() {
   show(homeSection);
 }
 
-function displayRecipe(event) {
+function displayPopout(event) {
   hide(allRecipes, resultsSection);
   show(recipePopout);
   const selectedRecipe = recipeRepository.recipes.find(recipe => event.target.classList.contains(recipe.id));

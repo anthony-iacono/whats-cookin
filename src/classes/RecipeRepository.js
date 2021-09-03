@@ -14,7 +14,16 @@ class RecipeRepository {
 
   // This method not currently used; consider removing it and its tests before submission
   filterByTag() {
-
+    let translatedRecipes = this.translateIdsToRecipes(this.matchingRecipes)
+    let filteredRecipes = []
+    this.selectedTags.forEach(tag => {
+      translatedRecipes.forEach(recipe => {
+        if(recipe.tags.includes(tag) && !filteredRecipes.includes(recipe)){
+          filteredRecipes.push(recipe)
+        }
+      })
+    })
+    return filteredRecipes;
   }
 
   searchByKeyword(keywords) {
