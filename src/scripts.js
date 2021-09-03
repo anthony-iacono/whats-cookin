@@ -45,19 +45,17 @@ function updateSelectedTags(e) {
       const filteredRecipes = recipeRepository.filterByTag();
       displayRecipes(filteredRecipes, resultsSection);
     } else {
-      const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipeIds);
+      const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingIds);
       displayRecipes(translatedRecipes, resultsSection);
     }
   }
-  // const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipeIds);
-  // displayRecipes(translatedRecipes, resultsSection);
 }
 
 function displayResults(keywords) {
   hide(recipePopout, homeSection, favoritesSection);
   show(searchSection);
   recipeRepository.search(keywords);
-  const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipeIds);
+  const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingIds);
   filterTags();
   displayTags();
   displayRecipes(translatedRecipes, resultsSection);
@@ -67,7 +65,7 @@ function displayResults(keywords) {
 
 function filterTags() {
   recipeRepository.matchingTags = [];
-  const translatedIds = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipeIds)
+  const translatedIds = recipeRepository.translateIdsToRecipes(recipeRepository.matchingIds)
   translatedIds.forEach(recipe => {
     recipe.tags.filter(tag => {
       if (!recipeRepository.matchingTags.includes(tag)) {

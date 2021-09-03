@@ -3,18 +3,13 @@ import Recipe from './Recipe';
 class RecipeRepository {
   constructor(recipes) {
     this.recipes = recipes.map(recipe => new Recipe(recipe));
-    this.matchingRecipeIds;
+    this.matchingIds;
     this.matchingTags;
     this.selectedTags = [];
   }
 
-  // when a tag's box is checked
-  // iterate through matchingRecipes
-    // use the fn we already have to display only recipes in matchingRecipes that have the tag
-
-  // This method not currently used; consider removing it and its tests before submission
   filterByTag() {
-    let translatedRecipes = this.translateIdsToRecipes(this.matchingRecipeIds)
+    let translatedRecipes = this.translateIdsToRecipes(this.matchingIds)
     let filteredRecipes = []
     this.selectedTags.forEach(tag => {
       translatedRecipes.forEach(recipe => {
@@ -27,10 +22,10 @@ class RecipeRepository {
   }
 
   search(keywords) {
-    this.matchingRecipeIds = [];
+    this.matchingIds = [];
     keywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
-      const containsRecipeId = this.matchingRecipeIds.includes(recipe.id)
+      const containsRecipeId = this.matchingIds.includes(recipe.id)
       keywords.forEach(keyword => {
         this.checkNames(keyword, recipe, containsRecipeId);
         this.checkIngredients(keyword, recipe, containsRecipeId);
@@ -42,14 +37,14 @@ class RecipeRepository {
   checkNames(keyword, recipe, containsRecipeId) {
     if (recipe.name.toLowerCase().includes(keyword)
     && !containsRecipeId) {
-      this.matchingRecipeIds.push(recipe.id)
+      this.matchingIds.push(recipe.id)
     }
   }
 
   checkTags(keyword, recipe, containsRecipeId) {
     if (recipe.tags.includes(keyword)
     && !containsRecipeId) {
-      this.matchingRecipeIds.push(recipe.id)
+      this.matchingIds.push(recipe.id)
     }
   }
 
@@ -57,7 +52,7 @@ class RecipeRepository {
     const ingredientNames = recipe.ingredients.map(ingredient => ingredient.name)
     if (ingredientNames.join(' ').toLowerCase().includes(keyword)
     && !containsRecipeId) {
-      this.matchingRecipeIds.push(recipe.id)
+      this.matchingIds.push(recipe.id)
     }
   }
 
