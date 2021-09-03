@@ -42,9 +42,7 @@ function displayResults(searchTerms) {
 function filterTags() {
   recipeRepository.matchingTags = [];
   const translatedIds = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes)
-  // recipeRepository.filterByTag(userTags);
   translatedIds.forEach(recipe => {
-    console.log(recipe);
     recipe.tags.filter(tag => {
       if (!recipeRepository.matchingTags.includes(tag)) {
         recipeRepository.matchingTags.push(tag);
@@ -56,9 +54,10 @@ function filterTags() {
 function displayTags() {
   recipeRepository.matchingTags.forEach(tag => {
     const tagCard = `
-    <article class="tag-card">
-    <p>${tag}</p>
-    </article>`
+      <label class="tag">
+        <input type="checkbox" name="${tag}">${tag}
+      </label>
+    `;
     tagsSection.innerHTML += tagCard;
   })
 }
