@@ -1,134 +1,49 @@
 import './styles.css';
 import apiCalls from './apiCalls';
-import RecipeRepository from './classes/RecipeRepository';
 import recipeData from './data/recipes';
+import RecipeRepository from './classes/RecipeRepository';
 
-const allRecipes = document.querySelector('.js-home-section');
-const container = document.querySelector('.js-home-section');
 const favoritesBtn = document.querySelector('.js-favorites-btn');
+const favoritesSection = document.querySelector('.js-favorites-section');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
 const recipePopout = document.querySelector('.js-recipe-popout');
-const recipeRepository = new RecipeRepository(recipeData);
-const searchBox = document.querySelector('.js-search-box');
-const favoritesSection = document.querySelector('.js-favorites-section');
+const recipeRepo = new RecipeRepository(recipeData);
 const resultsSection = document.querySelector('.js-results-section');
+const searchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
 const tagsSection = document.querySelector('.js-tags-section');
-const allRecipesRow = document.getElementById('row1');
 
-window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
-allRecipes.addEventListener('click', displayPopout);
-favoritesBtn.addEventListener('click', showFavoritesSection);
-homeBtn.addEventListener('click', showHomeSection);
+window.onload = displayRecipes(recipeRepo.recipes, homeSection);
+favoritesBtn.addEventListener('click', showFavorites);
+homeBtn.addEventListener('click', showHome);
+homeSection.addEventListener('click', displayPopout);
 resultsSection.addEventListener('click', displayPopout);
-searchBox.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    displayResults(searchBox.value.toLowerCase());
-  }
-})
+searchBox.addEventListener('keypress', showResults);
 tagsSection.addEventListener('click', updateSelectedTags);
 
-function updateSelectedTags(e) {
-  if (!e.target.matches('[type="checkbox"]')) {
-    return;
-  } else if (e.target.checked) {
-    recipeRepository.selectedTags.push(event.target.name)
-    const filteredRecipes = recipeRepository.filterByTag();
-    displayRecipes(filteredRecipes, resultsSection);
-  } else {
-    recipeRepository.selectedTags = recipeRepository.selectedTags.filter(tag => {
-      return tag !== event.target.name;
-    })
-    if(recipeRepository.selectedTags.length) {
-      const filteredRecipes = recipeRepository.filterByTag();
-      displayRecipes(filteredRecipes, resultsSection);
-    } else {
-      const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingIds);
-      displayRecipes(translatedRecipes, resultsSection);
-    }
-  }
-}
-
-function displayResults(keywords) {
-  hide(recipePopout, homeSection, favoritesSection);
-  show(searchSection);
-  recipeRepository.search(keywords);
-  const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingIds);
-  filterTags();
-  displayTags();
-  displayRecipes(translatedRecipes, resultsSection);
-}
-
-
-
-function filterTags() {
-  recipeRepository.matchingTags = [];
-  const translatedIds = recipeRepository.translateIdsToRecipes(recipeRepository.matchingIds)
-  translatedIds.forEach(recipe => {
-    recipe.tags.filter(tag => {
-      if (!recipeRepository.matchingTags.includes(tag)) {
-        recipeRepository.matchingTags.push(tag);
-      }
-    })
-  })
-}
-
-function displayTags() {
-  recipeRepository.matchingTags.forEach(tag => {
-    const tagCard = `
-      <label>
-        <input class="tag" type="checkbox" name="${tag}">${tag}
-      </label>
-    `;
-    tagsSection.innerHTML += tagCard;
-  })
-}
-
-function showFavoritesSection() {
-  hide(recipePopout, homeSection);
-  show(favorites);
-}
-
-function showHomeSection() {
-  hide(recipePopout, resultsSection, favoritesSection, tagsSection);
-  show(homeSection);
-}
-
 function displayPopout(event) {
-  hide(allRecipes, resultsSection);
+  hide(homeSection, resultsSection);
   show(recipePopout);
-  const selectedRecipe = recipeRepository.recipes.find(recipe => event.target.classList.contains(recipe.id));
+  const selectedRecipe = recipeRepo.recipes.find(recipe => {
+    event.target.classList.contains(recipe.id)
+  });
   fillPopout(selectedRecipe);
   displayPopoutIngredients(selectedRecipe);
   displayPopoutInstructions(selectedRecipe);
-};
-
-function fillPopout(selectedRecipe) {
-  recipePopout.innerHTML = `
-    <article>
-      <h2>${selectedRecipe.name}</h2>
-      <img src="${selectedRecipe.image}">
-      <h3>Ingredients</h3>
-      <ul class="js-popout-ingredients"></ul>
-      <h3>Directions</h3>
-      <ol class="js-popout-instructions"></ol>
-      <h3>Cost</h3>
-      <p class="js-cost">${selectedRecipe.cost}</p>
-    </article>
-  `
 }
 
 function displayPopoutIngredients(selectedRecipe) {
   selectedRecipe.ingredients.forEach(ingredient => {
-    document.querySelector('.js-popout-ingredients').innerHTML += `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
+    document.querySelector('.js-popout-ingredients').innerHTML +=
+    `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
   });
 }
 
 function displayPopoutInstructions(selectedRecipe) {
   selectedRecipe.instructions.forEach(instruction => {
-    document.querySelector('.js-popout-instructions').innerHTML += `<li>${instruction.instruction}</li>`;
+    document.querySelector('.js-popout-instructions')
+      .innerHTML += `<li>${instruction.instruction}</li>`;
   });
 }
 
@@ -147,6 +62,54 @@ function displayRecipes(recipes, section) {
   });
 }
 
+function displayResults(keywords) {
+  hide(recipePopout, homeSection, favoritesSection);
+  show(searchSection);
+  recipeRepo.search(keywords);
+  const translatedRecipes = recipeRepo.convertToRecipes(recipeRepo.matchingIds);
+  filterTags();
+  displayTags();
+  displayRecipes(translatedRecipes, resultsSection);
+}
+
+function displayTags() {
+  recipeRepo.matchingTags.forEach(tag => {
+    const tagCard = `
+      <label>
+        <input class="tag" type="checkbox" name="${tag}">${tag}
+      </label>
+    `;
+    tagsSection.innerHTML += tagCard;
+  })
+}
+
+function fillPopout(selectedRecipe) {
+  recipePopout.innerHTML = `
+    <article>
+      <h2>${selectedRecipe.name}</h2>
+      <img src="${selectedRecipe.image}">
+      <h3>Ingredients</h3>
+      <ul class="js-popout-ingredients"></ul>
+      <h3>Directions</h3>
+      <ol class="js-popout-instructions"></ol>
+      <h3>Cost</h3>
+      <p class="js-cost">${selectedRecipe.cost}</p>
+    </article>
+  `
+}
+
+function filterTags() {
+  recipeRepo.matchingTags = [];
+  const translatedIds = recipeRepo.convertToRecipes(recipeRepo.matchingIds)
+  translatedIds.forEach(recipe => {
+    recipe.tags.filter(tag => {
+      if (!recipeRepo.matchingTags.includes(tag)) {
+        recipeRepo.matchingTags.push(tag);
+      }
+    })
+  })
+}
+
 function hide(...views) {
   views.forEach(view => view.classList.add('hidden'));
 }
@@ -155,6 +118,41 @@ function show(...views) {
   views.forEach(view => view.classList.remove('hidden'));
 }
 
+function showFavorites() {
+  hide(recipePopout, homeSection);
+  show(favoritesSection);
+}
 
-// Ideas
-// Meals to cook include function with Date.now that tracks how long the recipe has been stored, and removes it automatically if not cooked
+function showHome() {
+  hide(recipePopout, resultsSection, favoritesSection, tagsSection);
+  show(homeSection);
+}
+
+function showResults() {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    displayResults(searchBox.value.toLowerCase());
+  }
+}
+
+function updateSelectedTags(e) {
+  if (!e.target.matches('[type="checkbox"]')) {
+    return;
+  } else if (e.target.checked) {
+    recipeRepo.selectedTags.push(event.target.name)
+    const filteredRecipes = recipeRepo.filterByTag();
+    displayRecipes(filteredRecipes, resultsSection);
+  } else {
+    recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
+      return tag !== event.target.name;
+    })
+    if (recipeRepo.selectedTags.length) {
+      const filteredRecipes = recipeRepo.filterByTag();
+      displayRecipes(filteredRecipes, resultsSection);
+    } else {
+      const translatedRecipes =
+      recipeRepo.convertToRecipes(recipeRepo.matchingIds);
+      displayRecipes(translatedRecipes, resultsSection);
+    }
+  }
+}
