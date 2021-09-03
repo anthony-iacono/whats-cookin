@@ -13,21 +13,38 @@ const recipeRepository = new RecipeRepository(recipeData);
 const searchBox = document.querySelector('.js-search-box');
 const favoritesSection = document.querySelector('.js-favorites-section');
 const resultsSection = document.querySelector('.js-results-section');
-const searchSection = document.querySelector('.js-search-section')
+const searchSection = document.querySelector('.js-search-section');
 const tagsSection = document.querySelector('.js-tags-section');
 const allRecipesRow = document.getElementById('row1');
 
 window.onload = displayRecipes(recipeRepository.recipes, allRecipesRow);
-homeBtn.addEventListener('click', showHomeSection)
-favoritesBtn.addEventListener('click', showFavoritesSection)
-allRecipes.addEventListener('click', displayRecipe)
-resultsSection.addEventListener('click', displayRecipe)
+allRecipes.addEventListener('click', displayRecipe);
+favoritesBtn.addEventListener('click', showFavoritesSection);
+homeBtn.addEventListener('click', showHomeSection);
+resultsSection.addEventListener('click', displayRecipe);
 searchBox.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     e.preventDefault();
     displayResults(searchBox.value.toLowerCase());
   }
 })
+tagsSection.addEventListener('click', updateSelectedTags);
+
+function updateSelectedTags(e) {
+  if (!e.target.matches('[type="checkbox"]')) {
+    console.log(1);
+    return;
+  } else if (e.target.checked) {
+    console.log(2);
+    recipeRepository.selectedTags.push(event.target.name)
+  } else {
+    recipeRepository.selectedTags = recipeRepository.selectedTags.filter(tag => {
+      console.log(3);
+      return tag !== event.target.name;
+    })
+  }
+  console.log(recipeRepository.selectedTags)
+}
 
 function displayResults(searchTerms) {
   hide(recipePopout, homeSection, favoritesSection);
@@ -54,8 +71,8 @@ function filterTags() {
 function displayTags() {
   recipeRepository.matchingTags.forEach(tag => {
     const tagCard = `
-      <label class="tag">
-        <input type="checkbox" name="${tag}">${tag}
+      <label>
+        <input class="tag" type="checkbox" name="${tag}">${tag}
       </label>
     `;
     tagsSection.innerHTML += tagCard;
