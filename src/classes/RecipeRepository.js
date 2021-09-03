@@ -30,30 +30,33 @@ class RecipeRepository {
     this.matchingRecipeIds = [];
     keywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
+      const containsRecipeId = this.matchingRecipeIds.includes(recipe.id)
       keywords.forEach(keyword => {
-        this.checkNames(keyword, recipe);
-        this.checkIngredients(keyword, recipe);
-        this.checkTags(keyword, recipe);
+        this.checkNames(keyword, recipe, containsRecipeId);
+        this.checkIngredients(keyword, recipe, containsRecipeId);
+        this.checkTags(keyword, recipe, containsRecipeId);
       })
     })
   }
 
-  checkNames(keyword, recipe) {
-    if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipeIds.includes(recipe.id)) {
+  checkNames(keyword, recipe, containsRecipeId) {
+    if (recipe.name.toLowerCase().includes(keyword)
+    && !containsRecipeId) {
       this.matchingRecipeIds.push(recipe.id)
     }
   }
 
-  checkTags(keyword, recipe) {
-    if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipeIds.includes(recipe.id)) {
+  checkTags(keyword, recipe, containsRecipeId) {
+    if (recipe.tags.includes(keyword)
+    && !containsRecipeId) {
       this.matchingRecipeIds.push(recipe.id)
     }
   }
 
-  checkIngredients(keyword, recipe) {
+  checkIngredients(keyword, recipe, containsRecipeId) {
     const ingredientNames = recipe.ingredients.map(ingredient => ingredient.name)
     if (ingredientNames.join(' ').toLowerCase().includes(keyword)
-    && !this.matchingRecipeIds.includes(recipe.id)) {
+    && !containsRecipeId) {
       this.matchingRecipeIds.push(recipe.id)
     }
   }
