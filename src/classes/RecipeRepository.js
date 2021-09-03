@@ -3,7 +3,7 @@ import Recipe from './Recipe';
 class RecipeRepository {
   constructor(recipes) {
     this.recipes = recipes.map(recipe => new Recipe(recipe));
-    this.matchingRecipes;
+    this.matchingRecipeIds;
     this.matchingTags;
     this.selectedTags = [];
   }
@@ -14,7 +14,7 @@ class RecipeRepository {
 
   // This method not currently used; consider removing it and its tests before submission
   filterByTag() {
-    let translatedRecipes = this.translateIdsToRecipes(this.matchingRecipes)
+    let translatedRecipes = this.translateIdsToRecipes(this.matchingRecipeIds)
     let filteredRecipes = []
     this.selectedTags.forEach(tag => {
       translatedRecipes.forEach(recipe => {
@@ -26,43 +26,41 @@ class RecipeRepository {
     return filteredRecipes;
   }
 
-  searchByKeyword(keywords) {
-    this.matchingRecipes = [];
+  search(keywords) {
+    this.matchingRecipeIds = [];
+    keywords = keywords.split(' ');
     this.searchByName(keywords);
     this.searchByIngredient(keywords);
     this.searchByTag(keywords);
   }
 
   searchByName(keywords) {
-    const splitKeywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
-      splitKeywords.forEach(keyword => {
-        if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipes.includes(recipe.id)) {
-          this.matchingRecipes.push(recipe.id)
+      keywords.forEach(keyword => {
+        if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipeIds.includes(recipe.id)) {
+          this.matchingRecipeIds.push(recipe.id)
         }
       })
     })
   }
 
   searchByTag(keywords) {
-    const splitKeywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
-      splitKeywords.forEach(keyword => {
-        if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipes.includes(recipe.id)) {
-          this.matchingRecipes.push(recipe.id)
+      keywords.forEach(keyword => {
+        if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipeIds.includes(recipe.id)) {
+          this.matchingRecipeIds.push(recipe.id)
         }
       })
     })
   }
 
   searchByIngredient(keywords) {
-    const splitKeywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
       const ingredientNames = recipe.ingredients.map(ingredient => ingredient.name)
-      splitKeywords.forEach(keyword => {
+      keywords.forEach(keyword => {
         if (ingredientNames.join(' ').toLowerCase().includes(keyword)
-        && !this.matchingRecipes.includes(recipe.id)) {
-          this.matchingRecipes.push(recipe.id)
+        && !this.matchingRecipeIds.includes(recipe.id)) {
+          this.matchingRecipeIds.push(recipe.id)
         }
       })
     })

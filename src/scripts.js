@@ -45,19 +45,19 @@ function updateSelectedTags(e) {
       const filteredRecipes = recipeRepository.filterByTag();
       displayRecipes(filteredRecipes, resultsSection);
     } else {
-      const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
+      const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipeIds);
       displayRecipes(translatedRecipes, resultsSection);
     }
   }
-  // const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
+  // const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipeIds);
   // displayRecipes(translatedRecipes, resultsSection);
 }
 
-function displayResults(searchTerms) {
+function displayResults(keywords) {
   hide(recipePopout, homeSection, favoritesSection);
   show(searchSection);
-  recipeRepository.searchByKeyword(searchTerms);
-  const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes);
+  recipeRepository.search(keywords);
+  const translatedRecipes = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipeIds);
   filterTags();
   displayTags();
   displayRecipes(translatedRecipes, resultsSection);
@@ -67,7 +67,7 @@ function displayResults(searchTerms) {
 
 function filterTags() {
   recipeRepository.matchingTags = [];
-  const translatedIds = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipes)
+  const translatedIds = recipeRepository.translateIdsToRecipes(recipeRepository.matchingRecipeIds)
   translatedIds.forEach(recipe => {
     recipe.tags.filter(tag => {
       if (!recipeRepository.matchingTags.includes(tag)) {
