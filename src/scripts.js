@@ -7,7 +7,7 @@ const favoritesBtn = document.querySelector('.js-favorites-btn');
 const favoritesSection = document.querySelector('.js-favorites-section');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
-const recipePopout = document.querySelector('.js-recipe-popout');
+const popout = document.querySelector('.js-recipe-popout');
 const recipeRepo = new RecipeRepository(recipeData);
 const resultsSection = document.querySelector('.js-results-section');
 const searchBox = document.querySelector('.js-search-box');
@@ -24,25 +24,26 @@ tagsSection.addEventListener('click', updateSelectedTags);
 
 function displayPopout(event) {
   hide(homeSection, resultsSection);
-  show(recipePopout);
+  show(popout);
   const selectedRecipe = recipeRepo.recipes.find(recipe => {
-    event.target.classList.contains(recipe.id)
+    return event.target.classList.contains(recipe.id)
   });
+
   fillPopout(selectedRecipe);
-  displayIngredients(selectedRecipe);
-  displayInstructions(selectedRecipe);
+  fillIngredients(selectedRecipe);
+  fillInstructions(selectedRecipe);
 }
 
-function displayIngredients(selectedRecipe) {
+function fillIngredients(selectedRecipe) {
   selectedRecipe.ingredients.forEach(ingredient => {
-    document.querySelector('.js-popout-ingredients').innerHTML +=
+    document.querySelector('.js-ingredients').innerHTML +=
     `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
   });
 }
 
-function displayInstructions(selectedRecipe) {
+function fillInstructions(selectedRecipe) {
   selectedRecipe.instructions.forEach(instruction => {
-    document.querySelector('.js-popout-instructions').innerHTML +=
+    document.querySelector('.js-instructions').innerHTML +=
     `<li>${instruction.instruction}</li>`;
   });
 }
@@ -62,7 +63,7 @@ function displayRecipes(recipes, section) {
 }
 
 function displayResults(keywords) {
-  hide(recipePopout, homeSection, favoritesSection);
+  hide(popout, homeSection, favoritesSection);
   show(searchSection);
   recipeRepo.search(keywords);
   filterTags();
@@ -73,34 +74,32 @@ function displayResults(keywords) {
 
 function displayTags() {
   recipeRepo.matchingTags.forEach(tag => {
-    const tagCard = `
-      <label>
+    const tagCard =
+    `<label>
         <input class="tag" type="checkbox" name="${tag}">${tag}
-      </label>
-    `;
+    </label>`;
     tagsSection.innerHTML += tagCard;
   })
 }
 
 function fillPopout(selectedRecipe) {
-  recipePopout.innerHTML = `
-    <article>
+  popout.innerHTML =
+    `<article>
       <h2>${selectedRecipe.name}</h2>
       <img src="${selectedRecipe.image}">
       <h3>Ingredients</h3>
-      <ul class="js-popout-ingredients"></ul>
+      <ul class="js-ingredients"></ul>
       <h3>Directions</h3>
-      <ol class="js-popout-instructions"></ol>
+      <ol class="js-instructions"></ol>
       <h3>Cost</h3>
       <p class="js-cost">${selectedRecipe.cost}</p>
-    </article>
-  `
+    </article>`;
 }
 
 function filterTags() {
   recipeRepo.matchingTags = [];
-  const translatedIds = recipeRepo.convertToRecipes(recipeRepo.matchingIds)
-  translatedIds.forEach(recipe => {
+  const convertedRecipes = recipeRepo.convertToRecipes(recipeRepo.matchingIds);
+  convertedRecipes.forEach(recipe => {
     recipe.tags.filter(tag => {
       if (!recipeRepo.matchingTags.includes(tag)) {
         recipeRepo.matchingTags.push(tag);
@@ -118,32 +117,35 @@ function show(...views) {
 }
 
 function showFavorites() {
-  hide(recipePopout, homeSection);
+  hide(popout, homeSection);
   show(favoritesSection);
 }
 
 function showHome() {
-  hide(recipePopout, resultsSection, favoritesSection, tagsSection);
+  hide(popout, resultsSection, favoritesSection, tagsSection);
   show(homeSection);
 }
 
-function showResults() {
+function showResults(event) {
   if (event.key === 'Enter') {
     event.preventDefault();
     displayResults(searchBox.value.toLowerCase());
   }
 }
+//****** REFACTOR BELOW*******
 
-function updateSelectedTags(e) {
-  if (!e.target.matches('[type="checkbox"]')) {
+function updateSelectedTags(event) {
+  const checkbox = event.target;
+  const tag = checkbox.name;
+  if (!checkbox.matches('[type="checkbox"]')) {
     return;
-  } else if (e.target.checked) {
-    recipeRepo.selectedTags.push(event.target.name)
+  } else if (checkbox.checked) {
+    recipeRepo.selectedTags.push(tag)
     const filteredRecipes = recipeRepo.filterByTag();
     displayRecipes(filteredRecipes, resultsSection);
   } else {
     recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
-      return tag !== event.target.name;
+      return tag !== tag;
     })
     if (recipeRepo.selectedTags.length) {
       const filteredRecipes = recipeRepo.filterByTag();
