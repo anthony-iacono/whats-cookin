@@ -29,41 +29,33 @@ class RecipeRepository {
   search(keywords) {
     this.matchingRecipeIds = [];
     keywords = keywords.split(' ');
-    this.searchByName(keywords);
-    this.searchByIngredient(keywords);
-    this.searchByTag(keywords);
-  }
-
-  searchByName(keywords) {
     this.recipes.forEach(recipe => {
       keywords.forEach(keyword => {
-        if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipeIds.includes(recipe.id)) {
-          this.matchingRecipeIds.push(recipe.id)
-        }
+        this.checkNames(keyword, recipe);
+        this.checkIngredients(keyword, recipe);
+        this.checkTags(keyword, recipe);
       })
     })
   }
 
-  searchByTag(keywords) {
-    this.recipes.forEach(recipe => {
-      keywords.forEach(keyword => {
-        if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipeIds.includes(recipe.id)) {
-          this.matchingRecipeIds.push(recipe.id)
-        }
-      })
-    })
+  checkNames(keyword, recipe) {
+    if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipeIds.includes(recipe.id)) {
+      this.matchingRecipeIds.push(recipe.id)
+    }
   }
 
-  searchByIngredient(keywords) {
-    this.recipes.forEach(recipe => {
-      const ingredientNames = recipe.ingredients.map(ingredient => ingredient.name)
-      keywords.forEach(keyword => {
-        if (ingredientNames.join(' ').toLowerCase().includes(keyword)
-        && !this.matchingRecipeIds.includes(recipe.id)) {
-          this.matchingRecipeIds.push(recipe.id)
-        }
-      })
-    })
+  checkTags(keyword, recipe) {
+    if (recipe.name.toLowerCase().includes(keyword) && !this.matchingRecipeIds.includes(recipe.id)) {
+      this.matchingRecipeIds.push(recipe.id)
+    }
+  }
+
+  checkIngredients(keyword, recipe) {
+    const ingredientNames = recipe.ingredients.map(ingredient => ingredient.name)
+    if (ingredientNames.join(' ').toLowerCase().includes(keyword)
+    && !this.matchingRecipeIds.includes(recipe.id)) {
+      this.matchingRecipeIds.push(recipe.id)
+    }
   }
 
   translateIdsToRecipes(recipeIds) {
