@@ -26,9 +26,6 @@ class User {
       return recipe !== recipeId;
     });
   }
-
-
 }
-
 
 export default User;
