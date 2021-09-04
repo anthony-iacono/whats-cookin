@@ -20,10 +20,10 @@ homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 resultsSection.addEventListener('click', displayPopout);
 searchBox.addEventListener('keypress', showResults);
-tagsSection.addEventListener('click', updateSelectedTags);
+tagsSection.addEventListener('click', filterResultsByTag);
 
 function displayPopout(event) {
-  hide(homeSection, resultsSection);
+  hide(homeSection, searchSection);
   show(popout);
   const selectedRecipe = recipeRepo.recipes.find(recipe => {
     return event.target.classList.contains(recipe.id)
@@ -65,6 +65,7 @@ function displayRecipes(recipes, section) {
 function displayResults(keywords) {
   hide(popout, homeSection, favoritesSection);
   show(searchSection);
+  console.log(keywords);
   recipeRepo.search(keywords);
   filterTags();
   displayTags();
@@ -122,7 +123,7 @@ function showFavorites() {
 }
 
 function showHome() {
-  hide(popout, resultsSection, favoritesSection, tagsSection);
+  hide(popout, searchSection, favoritesSection);
   show(homeSection);
 }
 
@@ -132,27 +133,34 @@ function showResults(event) {
     displayResults(searchBox.value.toLowerCase());
   }
 }
-//****** REFACTOR BELOW*******
 
-function updateSelectedTags(event) {
+function filterResultsByTag(event) {
   const checkbox = event.target;
   const tag = checkbox.name;
   if (!checkbox.matches('[type="checkbox"]')) {
     return;
   } else if (checkbox.checked) {
-    recipeRepo.selectedTags.push(tag)
+    addTag(tag);
+  } else {
+    remove(tag)
+  }
+}
+
+function addTag(tag) {
+  recipeRepo.selectedTags.push(tag);
+  const filteredRecipes = recipeRepo.filterByTag();
+  displayRecipes(filteredRecipes, resultsSection);
+}
+
+function removeTag(tag) {
+  recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
+    return tag !== tag;
+  })
+  if (recipeRepo.selectedTags.length) {
     const filteredRecipes = recipeRepo.filterByTag();
     displayRecipes(filteredRecipes, resultsSection);
   } else {
-    recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
-      return tag !== tag;
-    })
-    if (recipeRepo.selectedTags.length) {
-      const filteredRecipes = recipeRepo.filterByTag();
-      displayRecipes(filteredRecipes, resultsSection);
-    } else {
-      const convertedRecipes = recipeRepo.convertToRecipes()
-      displayRecipes(convertedRecipes, resultsSection);
-    }
+    const convertedRecipes = recipeRepo.convertToRecipes()
+    displayRecipes(convertedRecipes, resultsSection);
   }
 }
