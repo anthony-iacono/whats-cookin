@@ -19,7 +19,9 @@ favoritesBtn.addEventListener('click', showFavorites);
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 resultsSection.addEventListener('click', displayPopout);
-searchBox.addEventListener('keypress', showResults);
+searchBox.addEventListener('keypress', function() {
+  showResults(event, searchSection)
+});
 tagsSection.addEventListener('click', filterResultsByTag);
 
 function displayPopout(event) {
@@ -62,10 +64,9 @@ function displayRecipes(recipes, section) {
   });
 }
 
-function displayResults(keywords) {
-  hide(popout, homeSection, favoritesSection);
-  show(searchSection);
-  console.log(keywords);
+function displayResults(keywords, section) {
+  hide(popout, homeSection, favoritesSection, searchSection);
+  show(section);
   recipeRepo.search(keywords);
   filterTags();
   displayTags();
@@ -127,10 +128,10 @@ function showHome() {
   show(homeSection);
 }
 
-function showResults(event) {
+function showResults(event, section) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    displayResults(searchBox.value.toLowerCase());
+    displayResults(searchBox.value.toLowerCase(), section);
   }
 }
 
@@ -142,7 +143,7 @@ function filterResultsByTag(event) {
   } else if (checkbox.checked) {
     addTag(tag);
   } else {
-    remove(tag)
+    removeTag(tag)
   }
 }
 
