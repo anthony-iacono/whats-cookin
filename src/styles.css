@@ -140,6 +140,28 @@ main {
   white-space: normal;
 }
 
+.search-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tags-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+  height: 100%;
+}
+
+.results-section {
+  width: 85%;
+  height: 100%;
+}
+
 .hidden {
   display: none;
+}
+
+.tag {
+  display: flex;
 }

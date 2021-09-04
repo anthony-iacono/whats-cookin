@@ -11,12 +11,13 @@
         <button class="js-home-btn">Home</button>
         <button class="js-favorites-btn">Favorites</button>
         <button class="js-explore-btn">Meals to Cook</button>
+        <form>
         <input type="text" name="search" placeholder="search..."class="js-search-box"></input>
+      </form>
       </nav>
     </header>
     <main>
-      <!-- <div class="all-recipes js-all-recipes"></div> -->
-      <div class="container js-home">
+      <div class="container js-home-section">
         <div class="pu">
           <h3 class="row-title">Favorites</h3>
           <section class="rows" id="row1">
@@ -45,9 +46,13 @@
       </div>
       <section class="js-recipe-popout hidden">
       </section>
-      <section class="js-search-section hidden">
+      <section class="search-section js-search-section hidden">
+        <aside class="tags-section js-tags-section">
+        </aside>
+        <section class="results-section js-results-section">
+        </section>
       </section>
-      <section class="js-favorites hidden">
+      <section class="js-favorites-section hidden">
       </section>
     </main >
   </body>

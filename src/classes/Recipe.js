@@ -22,8 +22,9 @@ class Recipe {
       total = total + ingredient.cost;
     })
     const dollars = Math.round(total / 100);
-    const cents = Math.round(total % 100);
-    return `$ ${dollars}.${cents}`;
+    const cents = Math.round(total % 100) / 100;
+    const totalCost = (dollars + cents).toFixed(2)
+    return `$ ${totalCost}`;
   }
 
   getInstructions() {
