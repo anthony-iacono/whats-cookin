@@ -4,6 +4,7 @@ import recipeData from './data/recipes';
 import RecipeRepository from './classes/RecipeRepository';
 
 const favoritesBtn = document.querySelector('.js-favorites-btn');
+const favoritesSearchBox = document.querySelector('.js-favorites-search-box');
 const favoritesSection = document.querySelector('.js-favorites-section');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
@@ -16,6 +17,9 @@ const tagsSection = document.querySelector('.js-tags-section');
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
+favoritesSearchBox.addEventListener('keypress', function() {
+  showResults(event, favoritesSection);
+})
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 resultsSection.addEventListener('click', displayPopout);
@@ -69,12 +73,13 @@ function displayResults(keywords, section) {
   show(section);
   recipeRepo.search(keywords);
   filterTags();
-  displayTags();
+  displayTags(section);
   const convertedRecipes = recipeRepo.convertToRecipes()
   displayRecipes(convertedRecipes, resultsSection);
 }
 
 function displayTags() {
+  tagsSection.innerHTML = ''
   recipeRepo.matchingTags.forEach(tag => {
     const tagCard =
     `<label>
@@ -102,12 +107,13 @@ function filterTags() {
   recipeRepo.matchingTags = [];
   const convertedRecipes = recipeRepo.convertToRecipes(recipeRepo.matchingIds);
   convertedRecipes.forEach(recipe => {
-    recipe.tags.filter(tag => {
+    recipe.tags.forEach(tag => {
       if (!recipeRepo.matchingTags.includes(tag)) {
         recipeRepo.matchingTags.push(tag);
       }
     })
   })
+  console.log(recipeRepo.matchingTags)
 }
 
 function hide(...views) {
@@ -119,13 +125,12 @@ function show(...views) {
 }
 
 function showFavorites() {
-  hide(popout, homeSection);
+  hide(popout, homeSection, searchSection);
   show(favoritesSection);
 }
 
 function showHome() {
-  hide(popout, searchSection, favoritesSection);
-  show(homeSection);
+  location.reload()
 }
 
 function showResults(event, section) {
