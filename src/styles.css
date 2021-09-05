@@ -165,3 +165,7 @@ aside {
 .tags {
   width: 150px;
 }
+
+.clicked {
+background-color: green;
+}

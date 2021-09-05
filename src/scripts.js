@@ -1,6 +1,8 @@
 import './styles.css';
 import apiCalls from './apiCalls';
 import recipeData from './data/recipes';
+import userData from './data/users';
+import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
 
 const favoritesBtn = document.querySelector('.js-favorites-btn');
@@ -9,11 +11,13 @@ const favoritesSection = document.querySelector('.js-favorites-section');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
 const popout = document.querySelector('.js-recipe-popout');
+const randomUserDataIndex = Math.round(Math.random() * (userData.length + 1));
 const recipeRepo = new RecipeRepository(recipeData);
 const resultsSection = document.querySelector('.js-results-section');
 const searchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
 const tagsSection = document.querySelector('.js-tags-section');
+const user = new User(userData[randomUserDataIndex]);
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
@@ -92,11 +96,11 @@ function displayTags() {
 
 function fillPopout(selectedRecipe) {
   popout.innerHTML =
-    `<article class="full-recipe">
+    `<article class="full-recipe" id="${selectedRecipe.id}">
       <img src="${selectedRecipe.image}">
       <h2>${selectedRecipe.name}</h2>
-      <button class="js-add-to-fav-btn">Add to Favorites</button>
-      <button class="js-add-to-cook-btn">Cook!</button>
+      <button class="js-add-favorite-btn">Add to Favorites</button>
+      <button class="js-add-recipe-btn">Add to Recipes to Cook</button>
       <div class="test">
         <h3>Ingredients</h3>
         <ul class="js-ingredients"></ul>
@@ -128,12 +132,34 @@ function filterTags() {
 function handleClick(event) {
   event.preventDefault()
   const btn = event.target
-  if (btn.matches('.js-add-to-fav-btn')) {
+  const recipeId = btn.parentNode.id
+  if (btn.matches('.js-add-favorite-btn')) {
     btn.classList.toggle('clicked')
-  } else if (btn.matches('.js-add-to-cook-btn')) {
+    toggleFavorites(recipeId)
+  } else if (btn.matches('.js-add-recipe-btn')) {
     btn.classList.toggle('clicked')
+    toggleRecipesToCook(recipeId)
   }
 }
+
+function toggleFavorites(recipeId) {
+  if (!user.favorites.includes(recipeId)) {
+    user.addToFavorites(recipeId);
+    console.log(user.favorites, "favorites")
+  } else {
+    user.removeFromFavorites(recipeId);
+  }
+}
+
+function toggleRecipesToCook(recipeId) {
+  if (!user.recipesToCook.includes(recipeId)) {
+    user.addToRecipesToCook(recipeId);
+    console.log(user.recipesToCook, "recipe")
+  } else {
+    user.removeFromRecipesToCook(recipeId);
+  }
+}
+
 
 function hide(...views) {
   views.forEach(view => view.classList.add('hidden'));
