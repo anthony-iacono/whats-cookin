@@ -22,6 +22,7 @@ favoritesSearchBox.addEventListener('keypress', function() {
 })
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
+popout.addEventListener('click', handleClick);
 resultsSection.addEventListener('click', displayPopout);
 searchBox.addEventListener('keypress', function() {
   showResults(event, searchSection)
@@ -94,6 +95,8 @@ function fillPopout(selectedRecipe) {
     `<article class="full-recipe">
       <img src="${selectedRecipe.image}">
       <h2>${selectedRecipe.name}</h2>
+      <button class="js-add-to-fav-btn">Add to Favorites</button>
+      <button class="js-add-to-cook-btn">Cook!</button>
       <div class="test">
         <h3>Ingredients</h3>
         <ul class="js-ingredients"></ul>
@@ -120,6 +123,16 @@ function filterTags() {
     })
   })
   console.log(recipeRepo.matchingTags)
+}
+
+function handleClick(event) {
+  event.preventDefault()
+  const btn = event.target
+  if (btn.matches('.js-add-to-fav-btn')) {
+    btn.classList.toggle('clicked')
+  } else if (btn.matches('.js-add-to-cook-btn')) {
+    btn.classList.toggle('clicked')
+  }
 }
 
 function hide(...views) {
