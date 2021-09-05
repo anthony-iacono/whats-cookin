@@ -113,12 +113,13 @@ function filterTags() {
   recipeRepo.matchingTags = [];
   const convertedRecipes = recipeRepo.convertToRecipes(recipeRepo.matchingIds);
   convertedRecipes.forEach(recipe => {
-    recipe.tags.filter(tag => {
+    recipe.tags.forEach(tag => {
       if (!recipeRepo.matchingTags.includes(tag)) {
         recipeRepo.matchingTags.push(tag);
       }
     })
   })
+  console.log(recipeRepo.matchingTags)
 }
 
 function hide(...views) {
@@ -130,7 +131,7 @@ function show(...views) {
 }
 
 function showFavorites() {
-  hide(popout, homeSection);
+  hide(popout, homeSection, searchSection);
   show(favoritesSection);
 }
 
@@ -153,7 +154,7 @@ function filterResultsByTag(event) {
   } else if (checkbox.checked) {
     addTag(tag);
   } else {
-    remove(tag)
+    removeTag(tag)
   }
 }
 
