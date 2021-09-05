@@ -4,6 +4,7 @@ import recipeData from './data/recipes';
 import RecipeRepository from './classes/RecipeRepository';
 
 const favoritesBtn = document.querySelector('.js-favorites-btn');
+const favoritesSearchBox = document.querySelector('.js-favorites-search-box');
 const favoritesSection = document.querySelector('.js-favorites-section');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
@@ -16,10 +17,15 @@ const tagsSection = document.querySelector('.js-tags-section');
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
+favoritesSearchBox.addEventListener('keypress', function() {
+  showResults(event, favoritesSection);
+})
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 resultsSection.addEventListener('click', displayPopout);
-searchBox.addEventListener('keypress', showResults);
+searchBox.addEventListener('keypress', function() {
+  showResults(event, searchSection)
+});
 tagsSection.addEventListener('click', filterResultsByTag);
 
 function displayPopout(event) {
@@ -62,21 +68,21 @@ function displayRecipes(recipes, section) {
   });
 }
 
-function displayResults(keywords) {
-  hide(popout, homeSection, favoritesSection);
-  show(searchSection);
-  console.log(keywords);
+function displayResults(keywords, section) {
+  hide(popout, homeSection, favoritesSection, searchSection);
+  show(section);
   recipeRepo.search(keywords);
   filterTags();
-  displayTags();
+  displayTags(section);
   const convertedRecipes = recipeRepo.convertToRecipes()
   displayRecipes(convertedRecipes, resultsSection);
 }
 
 function displayTags() {
+  tagsSection.innerHTML = ''
   recipeRepo.matchingTags.forEach(tag => {
     const tagCard =
-    `<label>
+    `<label class="tags">
         <input class="tag" type="checkbox" name="${tag}">${tag}
     </label>`;
     tagsSection.innerHTML += tagCard;
@@ -85,15 +91,21 @@ function displayTags() {
 
 function fillPopout(selectedRecipe) {
   popout.innerHTML =
-    `<article>
-      <h2>${selectedRecipe.name}</h2>
+    `<article class="full-recipe">
       <img src="${selectedRecipe.image}">
-      <h3>Ingredients</h3>
-      <ul class="js-ingredients"></ul>
-      <h3>Directions</h3>
-      <ol class="js-instructions"></ol>
-      <h3>Cost</h3>
-      <p class="js-cost">${selectedRecipe.cost}</p>
+      <h2>${selectedRecipe.name}</h2>
+      <div class="test">
+        <h3>Ingredients</h3>
+        <ul class="js-ingredients"></ul>
+      </div>
+      <div class="test-two">
+        <h3>Directions</h3>
+        <ol class="js-instructions"></ol>
+      </div>
+      <div class="test-three">
+        <h3>Cost</h3>
+        <p class="js-cost">${selectedRecipe.cost}</p>
+      </div>
     </article>`;
 }
 
@@ -123,14 +135,13 @@ function showFavorites() {
 }
 
 function showHome() {
-  hide(popout, searchSection, favoritesSection);
-  show(homeSection);
+  location.reload()
 }
 
-function showResults(event) {
+function showResults(event, section) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    displayResults(searchBox.value.toLowerCase());
+    displayResults(searchBox.value.toLowerCase(), section);
   }
 }
 
