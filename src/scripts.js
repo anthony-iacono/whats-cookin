@@ -20,11 +20,13 @@ const mainSearchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
 const tagsSection = document.querySelector('.js-tags-section');
 const user = new User(userData[randomUserDataIndex]);
+const favoritesResultsSection = document.querySelector('.favorites-results-section');
+const favoritesWrapper = document.querySelector('.js-favorites-wrapper');
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
 favoritesSearchBox.addEventListener('keypress', function(event) {
-  showResults(event, favoritesSection);
+  showResults(event, favoritesResultsSection, favoritesSearchBox);
 })
 favoritesSection.addEventListener('click', displayPopout);
 homeBtn.addEventListener('click', showHome);
@@ -33,7 +35,7 @@ popout.addEventListener('click', handleClick);
 recipesToCookBtn.addEventListener('click', showRecipesToCook);
 resultsSection.addEventListener('click', displayPopout);
 mainSearchBox.addEventListener('keypress', function(event) {
-  showResults(event, searchSection)
+  showResults(event, searchSection, mainSearchBox)
 });
 tagsSection.addEventListener('click', filterResultsByTag);
 
@@ -67,7 +69,6 @@ function fillInstructions(selectedRecipe) {
 }
 
 function displayRecipes(recipes, section) {
-  console.log(recipes, "recipes")
   section.innerHTML = '';
   if (!recipes.length) {
     section.innerHTML =
@@ -86,11 +87,15 @@ function displayRecipes(recipes, section) {
 
 function displayResults(keywords, section) {
   hideAll();
-  show(section);
+  if (section === favoritesResultsSection) {
+    show(favoritesWrapper)
+  } else {
+   show(section);
+  }
   recipeRepo.search(keywords);
   filterTags();
   displayTags();
-  displayRecipes(recipeRepo.matchingRecipes, resultsSection);
+  displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
 }
 
 function displayTags() {
@@ -150,9 +155,7 @@ function handleClick(event) {
   event.preventDefault()
   const btn = event.target;
   const recipeId = btn.parentNode.id;
-  console.log(recipeId, "recipeID")
   const recipe = recipeRepo.recipes.find(recipe => recipe.id === parseInt(recipeId));
-  console.log(recipe, "recpie")
   if (btn.matches('.js-add-favorite-btn')) {
     btn.classList.toggle('clicked')
     toggleFavorites(recipe)
@@ -180,7 +183,7 @@ function toggleRecipesToCook(recipe) {
 
 function hideAll() {
   homeSection.classList.add('hidden');
-  favoritesSection.classList.add('hidden');
+  favoritesWrapper.classList.add('hidden');
   recipesToCookSection.classList.add('hidden');
   searchSection.classList.add('hidden');
   popout.classList.add('hidden');
@@ -192,13 +195,13 @@ function show(...views) {
 
 function showFavorites() {
   hideAll();
-  show(favoritesSection);
+  show(favoritesWrapper);
   if (!user.favorites.length) {
-    favoritesSection.innerHTML =
+    favoritesResultsSection.innerHTML =
     `<p>You haven't yet saved any recipes to your favorites.</p>`
     return;
   }
-  displayRecipes(user.favorites, favoritesSection);
+  displayRecipes(user.favorites, favoritesResultsSection);
 }
 
 function showRecipesToCook() {
@@ -215,10 +218,10 @@ function showHome() {
   show(homeSection);
 }
 
-function showResults(event, section) {
+function showResults(event, section, searchBox) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    displayResults(mainSearchBox.value.toLowerCase(), section);
+    displayResults(searchBox.value.toLowerCase(), section);
   }
 }
 
