@@ -26,6 +26,7 @@ favoritesBtn.addEventListener('click', showFavorites);
 favoritesSearchBox.addEventListener('keypress', function(event) {
   showResults(event, favoritesSection);
 })
+favoritesSection.addEventListener('click', displayPopout);
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 popout.addEventListener('click', handleClick);
@@ -36,7 +37,7 @@ mainSearchBox.addEventListener('keypress', function() {
 tagsSection.addEventListener('click', filterResultsByTag);
 
 function displayPopout(event) {
-  hide(homeSection, searchSection);
+  hide(homeSection, searchSection, favoritesSection);
   show(popout);
   const selectedRecipe = recipeRepo.recipes.find(recipe => {
     return event.target.classList.contains(recipe.id)
