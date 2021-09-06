@@ -24,25 +24,24 @@ class RecipeRepository {
     this.matchingRecipes = [];
     keywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
-      const containsRecipe = this.matchingRecipes.includes(recipe)
       keywords.forEach(keyword => {
-        this.checkNames(keyword, recipe, containsRecipe);
-        this.checkIngredients(keyword, recipe, containsRecipe);
-        this.checkTags(keyword, recipe, containsRecipe);
+        this.checkNames(keyword, recipe);
+        this.checkIngredients(keyword, recipe);
+        this.checkTags(keyword, recipe);
       })
     })
   }
 
   checkNames(keyword, recipe, containsRecipe) {
     if (recipe.name.toLowerCase().includes(keyword)
-    && !containsRecipe) {
-      this.matchingRecipes.push(recipe)
+    && !this.matchingRecipes.includes(recipe)) {
+      this.matchingRecipes.push(recipe);
     }
   }
 
   checkTags(keyword, recipe, containsRecipe) {
     if (recipe.tags.includes(keyword)
-    && !containsRecipe) {
+    && !this.matchingRecipes.includes(recipe)) {
       this.matchingRecipes.push(recipe)
     }
   }
@@ -50,7 +49,7 @@ class RecipeRepository {
   checkIngredients(keyword, recipe, containsRecipe) {
     const ingredientNames = recipe.ingredients.map(ingredient => ingredient.name)
     if (ingredientNames.join(' ').toLowerCase().includes(keyword)
-    && !containsRecipe) {
+    && !this.matchingRecipes.includes(recipe)) {
       this.matchingRecipes.push(recipe)
     }
   }

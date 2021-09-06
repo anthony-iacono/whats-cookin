@@ -38,6 +38,9 @@ mainSearchBox.addEventListener('keypress', function(event) {
 tagsSection.addEventListener('click', filterResultsByTag);
 
 function displayPopout(event) {
+  if (!event.target.parentNode.classList.contains('recipe')) {
+    return;
+  }
   hideAll();
   show(popout);
   const selectedRecipe = recipeRepo.recipes.find(recipe => {
@@ -74,9 +77,7 @@ function displayRecipes(recipes, section) {
       const recipeCard =
       `<article class="recipe ${recipe.id}">
         <img class="recipe-image ${recipe.id}" src="${recipe.image}">
-        <div class="article-title ${recipe.id}">
-          <h2 class="card-title ${recipe.id}">${recipe.name}</h2>
-        </div>
+        <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
       </article>`;
       section.innerHTML += recipeCard;
     });
