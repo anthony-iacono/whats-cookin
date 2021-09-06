@@ -13,7 +13,7 @@ class User {
 
   removeFromFavorites(recipeId) {
     this.favorites = this.favorites.filter(favorite => {
-      return favorite !== recipeId;
+      return favorite != recipeId;
     });
   }
 

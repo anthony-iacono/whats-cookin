@@ -30,6 +30,7 @@ favoritesSection.addEventListener('click', displayPopout);
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 popout.addEventListener('click', handleClick);
+recipesToCookBtn.addEventListener('click', showRecipesToCook);
 resultsSection.addEventListener('click', displayPopout);
 mainSearchBox.addEventListener('keypress', function() {
   showResults(event, searchSection)
@@ -37,7 +38,7 @@ mainSearchBox.addEventListener('keypress', function() {
 tagsSection.addEventListener('click', filterResultsByTag);
 
 function displayPopout(event) {
-  hide(homeSection, searchSection, favoritesSection);
+  hideAll();
   show(popout);
   const selectedRecipe = recipeRepo.recipes.find(recipe => {
     return event.target.classList.contains(recipe.id)
@@ -77,7 +78,7 @@ function displayRecipes(recipes, section) {
 }
 
 function displayResults(keywords, section, recipeIds) {
-  hide(popout, homeSection, favoritesSection, searchSection);
+  hideAll();
   show(section);
   recipeRepo.search(keywords);
   filterTags();
@@ -117,6 +118,13 @@ function fillPopout(selectedRecipe) {
         <p class="js-cost">${selectedRecipe.cost}</p>
       </div>
     </article>`;
+  updateBtnToClicked(selectedRecipe);
+}
+
+function updateBtnToClicked(selectedRecipe) {
+  if (user.favorites.includes(selectedRecipe.id)) {
+    document.querySelector('.js-add-favorite-btn').classList.add('clicked');
+  }
 }
 
 function filterTags() {
@@ -145,7 +153,7 @@ function handleClick(event) {
 }
 
 function toggleFavorites(recipeId) {
-  if (!user.favorites.includes(recipeId)) {
+  if (!user.favorites.includes(parseInt(recipeId))) {
     user.addToFavorites(recipeId);
   } else {
     user.removeFromFavorites(recipeId);
@@ -160,8 +168,12 @@ function toggleRecipesToCook(recipeId) {
   }
 }
 
-function hide(...views) {
-  views.forEach(view => view.classList.add('hidden'));
+function hideAll() {
+  homeSection.classList.add('hidden');
+  favoritesSection.classList.add('hidden');
+  recipesToCookSection.classList.add('hidden');
+  searchSection.classList.add('hidden');
+  popout.classList.add('hidden');
 }
 
 function show(...views) {
@@ -169,20 +181,29 @@ function show(...views) {
 }
 
 function showFavorites() {
-  hide(popout, homeSection, searchSection, recipesToCookSection);
+  hideAll();
   show(favoritesSection);
+  if (!user.favorites.length) {
+    favoritesSection.innerHTML =
+    `<p>You haven't yet saved any recipes to your favorites.</p>`
+    return;
+  }
   const favoriteRecipes = recipeRepo.convertToRecipes(user.favorites);
   displayRecipes(favoriteRecipes, favoritesSection);
 }
 
 function showRecipesToCook() {
-hide(popout, homeSection, searchSection);
-show(recipesToCookSection)
+  hideAll();
+  show(recipesToCookSection);
+  if (!user.recipesToCook.length) {
+    recipesToCookSection.innerHTML =
+    `<p>You haven't yet saved any recipes to cook this week</p>`
+  }
 }
 
 function showHome() {
-  hide(searchSection, favoritesSection, recipesToCookSection, popout);
-  show(homeSection)
+  hideAll();
+  show(homeSection);
 }
 
 function showResults(event, section) {
