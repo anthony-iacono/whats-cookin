@@ -209,6 +209,10 @@ function showHome() {
 function showResults(event, section) {
   if (event.key === 'Enter') {
     event.preventDefault();
+    if (!mainSearchBox.value) {
+      section.innerHTML =
+      `<p>We couldn't find any recipes that matches your search criteria.</p>`
+    }
     displayResults(mainSearchBox.value.toLowerCase(), section);
   }
 }
