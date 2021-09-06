@@ -16,7 +16,7 @@ const recipeRepo = new RecipeRepository(recipeData);
 const recipesToCookSection = document.querySelector('.js-recipes-to-cook-section');
 const recipesToCookBtn = document.querySelector('.js-recipes-to-cook-btn');
 const resultsSection = document.querySelector('.js-results-section');
-const searchBox = document.querySelector('.js-search-box');
+const mainSearchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
 const tagsSection = document.querySelector('.js-tags-section');
 const user = new User(userData[randomUserDataIndex]);
@@ -30,7 +30,7 @@ homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 popout.addEventListener('click', handleClick);
 resultsSection.addEventListener('click', displayPopout);
-searchBox.addEventListener('keypress', function() {
+mainSearchBox.addEventListener('keypress', function() {
   showResults(event, searchSection)
 });
 tagsSection.addEventListener('click', filterResultsByTag);
@@ -185,7 +185,7 @@ function showHome() {
 function showResults(event, section) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    displayResults(searchBox.value.toLowerCase(), section);
+    displayResults(mainSearchBox.value.toLowerCase(), section);
   }
 }
 
