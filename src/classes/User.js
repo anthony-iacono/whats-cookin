@@ -8,7 +8,7 @@ class User {
   }
 
   addToFavorites(recipeId) {
-    this.favorites.push(recipeId);
+    this.favorites.push(parseInt(recipeId));
   }
 
   removeFromFavorites(recipeId) {

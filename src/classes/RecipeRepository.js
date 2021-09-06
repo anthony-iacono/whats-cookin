@@ -15,7 +15,7 @@ class RecipeRepository {
       convertedRecipes.forEach(recipe => {
         if(recipe.tags.includes(tag) && !filteredRecipes.includes(recipe)){
           filteredRecipes.push(recipe)
-        }``
+        }
       })
     })
     return filteredRecipes;
@@ -56,8 +56,8 @@ class RecipeRepository {
     }
   }
 
-  convertToRecipes() {
-    return this.recipes.filter(recipe => this.matchingIds.includes(recipe.id));
+  convertToRecipes(recipeIds) {
+    return this.recipes.filter(recipe => recipeIds.includes(recipe.id));
   }
 }
 

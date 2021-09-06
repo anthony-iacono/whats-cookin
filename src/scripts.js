@@ -75,13 +75,13 @@ function displayRecipes(recipes, section) {
   });
 }
 
-function displayResults(keywords, section) {
+function displayResults(keywords, section, recipeIds) {
   hide(popout, homeSection, favoritesSection, searchSection);
   show(section);
   recipeRepo.search(keywords);
   filterTags();
   displayTags(section);
-  const convertedRecipes = recipeRepo.convertToRecipes()
+  const convertedRecipes = recipeRepo.convertToRecipes(recipeIds || recipeRepo.matchingIds);
   displayRecipes(convertedRecipes, resultsSection);
 }
 
@@ -170,7 +170,8 @@ function show(...views) {
 function showFavorites() {
   hide(popout, homeSection, searchSection, recipesToCookSection);
   show(favoritesSection);
-  displayRecipes(user.favorites, favoritesSection);
+  const favoriteRecipes = recipeRepo.convertToRecipes(user.favorites);
+  displayRecipes(favoriteRecipes, favoritesSection);
 }
 
 function showRecipesToCook() {
@@ -179,7 +180,8 @@ show(recipesToCookSection)
 }
 
 function showHome() {
-  location.reload()
+  hide(searchSection, favoritesSection, recipesToCookSection, popout);
+  show(homeSection)
 }
 
 function showResults(event, section) {
