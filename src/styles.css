@@ -166,6 +166,21 @@ aside {
   width: 150px;
 }
 
+.js-add-favorite-btn, .js-add-recipe-btn {
+  font-family: 'Roboto', sans-serif;
+  background-color: #F0F1ED;
+  font-size: 14px;
+  width: 20%;
+  height: 25px;
+  border-radius: 5px;
+  border: solid #E23D26 1px;
+  box-shadow: 0;
+  border-style: solid;
+  margin-bottom: 10px;
+}
+
 .clicked {
+border-color: green;
 background-color: green;
+opacity: 50%;
 }
