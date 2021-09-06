@@ -128,7 +128,6 @@ function filterTags() {
       }
     })
   })
-  console.log(recipeRepo.matchingTags)
 }
 
 function handleClick(event) {
