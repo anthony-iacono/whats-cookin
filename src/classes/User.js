@@ -7,23 +7,23 @@ class User {
     this.recipesToCook = [];
   }
 
-  addToFavorites(recipeId) {
-    this.favorites.push(parseInt(recipeId));
+  addToFavorites(recipe) {
+    this.favorites.push(recipe);
   }
 
-  removeFromFavorites(recipeId) {
+  removeFromFavorites(recipe) {
     this.favorites = this.favorites.filter(favorite => {
-      return favorite != recipeId;
+      return favorite !== recipe;
     });
   }
 
-  addToRecipesToCook(recipeId) {
-    this.recipesToCook.push(recipeId);
+  addToRecipesToCook(recipe) {
+    this.recipesToCook.push(recipe);
   }
 
-  removeFromRecipesToCook(recipeId) {
+  removeFromRecipesToCook(recipe) {
     this.recipesToCook = this.recipesToCook.filter(recipe => {
-      return recipe !== recipeId;
+      return recipe !== recipe;
     });
   }
 }

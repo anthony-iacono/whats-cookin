@@ -64,6 +64,7 @@ function fillInstructions(selectedRecipe) {
 }
 
 function displayRecipes(recipes, section) {
+  console.log(recipes, "recipes")
   section.innerHTML = '';
   if (!recipes.length) {
     section.innerHTML =
@@ -82,14 +83,13 @@ function displayRecipes(recipes, section) {
   }
 }
 
-function displayResults(keywords, section, recipeIds) {
+function displayResults(keywords, section) {
   hideAll();
   show(section);
   recipeRepo.search(keywords);
   filterTags();
-  displayTags(section);
-  const convertedRecipes = recipeRepo.convertToRecipes(recipeIds || recipeRepo.matchingIds);
-  displayRecipes(convertedRecipes, resultsSection);
+  displayTags();
+  displayRecipes(recipeRepo.matchingRecipes, resultsSection);
 }
 
 function displayTags() {
@@ -127,15 +127,16 @@ function fillPopout(selectedRecipe) {
 }
 
 function updateBtnToClicked(selectedRecipe) {
-  if (user.favorites.includes(selectedRecipe.id)) {
-    document.querySelector('.js-add-favorite-btn').classList.add('clicked');
-  }
+  user.favorites.forEach(favoriteRecipe => {
+    if (favoriteRecipe.id === selectedRecipe.id) {
+      document.querySelector('.js-add-favorite-btn').classList.add('clicked');
+    }
+  })
 }
 
 function filterTags() {
   recipeRepo.matchingTags = [];
-  const convertedRecipes = recipeRepo.convertToRecipes(recipeRepo.matchingIds);
-  convertedRecipes.forEach(recipe => {
+  recipeRepo.matchingRecipes.forEach(recipe => {
     recipe.tags.forEach(tag => {
       if (!recipeRepo.matchingTags.includes(tag)) {
         recipeRepo.matchingTags.push(tag);
@@ -148,28 +149,31 @@ function handleClick(event) {
   event.preventDefault()
   const btn = event.target;
   const recipeId = btn.parentNode.id;
+  console.log(recipeId, "recipeID")
+  const recipe = recipeRepo.recipes.find(recipe => recipe.id === parseInt(recipeId));
+  console.log(recipe, "recpie")
   if (btn.matches('.js-add-favorite-btn')) {
     btn.classList.toggle('clicked')
-    toggleFavorites(recipeId)
+    toggleFavorites(recipe)
   } else if (btn.matches('.js-add-recipe-btn')) {
     btn.classList.toggle('clicked')
-    toggleRecipesToCook(recipeId)
+    toggleRecipesToCook(recipe)
   }
 }
 
-function toggleFavorites(recipeId) {
-  if (!user.favorites.includes(parseInt(recipeId))) {
-    user.addToFavorites(recipeId);
+function toggleFavorites(recipe) {
+  if (!user.favorites.includes(recipe)) {
+    user.addToFavorites(recipe);
   } else {
-    user.removeFromFavorites(recipeId);
+    user.removeFromFavorites(recipe);
   }
 }
 
-function toggleRecipesToCook(recipeId) {
-  if (!user.recipesToCook.includes(recipeId)) {
-    user.addToRecipesToCook(recipeId);
+function toggleRecipesToCook(recipe) {
+  if (!user.recipesToCook.includes(recipe)) {
+    user.addToRecipesToCook(recipe);
   } else {
-    user.removeFromRecipesToCook(recipeId);
+    user.removeFromRecipesToCook(recipe);
   }
 }
 
@@ -193,8 +197,7 @@ function showFavorites() {
     `<p>You haven't yet saved any recipes to your favorites.</p>`
     return;
   }
-  const favoriteRecipes = recipeRepo.convertToRecipes(user.favorites);
-  displayRecipes(favoriteRecipes, favoritesSection);
+  displayRecipes(user.favorites, favoritesSection);
 }
 
 function showRecipesToCook() {
@@ -244,7 +247,6 @@ function removeTag(tag) {
     const filteredRecipes = recipeRepo.filterByTag();
     displayRecipes(filteredRecipes, resultsSection);
   } else {
-    const convertedRecipes = recipeRepo.convertToRecipes()
-    displayRecipes(convertedRecipes, resultsSection);
+    displayRecipes(recipeRepo.matchingRecipes, resultsSection);
   }
 }

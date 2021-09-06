@@ -3,16 +3,15 @@ import Recipe from './Recipe';
 class RecipeRepository {
   constructor(recipes) {
     this.recipes = recipes.map(recipe => new Recipe(recipe));
-    this.matchingIds;
+    this.matchingRecipes;
     this.matchingTags;
     this.selectedTags = [];
   }
 
   filterByTag() {
-    let convertedRecipes = this.convertToRecipes(this.matchingIds)
     let filteredRecipes = []
     this.selectedTags.forEach(tag => {
-      convertedRecipes.forEach(recipe => {
+      this.matchingRecipes.forEach(recipe => {
         if(recipe.tags.includes(tag) && !filteredRecipes.includes(recipe)){
           filteredRecipes.push(recipe)
         }
@@ -22,43 +21,40 @@ class RecipeRepository {
   }
 
   search(keywords) {
-    this.matchingIds = [];
+    this.matchingRecipes = [];
     keywords = keywords.split(' ');
     this.recipes.forEach(recipe => {
-      const containsRecipeId = this.matchingIds.includes(recipe.id)
+      const containsRecipe = this.matchingRecipes.includes(recipe)
       keywords.forEach(keyword => {
-        this.checkNames(keyword, recipe, containsRecipeId);
-        this.checkIngredients(keyword, recipe, containsRecipeId);
-        this.checkTags(keyword, recipe, containsRecipeId);
+        this.checkNames(keyword, recipe, containsRecipe);
+        this.checkIngredients(keyword, recipe, containsRecipe);
+        this.checkTags(keyword, recipe, containsRecipe);
       })
     })
   }
 
-  checkNames(keyword, recipe, containsRecipeId) {
+  checkNames(keyword, recipe, containsRecipe) {
     if (recipe.name.toLowerCase().includes(keyword)
-    && !containsRecipeId) {
-      this.matchingIds.push(recipe.id)
+    && !containsRecipe) {
+      this.matchingRecipes.push(recipe)
     }
   }
 
-  checkTags(keyword, recipe, containsRecipeId) {
+  checkTags(keyword, recipe, containsRecipe) {
     if (recipe.tags.includes(keyword)
-    && !containsRecipeId) {
-      this.matchingIds.push(recipe.id)
+    && !containsRecipe) {
+      this.matchingRecipes.push(recipe)
     }
   }
 
-  checkIngredients(keyword, recipe, containsRecipeId) {
+  checkIngredients(keyword, recipe, containsRecipe) {
     const ingredientNames = recipe.ingredients.map(ingredient => ingredient.name)
     if (ingredientNames.join(' ').toLowerCase().includes(keyword)
-    && !containsRecipeId) {
-      this.matchingIds.push(recipe.id)
+    && !containsRecipe) {
+      this.matchingRecipes.push(recipe)
     }
   }
 
-  convertToRecipes(recipeIds) {
-    return this.recipes.filter(recipe => recipeIds.includes(recipe.id));
-  }
 }
 
 export default RecipeRepository;
