@@ -18,26 +18,32 @@ const recipesToCookBtn = document.querySelector('.js-recipes-to-cook-btn');
 const resultsSection = document.querySelector('.js-results-section');
 const mainSearchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
-const tagsSection = document.querySelector('.js-tags-section');
+const searchTagsSection = document.querySelector('.js-tags-section');
 const user = new User(userData[randomUserDataIndex]);
 const favoritesResultsSection = document.querySelector('.favorites-results-section');
 const favoritesWrapper = document.querySelector('.js-favorites-wrapper');
+const favoritesTagsSection = document.querySelector('.js-favorites-tags-section')
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
 favoritesSearchBox.addEventListener('keypress', function(event) {
-  showResults(event, favoritesResultsSection, favoritesSearchBox, user.favorites);
+  showResults(event, favoritesResultsSection, favoritesSearchBox, user.favorites, favoritesTagsSection);
 })
 favoritesSection.addEventListener('click', displayPopout);
+favoritesTagsSection.addEventListener('click', function(event) {
+  filterResultsByTag(event, favoritesResultsSection);
+});
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 popout.addEventListener('click', handleClick);
 recipesToCookBtn.addEventListener('click', showRecipesToCook);
 resultsSection.addEventListener('click', displayPopout);
 mainSearchBox.addEventListener('keypress', function(event) {
-  showResults(event, searchSection, mainSearchBox, recipeRepo.recipes)
+  showResults(event, resultsSection, mainSearchBox, recipeRepo.recipes, searchTagsSection);
 });
-tagsSection.addEventListener('click', filterResultsByTag);
+searchTagsSection.addEventListener('click', function(event) {
+  filterResultsByTag(event, resultsSection);
+});
 
 function displayPopout(event) {
   if (!event.target.parentNode.classList.contains('recipe')) {
@@ -85,20 +91,20 @@ function displayRecipes(recipes, section) {
   }
 }
 
-function displayResults(keywords, section, recipes) {
+function displayResults(keywords, section, recipes, tagsSection) {
   hideAll();
   if (section === favoritesResultsSection) {
     show(favoritesWrapper)
   } else {
-   show(section);
+   show(searchSection);
   }
   recipeRepo.search(keywords, recipes);
   filterTags();
-  displayTags();
+  displayTags(tagsSection);
   displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
 }
 
-function displayTags() {
+function displayTags(tagsSection) {
   tagsSection.innerHTML = ''
   recipeRepo.matchingTags.forEach(tag => {
     const tagCard =
@@ -218,39 +224,39 @@ function showHome() {
   show(homeSection);
 }
 
-function showResults(event, section, searchBox, recipes) {
+function showResults(event, section, searchBox, recipes, tagsSection) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    displayResults(searchBox.value.toLowerCase(), section, recipes);
+    displayResults(searchBox.value.toLowerCase(), section, recipes, tagsSection);
   }
 }
 
-function filterResultsByTag(event) {
+function filterResultsByTag(event, section) {
   const checkbox = event.target;
   const tag = checkbox.name;
   if (!checkbox.matches('[type="checkbox"]')) {
     return;
   } else if (checkbox.checked) {
-    addTag(tag);
+    addTag(tag, section);
   } else {
-    removeTag(tag)
+    removeTag(tag, section);
   }
 }
 
-function addTag(tag) {
+function addTag(tag, section) {
   recipeRepo.selectedTags.push(tag);
   const filteredRecipes = recipeRepo.filterByTag();
-  displayRecipes(filteredRecipes, resultsSection);
+  displayRecipes(filteredRecipes, section);
 }
 
-function removeTag(tag) {
+function removeTag(tag, section) {
   recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
     return tag !== tag;
   })
   if (recipeRepo.selectedTags.length) {
     const filteredRecipes = recipeRepo.filterByTag();
-    displayRecipes(filteredRecipes, resultsSection);
+    displayRecipes(filteredRecipes, section);
   } else {
-    displayRecipes(recipeRepo.matchingRecipes, resultsSection);
+    displayRecipes(recipeRepo.matchingRecipes, section);
   }
 }
