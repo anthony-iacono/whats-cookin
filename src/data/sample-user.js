@@ -1,4 +1,4 @@
-const usersData = [
+const sampleUsersData = [
     {
       "name": "Saige O'Kon",
       "id": 1,
@@ -146,3 +146,5 @@ const usersData = [
       ]
     }
   ]
+
+  export default sampleUsersData;

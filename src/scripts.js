@@ -1,29 +1,57 @@
 import './styles.css';
 import apiCalls from './apiCalls';
 import recipeData from './data/recipes';
+import userData from './data/users';
+import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
 
 const favoritesBtn = document.querySelector('.js-favorites-btn');
+const favoritesSearchBox = document.querySelector('.js-favorites-search-box');
 const favoritesSection = document.querySelector('.js-favorites-section');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
 const popout = document.querySelector('.js-recipe-popout');
+const randomUserDataIndex = Math.round(Math.random() * (userData.length + 1));
 const recipeRepo = new RecipeRepository(recipeData);
+const recipesToCookSection = document.querySelector('.js-recipes-to-cook-section');
+const recipesToCookBtn = document.querySelector('.js-recipes-to-cook-btn');
 const resultsSection = document.querySelector('.js-results-section');
-const searchBox = document.querySelector('.js-search-box');
+const mainSearchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
-const tagsSection = document.querySelector('.js-tags-section');
+const searchTagsSection = document.querySelector('.js-tags-section');
+const user = new User(userData[randomUserDataIndex]);
+const favoritesResultsSection = document.querySelector('.favorites-results-section');
+const favoritesWrapper = document.querySelector('.js-favorites-wrapper');
+const favoritesTagsSection = document.querySelector('.js-favorites-tags-section')
+const recipesToCookResults = document.querySelector('.js-recipes-to-cook-results')
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
+favoritesSearchBox.addEventListener('keypress', function(event) {
+  showResults(event, favoritesResultsSection, favoritesSearchBox, user.favorites, favoritesTagsSection);
+})
+favoritesSection.addEventListener('click', displayPopout);
+favoritesTagsSection.addEventListener('click', function(event) {
+  filterResultsByTag(event, favoritesResultsSection);
+});
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
+popout.addEventListener('click', handleClick);
+recipesToCookBtn.addEventListener('click', showRecipesToCook);
+recipesToCookSection.addEventListener('click', displayPopout);
 resultsSection.addEventListener('click', displayPopout);
-searchBox.addEventListener('keypress', showResults);
-tagsSection.addEventListener('click', filterResultsByTag);
+mainSearchBox.addEventListener('keypress', function(event) {
+  showResults(event, resultsSection, mainSearchBox, recipeRepo.recipes, searchTagsSection);
+});
+searchTagsSection.addEventListener('click', function(event) {
+  filterResultsByTag(event, resultsSection);
+});
 
 function displayPopout(event) {
-  hide(homeSection, searchSection);
+  if (!event.target.parentNode.classList.contains('recipe')) {
+    return;
+  }
+  hideAll();
   show(popout);
   const selectedRecipe = recipeRepo.recipes.find(recipe => {
     return event.target.classList.contains(recipe.id)
@@ -50,33 +78,39 @@ function fillInstructions(selectedRecipe) {
 
 function displayRecipes(recipes, section) {
   section.innerHTML = '';
-  recipes.forEach(recipe => {
-    const recipeCard =
-    `<article class="recipe ${recipe.id}">
-      <img class="recipe-image ${recipe.id}" src="${recipe.image}">
-      <div class="article-title ${recipe.id}">
-        <h2 class="card-title ${recipe.id}">${recipe.name}</h2>
-      </div>
-    </article>`;
-    section.innerHTML += recipeCard;
-  });
+  if (!recipes.length) {
+    section.innerHTML =
+    `<p>We couldn't find any recipes that matches your search criteria.</p>`
+  } else {
+    recipes.forEach(recipe => {
+      const recipeCard =
+      `<article class="recipe ${recipe.id}">
+        <img class="recipe-image ${recipe.id}" src="${recipe.image}">
+        <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
+      </article>`;
+      section.innerHTML += recipeCard;
+    });
+  }
 }
 
-function displayResults(keywords) {
-  hide(popout, homeSection, favoritesSection);
-  show(searchSection);
-  console.log(keywords);
-  recipeRepo.search(keywords);
+function displayResults(keywords, section, recipes, tagsSection) {
+  hideAll();
+  if (section === favoritesResultsSection) {
+    show(favoritesWrapper)
+  } else {
+   show(searchSection);
+  }
+  recipeRepo.search(keywords, recipes);
   filterTags();
-  displayTags();
-  const convertedRecipes = recipeRepo.convertToRecipes()
-  displayRecipes(convertedRecipes, resultsSection);
+  displayTags(tagsSection);
+  displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
 }
 
-function displayTags() {
+function displayTags(tagsSection) {
+  tagsSection.innerHTML = ''
   recipeRepo.matchingTags.forEach(tag => {
     const tagCard =
-    `<label>
+    `<label class="tags">
         <input class="tag" type="checkbox" name="${tag}">${tag}
     </label>`;
     tagsSection.innerHTML += tagCard;
@@ -85,23 +119,44 @@ function displayTags() {
 
 function fillPopout(selectedRecipe) {
   popout.innerHTML =
-    `<article>
-      <h2>${selectedRecipe.name}</h2>
+    `<article class="full-recipe" id="${selectedRecipe.id}">
       <img src="${selectedRecipe.image}">
-      <h3>Ingredients</h3>
-      <ul class="js-ingredients"></ul>
-      <h3>Directions</h3>
-      <ol class="js-instructions"></ol>
-      <h3>Cost</h3>
-      <p class="js-cost">${selectedRecipe.cost}</p>
+      <h2>${selectedRecipe.name}</h2>
+      <button class="js-add-favorite-btn">Add to Favorites</button>
+      <button class="js-add-recipe-btn">Add to Recipes to Cook</button>
+      <div class="test">
+        <h3>Ingredients</h3>
+        <ul class="js-ingredients"></ul>
+      </div>
+      <div class="test-two">
+        <h3>Directions</h3>
+        <ol class="js-instructions"></ol>
+      </div>
+      <div class="test-three">
+        <h3>Cost</h3>
+        <p class="js-cost">${selectedRecipe.cost}</p>
+      </div>
     </article>`;
+  updateBtnToClicked(selectedRecipe);
+}
+
+function updateBtnToClicked(selectedRecipe) {
+  user.favorites.forEach(favoriteRecipe => {
+    if (favoriteRecipe.id === selectedRecipe.id) {
+      document.querySelector('.js-add-favorite-btn').classList.add('clicked');
+    }
+  })
+  user.recipesToCook.forEach(recipe => {
+    if (recipe.id === selectedRecipe.id) {
+      document.querySelector('.js-add-recipe-btn').classList.add('clicked')
+    }
+  })
 }
 
 function filterTags() {
   recipeRepo.matchingTags = [];
-  const convertedRecipes = recipeRepo.convertToRecipes(recipeRepo.matchingIds);
-  convertedRecipes.forEach(recipe => {
-    recipe.tags.filter(tag => {
+  recipeRepo.matchingRecipes.forEach(recipe => {
+    recipe.tags.forEach(tag => {
       if (!recipeRepo.matchingTags.includes(tag)) {
         recipeRepo.matchingTags.push(tag);
       }
@@ -109,8 +164,42 @@ function filterTags() {
   })
 }
 
-function hide(...views) {
-  views.forEach(view => view.classList.add('hidden'));
+function handleClick(event) {
+  event.preventDefault()
+  const btn = event.target;
+  const recipeId = btn.parentNode.id;
+  const recipe = recipeRepo.recipes.find(recipe => recipe.id === parseInt(recipeId));
+  if (btn.matches('.js-add-favorite-btn')) {
+    btn.classList.toggle('clicked')
+    toggleFavorites(recipe)
+  } else if (btn.matches('.js-add-recipe-btn')) {
+    btn.classList.toggle('clicked')
+    toggleRecipesToCook(recipe)
+  }
+}
+
+function toggleFavorites(recipe) {
+  if (!user.favorites.includes(recipe)) {
+    user.addToFavorites(recipe);
+  } else {
+    user.removeFromFavorites(recipe);
+  }
+}
+
+function toggleRecipesToCook(recipe) {
+  if (!user.recipesToCook.includes(recipe)) {
+    user.addToRecipesToCook(recipe);
+  } else {
+    user.removeFromRecipesToCook(recipe);
+  }
+}
+
+function hideAll() {
+  homeSection.classList.add('hidden');
+  favoritesWrapper.classList.add('hidden');
+  recipesToCookSection.classList.add('hidden');
+  searchSection.classList.add('hidden');
+  popout.classList.add('hidden');
 }
 
 function show(...views) {
@@ -118,49 +207,67 @@ function show(...views) {
 }
 
 function showFavorites() {
-  hide(popout, homeSection);
-  show(favoritesSection);
+  hideAll();
+  show(favoritesWrapper);
+  recipeRepo.matchingRecipes = user.favorites
+  filterTags()
+  displayTags(favoritesTagsSection)
+  if (!user.favorites.length) {
+    favoritesResultsSection.innerHTML =
+    `<p>You haven't yet saved any recipes to your favorites.</p>`
+    return;
+  }
+  displayRecipes(user.favorites, favoritesResultsSection);
+}
+
+function showRecipesToCook() {
+  hideAll();
+  show(recipesToCookSection);
+  if (!user.recipesToCook.length) {
+    recipesToCookSection.innerHTML =
+    `<p>You haven't yet saved any recipes to cook this week</p>`
+  }
+  displayRecipes(user.recipesToCook, recipesToCookResults)
 }
 
 function showHome() {
-  hide(popout, searchSection, favoritesSection);
+  hideAll();
   show(homeSection);
 }
 
-function showResults(event) {
+function showResults(event, section, searchBox, recipes, tagsSection) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    displayResults(searchBox.value.toLowerCase());
+    displayResults(searchBox.value.toLowerCase(), section, recipes, tagsSection);
   }
 }
 
-function filterResultsByTag(event) {
+function filterResultsByTag(event, section) {
   const checkbox = event.target;
   const tag = checkbox.name;
   if (!checkbox.matches('[type="checkbox"]')) {
     return;
   } else if (checkbox.checked) {
-    addTag(tag);
+    addTag(tag, section);
   } else {
-    remove(tag)
+    removeTag(tag, section);
   }
 }
 
-function addTag(tag) {
+function addTag(tag, section) {
   recipeRepo.selectedTags.push(tag);
   const filteredRecipes = recipeRepo.filterByTag();
-  displayRecipes(filteredRecipes, resultsSection);
+  displayRecipes(filteredRecipes, section);
 }
 
-function removeTag(tag) {
+function removeTag(tag, section) {
   recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
     return tag !== tag;
   })
   if (recipeRepo.selectedTags.length) {
     const filteredRecipes = recipeRepo.filterByTag();
-    displayRecipes(filteredRecipes, resultsSection);
+    displayRecipes(filteredRecipes, section);
   } else {
-    const convertedRecipes = recipeRepo.convertToRecipes()
-    displayRecipes(convertedRecipes, resultsSection);
+    displayRecipes(recipeRepo.matchingRecipes, section);
   }
 }

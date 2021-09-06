@@ -2,6 +2,9 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web&family=Roboto&display=swap" rel="stylesheet">
     <title>What's Cookin'</title>
   </head>
   <body>
@@ -10,9 +13,9 @@
       <nav>
         <button class="js-home-btn">Home</button>
         <button class="js-favorites-btn">Favorites</button>
-        <button class="js-explore-btn">Meals to Cook</button>
+        <button class="js-recipes-to-cook-btn">Recipes to Cook</button>
         <form>
-        <input type="text" name="search" placeholder="search..."class="js-search-box"></input>
+        <input type="text" name="search" placeholder="search all recipes..."class="js-search-box"></input>
       </form>
       </nav>
     </header>
@@ -22,7 +25,7 @@
           <h3 class="row-title">Favorites</h3>
           <section class="rows" id="row1">
           </section>
-          <h3 class="row-title">Meals to cook</h3>
+          <h3 class="row-title">Recipes to cook</h3>
           <section class="rows">
           </section>
           <h3 class="row-title">Entrees</h3>
@@ -52,7 +55,18 @@
         <section class="results-section js-results-section">
         </section>
       </section>
-      <section class="js-favorites-section hidden">
+      <section class="js-favorites-wrapper hidden">
+        <input type="text" name="search-favorites" placeholder="search favorites..."class="js-favorites-search-box"></input>
+        <section class="js-favorites-tags-section">
+        </section>
+        <section class="js-favorites-section">
+          <section class="favorites-results-section">
+          </section>
+        </section>
+      </section>
+      <section class="js-recipes-to-cook-section">
+        <section class="js-recipes-to-cook-results">
+        </section>
       </section>
     </main >
   </body>
