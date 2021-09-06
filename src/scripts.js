@@ -23,6 +23,7 @@ const user = new User(userData[randomUserDataIndex]);
 const favoritesResultsSection = document.querySelector('.favorites-results-section');
 const favoritesWrapper = document.querySelector('.js-favorites-wrapper');
 const favoritesTagsSection = document.querySelector('.js-favorites-tags-section')
+const recipesToCookResults = document.querySelector('.js-recipes-to-cook-results')
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
@@ -37,6 +38,7 @@ homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
 popout.addEventListener('click', handleClick);
 recipesToCookBtn.addEventListener('click', showRecipesToCook);
+recipesToCookSection.addEventListener('click', displayPopout);
 resultsSection.addEventListener('click', displayPopout);
 mainSearchBox.addEventListener('keypress', function(event) {
   showResults(event, resultsSection, mainSearchBox, recipeRepo.recipes, searchTagsSection);
@@ -144,6 +146,11 @@ function updateBtnToClicked(selectedRecipe) {
       document.querySelector('.js-add-favorite-btn').classList.add('clicked');
     }
   })
+  user.recipesToCook.forEach(recipe => {
+    if (recipe.id === selectedRecipe.id) {
+      document.querySelector('.js-add-recipe-btn').classList.add('clicked')
+    }
+  })
 }
 
 function filterTags() {
@@ -202,6 +209,9 @@ function show(...views) {
 function showFavorites() {
   hideAll();
   show(favoritesWrapper);
+  recipeRepo.matchingRecipes = user.favorites
+  filterTags()
+  displayTags(favoritesTagsSection)
   if (!user.favorites.length) {
     favoritesResultsSection.innerHTML =
     `<p>You haven't yet saved any recipes to your favorites.</p>`
@@ -217,6 +227,7 @@ function showRecipesToCook() {
     recipesToCookSection.innerHTML =
     `<p>You haven't yet saved any recipes to cook this week</p>`
   }
+  displayRecipes(user.recipesToCook, recipesToCookResults)
 }
 
 function showHome() {
