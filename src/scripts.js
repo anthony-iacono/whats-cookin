@@ -13,6 +13,8 @@ const homeBtn = document.querySelector('.js-home-btn');
 const popout = document.querySelector('.js-recipe-popout');
 const randomUserDataIndex = Math.round(Math.random() * (userData.length + 1));
 const recipeRepo = new RecipeRepository(recipeData);
+const recipesToCookSection = document.querySelector('.js-recipes-to-cook-section');
+const recipesToCookBtn = document.querySelector('.js-recipes-to-cook-btn');
 const resultsSection = document.querySelector('.js-results-section');
 const searchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
@@ -131,8 +133,8 @@ function filterTags() {
 
 function handleClick(event) {
   event.preventDefault()
-  const btn = event.target
-  const recipeId = btn.parentNode.id
+  const btn = event.target;
+  const recipeId = btn.parentNode.id;
   if (btn.matches('.js-add-favorite-btn')) {
     btn.classList.toggle('clicked')
     toggleFavorites(recipeId)
@@ -145,7 +147,6 @@ function handleClick(event) {
 function toggleFavorites(recipeId) {
   if (!user.favorites.includes(recipeId)) {
     user.addToFavorites(recipeId);
-    console.log(user.favorites, "favorites")
   } else {
     user.removeFromFavorites(recipeId);
   }
@@ -154,12 +155,10 @@ function toggleFavorites(recipeId) {
 function toggleRecipesToCook(recipeId) {
   if (!user.recipesToCook.includes(recipeId)) {
     user.addToRecipesToCook(recipeId);
-    console.log(user.recipesToCook, "recipe")
   } else {
     user.removeFromRecipesToCook(recipeId);
   }
 }
-
 
 function hide(...views) {
   views.forEach(view => view.classList.add('hidden'));
@@ -170,8 +169,13 @@ function show(...views) {
 }
 
 function showFavorites() {
-  hide(popout, homeSection, searchSection);
+  hide(popout, homeSection, searchSection, recipesToCookSection);
   show(favoritesSection);
+}
+
+function showRecipesToCook() {
+hide(popout, homeSection, searchSection);
+show(recipesToCookSection)
 }
 
 function showHome() {
