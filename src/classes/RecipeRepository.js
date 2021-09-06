@@ -9,13 +9,13 @@ class RecipeRepository {
   }
 
   filterByTag() {
-    let translatedRecipes = this.convertToRecipes(this.matchingIds)
+    let convertedRecipes = this.convertToRecipes(this.matchingIds)
     let filteredRecipes = []
     this.selectedTags.forEach(tag => {
-      translatedRecipes.forEach(recipe => {
+      convertedRecipes.forEach(recipe => {
         if(recipe.tags.includes(tag) && !filteredRecipes.includes(recipe)){
           filteredRecipes.push(recipe)
-        }
+        }``
       })
     })
     return filteredRecipes;

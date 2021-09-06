@@ -23,7 +23,7 @@ const user = new User(userData[randomUserDataIndex]);
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
-favoritesSearchBox.addEventListener('keypress', function() {
+favoritesSearchBox.addEventListener('keypress', function(event) {
   showResults(event, favoritesSection);
 })
 homeBtn.addEventListener('click', showHome);
@@ -170,6 +170,7 @@ function show(...views) {
 function showFavorites() {
   hide(popout, homeSection, searchSection, recipesToCookSection);
   show(favoritesSection);
+  displayRecipes(user.favorites, favoritesSection);
 }
 
 function showRecipesToCook() {
