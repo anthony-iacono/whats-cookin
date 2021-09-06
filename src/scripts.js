@@ -26,7 +26,7 @@ const favoritesWrapper = document.querySelector('.js-favorites-wrapper');
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
 favoritesSearchBox.addEventListener('keypress', function(event) {
-  showResults(event, favoritesResultsSection, favoritesSearchBox);
+  showResults(event, favoritesResultsSection, favoritesSearchBox, user.favorites);
 })
 favoritesSection.addEventListener('click', displayPopout);
 homeBtn.addEventListener('click', showHome);
@@ -35,7 +35,7 @@ popout.addEventListener('click', handleClick);
 recipesToCookBtn.addEventListener('click', showRecipesToCook);
 resultsSection.addEventListener('click', displayPopout);
 mainSearchBox.addEventListener('keypress', function(event) {
-  showResults(event, searchSection, mainSearchBox)
+  showResults(event, searchSection, mainSearchBox, recipeRepo.recipes)
 });
 tagsSection.addEventListener('click', filterResultsByTag);
 
@@ -85,14 +85,14 @@ function displayRecipes(recipes, section) {
   }
 }
 
-function displayResults(keywords, section) {
+function displayResults(keywords, section, recipes) {
   hideAll();
   if (section === favoritesResultsSection) {
     show(favoritesWrapper)
   } else {
    show(section);
   }
-  recipeRepo.search(keywords);
+  recipeRepo.search(keywords, recipes);
   filterTags();
   displayTags();
   displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
@@ -218,10 +218,10 @@ function showHome() {
   show(homeSection);
 }
 
-function showResults(event, section, searchBox) {
+function showResults(event, section, searchBox, recipes) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    displayResults(searchBox.value.toLowerCase(), section);
+    displayResults(searchBox.value.toLowerCase(), section, recipes);
   }
 }
 

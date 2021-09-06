@@ -20,10 +20,10 @@ class RecipeRepository {
     return filteredRecipes;
   }
 
-  search(keywords) {
+  search(keywords, recipes) {
     this.matchingRecipes = [];
     keywords = keywords.split(' ');
-    this.recipes.forEach(recipe => {
+    recipes.forEach(recipe => {
       keywords.forEach(keyword => {
         this.checkNames(keyword, recipe);
         this.checkIngredients(keyword, recipe);
