@@ -32,7 +32,7 @@ homeSection.addEventListener('click', displayPopout);
 popout.addEventListener('click', handleClick);
 recipesToCookBtn.addEventListener('click', showRecipesToCook);
 resultsSection.addEventListener('click', displayPopout);
-mainSearchBox.addEventListener('keypress', function() {
+mainSearchBox.addEventListener('keypress', function(event) {
   showResults(event, searchSection)
 });
 tagsSection.addEventListener('click', filterResultsByTag);
@@ -65,16 +65,21 @@ function fillInstructions(selectedRecipe) {
 
 function displayRecipes(recipes, section) {
   section.innerHTML = '';
-  recipes.forEach(recipe => {
-    const recipeCard =
-    `<article class="recipe ${recipe.id}">
-      <img class="recipe-image ${recipe.id}" src="${recipe.image}">
-      <div class="article-title ${recipe.id}">
-        <h2 class="card-title ${recipe.id}">${recipe.name}</h2>
-      </div>
-    </article>`;
-    section.innerHTML += recipeCard;
-  });
+  if (!recipes.length) {
+    section.innerHTML =
+    `<p>We couldn't find any recipes that matches your search criteria.</p>`
+  } else {
+    recipes.forEach(recipe => {
+      const recipeCard =
+      `<article class="recipe ${recipe.id}">
+        <img class="recipe-image ${recipe.id}" src="${recipe.image}">
+        <div class="article-title ${recipe.id}">
+          <h2 class="card-title ${recipe.id}">${recipe.name}</h2>
+        </div>
+      </article>`;
+      section.innerHTML += recipeCard;
+    });
+  }
 }
 
 function displayResults(keywords, section, recipeIds) {
@@ -209,10 +214,6 @@ function showHome() {
 function showResults(event, section) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    if (!mainSearchBox.value) {
-      section.innerHTML =
-      `<p>We couldn't find any recipes that matches your search criteria.</p>`
-    }
     displayResults(mainSearchBox.value.toLowerCase(), section);
   }
 }
