@@ -17,11 +17,11 @@ class User {
     });
   }
 
-  addToCookList(recipeId) {
+  addToRecipesToCook(recipeId) {
     this.recipesToCook.push(recipeId);
   }
 
-  removeFromCookList(recipeId) {
+  removeFromRecipesToCook(recipeId) {
     this.recipesToCook = this.recipesToCook.filter(recipe => {
       return recipe !== recipeId;
     });

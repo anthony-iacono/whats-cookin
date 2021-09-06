@@ -1,6 +1,8 @@
 import './styles.css';
 import apiCalls from './apiCalls';
 import recipeData from './data/recipes';
+import userData from './data/users';
+import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
 
 const favoritesBtn = document.querySelector('.js-favorites-btn');
@@ -9,11 +11,15 @@ const favoritesSection = document.querySelector('.js-favorites-section');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
 const popout = document.querySelector('.js-recipe-popout');
+const randomUserDataIndex = Math.round(Math.random() * (userData.length + 1));
 const recipeRepo = new RecipeRepository(recipeData);
+const recipesToCookSection = document.querySelector('.js-recipes-to-cook-section');
+const recipesToCookBtn = document.querySelector('.js-recipes-to-cook-btn');
 const resultsSection = document.querySelector('.js-results-section');
 const searchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
 const tagsSection = document.querySelector('.js-tags-section');
+const user = new User(userData[randomUserDataIndex]);
 
 window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 favoritesBtn.addEventListener('click', showFavorites);
@@ -22,6 +28,7 @@ favoritesSearchBox.addEventListener('keypress', function() {
 })
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
+popout.addEventListener('click', handleClick);
 resultsSection.addEventListener('click', displayPopout);
 searchBox.addEventListener('keypress', function() {
   showResults(event, searchSection)
@@ -82,7 +89,7 @@ function displayTags() {
   tagsSection.innerHTML = ''
   recipeRepo.matchingTags.forEach(tag => {
     const tagCard =
-    `<label>
+    `<label class="tags">
         <input class="tag" type="checkbox" name="${tag}">${tag}
     </label>`;
     tagsSection.innerHTML += tagCard;
@@ -91,15 +98,23 @@ function displayTags() {
 
 function fillPopout(selectedRecipe) {
   popout.innerHTML =
-    `<article>
-      <h2>${selectedRecipe.name}</h2>
+    `<article class="full-recipe" id="${selectedRecipe.id}">
       <img src="${selectedRecipe.image}">
-      <h3>Ingredients</h3>
-      <ul class="js-ingredients"></ul>
-      <h3>Directions</h3>
-      <ol class="js-instructions"></ol>
-      <h3>Cost</h3>
-      <p class="js-cost">${selectedRecipe.cost}</p>
+      <h2>${selectedRecipe.name}</h2>
+      <button class="js-add-favorite-btn">Add to Favorites</button>
+      <button class="js-add-recipe-btn">Add to Recipes to Cook</button>
+      <div class="test">
+        <h3>Ingredients</h3>
+        <ul class="js-ingredients"></ul>
+      </div>
+      <div class="test-two">
+        <h3>Directions</h3>
+        <ol class="js-instructions"></ol>
+      </div>
+      <div class="test-three">
+        <h3>Cost</h3>
+        <p class="js-cost">${selectedRecipe.cost}</p>
+      </div>
     </article>`;
 }
 
@@ -116,6 +131,35 @@ function filterTags() {
   console.log(recipeRepo.matchingTags)
 }
 
+function handleClick(event) {
+  event.preventDefault()
+  const btn = event.target;
+  const recipeId = btn.parentNode.id;
+  if (btn.matches('.js-add-favorite-btn')) {
+    btn.classList.toggle('clicked')
+    toggleFavorites(recipeId)
+  } else if (btn.matches('.js-add-recipe-btn')) {
+    btn.classList.toggle('clicked')
+    toggleRecipesToCook(recipeId)
+  }
+}
+
+function toggleFavorites(recipeId) {
+  if (!user.favorites.includes(recipeId)) {
+    user.addToFavorites(recipeId);
+  } else {
+    user.removeFromFavorites(recipeId);
+  }
+}
+
+function toggleRecipesToCook(recipeId) {
+  if (!user.recipesToCook.includes(recipeId)) {
+    user.addToRecipesToCook(recipeId);
+  } else {
+    user.removeFromRecipesToCook(recipeId);
+  }
+}
+
 function hide(...views) {
   views.forEach(view => view.classList.add('hidden'));
 }
@@ -125,8 +169,13 @@ function show(...views) {
 }
 
 function showFavorites() {
-  hide(popout, homeSection, searchSection);
+  hide(popout, homeSection, searchSection, recipesToCookSection);
   show(favoritesSection);
+}
+
+function showRecipesToCook() {
+hide(popout, homeSection, searchSection);
+show(recipesToCookSection)
 }
 
 function showHome() {
