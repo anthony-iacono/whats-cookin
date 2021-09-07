@@ -20,15 +20,10 @@ function fetchRecipes() {
 
 console.log(usersData, "usersData");
 console.log(ingredientsData, "ingredientsData");
-console.log(usersData, "usersData");
+console.log(recipeData, "recipeData");
 
 export {
   fetchUsers,
   fetchIngredients,
   fetchRecipes
 }
-
-// move this stuff to script.js
-let usersData;
-let ingredientsData;
-let recipesData;

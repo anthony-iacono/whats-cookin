@@ -4,6 +4,9 @@ import { recipesData } from './apiCalls';
 import { usersData } from './apiCalls';
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
+let usersData;
+let ingredientsData;
+let recipesData;
 
 console.log(Promise.resolve(recipesData), "recipes data")
 console.log(usersData, "users data")
@@ -48,6 +51,17 @@ mainSearchBox.addEventListener('keypress', function(event) {
 searchTagsSection.addEventListener('click', function(event) {
   filterResultsByTag(event, resultsSection);
 });
+
+function getApis() {
+  Promise.all([fetchUsers(), fetchIngredients(), fetchRecipes()])
+    .then(allArrays => storeData(allArrays));
+}
+
+function storeData(arrays) {
+  arrays[0].forEach((user) => userData.push(user));
+  arrays[1].forEach((ingredient) => ingredientsData.push(ingredient));
+  arrays[2].forEach((recipe) => recipeData.push(recipe));
+}
 
 function displayPopout(event) {
   if (!event.target.parentNode.classList.contains('recipe')) {
