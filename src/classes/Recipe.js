@@ -1,6 +1,5 @@
 import Ingredient from './Ingredient';
 
-
 class Recipe {
   constructor(recipe) {
     this.id = recipe.id;

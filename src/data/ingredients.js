@@ -685,7 +685,7 @@ const ingredientsData = [
       "estimatedCostInCents": 293
     },
     {
-      "id": 14051,
+      "id": 14051,atom://teletype/portal/f4a41de4-6a8f-48e9-9b8b-997c6c4d8b50
       "name": "grey goose vodka",
       "estimatedCostInCents": 373
     },
