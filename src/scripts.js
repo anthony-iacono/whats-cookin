@@ -1,25 +1,27 @@
 import './styles.css';
 import apiCalls from './apiCalls';
-import recipeData from './data/recipes';
-import userData from './data/users';
+import { recipesData } from './apiCalls';
+import { usersData } from './apiCalls';
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
 
+console.log(Promise.resolve(recipesData), "recipes data")
+console.log(usersData, "users data")
 const favoritesBtn = document.querySelector('.js-favorites-btn');
 const favoritesSearchBox = document.querySelector('.js-favorites-search-box');
 const favoritesSection = document.querySelector('.js-favorites-section');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
 const popout = document.querySelector('.js-recipe-popout');
-const randomUserDataIndex = Math.round(Math.random() * (userData.length + 1));
-const recipeRepo = new RecipeRepository(recipeData);
+const randomUserDataIndex = Math.round(Math.random() * (usersData.length + 1));
+const recipeRepo = new RecipeRepository(recipesData);
 const recipesToCookSection = document.querySelector('.js-recipes-to-cook-section');
 const recipesToCookBtn = document.querySelector('.js-recipes-to-cook-btn');
 const resultsSection = document.querySelector('.js-results-section');
 const mainSearchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
 const searchTagsSection = document.querySelector('.js-tags-section');
-const user = new User(userData[randomUserDataIndex]);
+const user = new User(usersData[randomUserDataIndex]);
 const favoritesResultsSection = document.querySelector('.favorites-results-section');
 const favoritesWrapper = document.querySelector('.js-favorites-wrapper');
 const favoritesTagsSection = document.querySelector('.js-favorites-tags-section')
