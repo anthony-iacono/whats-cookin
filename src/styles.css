@@ -61,7 +61,16 @@ main {
   height: 80vh;
   display: flex;
   justify-content: center;
-  position: absolute;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.favorite-recipes-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .box {
@@ -73,7 +82,7 @@ main {
   z-index: 9;
 }
 
-.container, .results-section {
+.container, .results-section, .favorites-results-section, .js-recipes-to-cook-results {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -103,7 +112,7 @@ main {
   border-top-right-radius: 10px;
 }
 
-.article-title > h2 {
+.article-title {
   width: auto;
   border: none;
   margin-top: 0;
@@ -118,8 +127,19 @@ main {
   text-align: center;
 }
 
-.hidden {
-  display: none;
+.js-favorites-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.js-favorites-search-box {
+  width: 145px;
+  height: 15px;
+  display: flex;
+  align-self: flex-start;
 }
 
 .full-recipe {
@@ -183,4 +203,8 @@ aside {
 border-color: green;
 background-color: green;
 opacity: 50%;
+}
+
+.hidden {
+  display: none;
 }
