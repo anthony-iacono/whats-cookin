@@ -122,8 +122,8 @@ function fillPopout(selectedRecipe) {
     `<article class="full-recipe" id="${selectedRecipe.id}">
       <img src="${selectedRecipe.image}">
       <h2>${selectedRecipe.name}</h2>
-      <button class="js-add-favorite-btn">Add to Favorites</button>
-      <button class="js-add-recipe-btn">Add to Recipes to Cook</button>
+      <button class="add-favorite-btn js-add-favorite-btn">Add to Favorites</button>
+      <button class="add-recipe-btn js-add-recipe-btn">Add to Recipes to Cook</button>
       <div class="test">
         <h3>Ingredients</h3>
         <ul class="js-ingredients"></ul>
@@ -134,7 +134,7 @@ function fillPopout(selectedRecipe) {
       </div>
       <div class="test-three">
         <h3>Cost</h3>
-        <p class="js-cost">${selectedRecipe.cost}</p>
+        <p class="cost js-cost">${selectedRecipe.cost}</p>
       </div>
     </article>`;
   updateBtnToClicked(selectedRecipe);
