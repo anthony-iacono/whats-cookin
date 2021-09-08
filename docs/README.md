@@ -17,6 +17,8 @@ as well as select recipes to cook that week. After clicking on the favorites tab
 you should be able to filter them by their tags, or search keywords to pull up the most relevant ones. You can also search the entire repository by using keywords,
 and from there you can further filter your results with the relevant tags that populate below the nav bar.
 
+## Demo
+![whats-cookin-demo](https://user-images.githubusercontent.com/72999840/132435408-ce5e42aa-cbfb-4cda-8294-c49c38b36ce0.gif)
 
 ## Technologies
   - Javascript
