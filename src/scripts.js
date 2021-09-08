@@ -88,7 +88,7 @@ function displayRecipes(recipes, section) {
     recipes.forEach(recipe => {
       const recipeCard =
       `<article class="recipe ${recipe.id}">
-      <img class="recipe-image ${recipe.id}" src="${recipe.image}">
+      <img class="recipe-image ${recipe.id}" src="${recipe.image}" alt="plate of ${recipe.name}">
       <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
       </article>`;
       section.innerHTML += recipeCard;
@@ -137,7 +137,7 @@ function fillInstructions(selectedRecipe) {
 function fillPopout(selectedRecipe) {
   popout.innerHTML =
     `<article class="full-recipe" id="${selectedRecipe.id}">
-      <img src="${selectedRecipe.image}">
+      <img src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
       <h2>${selectedRecipe.name}</h2>
       <button class="add-favorite-btn js-add-favorite-btn">Add to Favorites</button>
       <button class="add-recipe-btn js-add-recipe-btn">Add to Recipes to Cook</button>
