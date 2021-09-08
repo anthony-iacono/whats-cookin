@@ -5,7 +5,7 @@
 ## Table of Contents
   - [Abstract](#abstract)
   - [Technologies](#technologies)
-  - [Install + Setup](#set-up)
+  - [Install + Setup](#install--setup)
   - [Contributors](#contributors)
 	- [Wins](#wins)
 	- [Challenges + Improvements](#challenges-+-Improvements)
