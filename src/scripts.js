@@ -1,42 +1,42 @@
 import './styles.css';
-import apiCalls from './apiCalls';
-
 import {
   fetchUsers,
   fetchIngredients,
   fetchRecipes,
 } from './apiCalls'
-let recipeData = [];
-let userData = [];
-let ingredientsData = [];
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
 
+let recipeData = [];
+let userData = [];
+let ingredientsData = [];
+let recipeRepo;
+
 const favoritesBtn = document.querySelector('.js-favorites-btn');
+const favoritesResultsSection = document.querySelector('.favorites-results-section');
 const favoritesSearchBox = document.querySelector('.js-favorites-search-box');
 const favoritesSection = document.querySelector('.js-favorites-section');
+const favoritesTagsSection = document.querySelector('.js-favorites-tags-section')
+const favoritesWrapper = document.querySelector('.js-favorites-wrapper');
 const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
+const mainSearchBox = document.querySelector('.js-search-box');
 const popout = document.querySelector('.js-recipe-popout');
 const randomUserDataIndex = Math.round(Math.random() * (userData.length + 1));
 const recipesToCookSection = document.querySelector('.js-recipes-to-cook-section');
-let recipeRepo;
 const recipesToCookBtn = document.querySelector('.js-recipes-to-cook-btn');
+const recipesToCookResults = document.querySelector('.js-recipes-to-cook-results')
 const resultsSection = document.querySelector('.js-results-section');
-const mainSearchBox = document.querySelector('.js-search-box');
 const searchSection = document.querySelector('.js-search-section');
 const searchTagsSection = document.querySelector('.js-tags-section');
 let user;
-const favoritesResultsSection = document.querySelector('.favorites-results-section');
-const favoritesWrapper = document.querySelector('.js-favorites-wrapper');
-const favoritesTagsSection = document.querySelector('.js-favorites-tags-section')
-const recipesToCookResults = document.querySelector('.js-recipes-to-cook-results')
 
-// window.onload = displayRecipes(recipeRepo.recipes, homeSection);
 window.addEventListener('load', getApis)
 favoritesBtn.addEventListener('click', showFavorites);
 favoritesSearchBox.addEventListener('keypress', function(event) {
-  showResults(event, favoritesResultsSection, favoritesSearchBox, user.favorites, favoritesTagsSection);
+  showResults(event, favoritesResultsSection, favoritesSearchBox,
+    user.favorites, favoritesTagsSection
+  );
 })
 favoritesSection.addEventListener('click', displayPopout);
 favoritesTagsSection.addEventListener('click', function(event) {
@@ -44,33 +44,28 @@ favoritesTagsSection.addEventListener('click', function(event) {
 });
 homeBtn.addEventListener('click', showHome);
 homeSection.addEventListener('click', displayPopout);
-popout.addEventListener('click', handleClick);
+popout.addEventListener('click', addFavoriteOrRecipeToCook);
 recipesToCookBtn.addEventListener('click', showRecipesToCook);
 recipesToCookSection.addEventListener('click', displayPopout);
 resultsSection.addEventListener('click', displayPopout);
 mainSearchBox.addEventListener('keypress', function(event) {
-  showResults(event, resultsSection, mainSearchBox, recipeRepo.recipes, searchTagsSection);
+  showResults(event, resultsSection, mainSearchBox, recipeRepo.recipes,
+    searchTagsSection
+  );
 });
 searchTagsSection.addEventListener('click', function(event) {
   filterResultsByTag(event, resultsSection);
 });
 
-function getApis() {
-  Promise.all([fetchUsers(), fetchIngredients(), fetchRecipes()])
-  .then(allArrays => storeData(allArrays));
-}
-
-function storeData(arrays) {
-  arrays[0].forEach((user) => userData.push(user));
-  arrays[1].forEach((ingredient) => ingredientsData.push(ingredient));
-  arrays[2].forEach((recipe) => recipeData.push(recipe));
-  user = new User(userData[randomUserDataIndex]);
-  recipeRepo = new RecipeRepository(recipeData);
-  displayRecipes(recipeRepo.recipes, homeSection);
+function addTag(tag, section) {
+  recipeRepo.selectedTags.push(tag);
+  const filteredRecipes = recipeRepo.filterByTag();
+  displayRecipes(filteredRecipes, section);
 }
 
 function displayPopout(event) {
-  if (!event.target.parentNode.classList.contains('recipe')) {
+  if (!event.target.parentNode.classList.contains('recipe')
+    && !event.target.classList.contains('recipe')) {
     return;
   }
   hideAll();
@@ -82,6 +77,47 @@ function displayPopout(event) {
   fillPopout(selectedRecipe);
   fillIngredients(selectedRecipe);
   fillInstructions(selectedRecipe);
+}
+
+function displayRecipes(recipes, section) {
+  section.innerHTML = '';
+  if (!recipes.length) {
+    section.innerHTML =
+    `<p>We couldn't find any recipes that matches your search criteria.</p>`
+  } else {
+    recipes.forEach(recipe => {
+      const recipeCard =
+      `<article class="recipe ${recipe.id}">
+      <img class="recipe-image ${recipe.id}" src="${recipe.image}">
+      <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
+      </article>`;
+      section.innerHTML += recipeCard;
+    });
+  }
+}
+
+function displayResults(keywords, section, recipes, tagsSection) {
+  hideAll();
+  if (section === favoritesResultsSection) {
+    show(favoritesWrapper)
+  } else {
+    show(searchSection);
+  }
+  recipeRepo.search(keywords, recipes);
+  filterTags();
+  displayTags(tagsSection);
+  displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
+}
+
+function displayTags(tagsSection) {
+  tagsSection.innerHTML = ''
+  recipeRepo.matchingTags.forEach(tag => {
+    const tagCard =
+    `<label class="tags">
+    <input class="tag" type="checkbox" name="${tag}">${tag}
+    </label>`;
+    tagsSection.innerHTML += tagCard;
+  })
 }
 
 function fillIngredients(selectedRecipe) {
@@ -96,47 +132,6 @@ function fillInstructions(selectedRecipe) {
     document.querySelector('.js-instructions').innerHTML +=
     `<li>${instruction.instruction}</li>`;
   });
-}
-
-function displayRecipes(recipes, section) {
-  section.innerHTML = '';
-  if (!recipes.length) {
-    section.innerHTML =
-    `<p>We couldn't find any recipes that matches your search criteria.</p>`
-  } else {
-    recipes.forEach(recipe => {
-      const recipeCard =
-      `<article class="recipe ${recipe.id}">
-        <img class="recipe-image ${recipe.id}" src="${recipe.image}">
-        <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
-      </article>`;
-      section.innerHTML += recipeCard;
-    });
-  }
-}
-
-function displayResults(keywords, section, recipes, tagsSection) {
-  hideAll();
-  if (section === favoritesResultsSection) {
-    show(favoritesWrapper)
-  } else {
-   show(searchSection);
-  }
-  recipeRepo.search(keywords, recipes);
-  filterTags();
-  displayTags(tagsSection);
-  displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
-}
-
-function displayTags(tagsSection) {
-  tagsSection.innerHTML = ''
-  recipeRepo.matchingTags.forEach(tag => {
-    const tagCard =
-    `<label class="tags">
-        <input class="tag" type="checkbox" name="${tag}">${tag}
-    </label>`;
-    tagsSection.innerHTML += tagCard;
-  })
 }
 
 function fillPopout(selectedRecipe) {
@@ -162,17 +157,16 @@ function fillPopout(selectedRecipe) {
   updateBtnToClicked(selectedRecipe);
 }
 
-function updateBtnToClicked(selectedRecipe) {
-  user.favorites.forEach(favoriteRecipe => {
-    if (favoriteRecipe.id === selectedRecipe.id) {
-      document.querySelector('.js-add-favorite-btn').classList.add('clicked');
-    }
-  })
-  user.recipesToCook.forEach(recipe => {
-    if (recipe.id === selectedRecipe.id) {
-      document.querySelector('.js-add-recipe-btn').classList.add('clicked')
-    }
-  })
+function filterResultsByTag(event, section) {
+  const checkbox = event.target;
+  const tag = checkbox.name;
+  if (!checkbox.matches('[type="checkbox"]')) {
+    return;
+  } else if (checkbox.checked) {
+    addTag(tag, section);
+  } else {
+    removeTag(tag, section);
+  }
 }
 
 function filterTags() {
@@ -186,7 +180,12 @@ function filterTags() {
   })
 }
 
-function handleClick(event) {
+function getApis() {
+  Promise.all([fetchUsers(), fetchIngredients(), fetchRecipes()])
+  .then(allArrays => storeData(allArrays));
+}
+
+function addFavoriteOrRecipeToCook(event) {
   event.preventDefault()
   const btn = event.target;
   const recipeId = btn.parentNode.id;
@@ -200,28 +199,24 @@ function handleClick(event) {
   }
 }
 
-function toggleFavorites(recipe) {
-  if (!user.favorites.includes(recipe)) {
-    user.addToFavorites(recipe);
-  } else {
-    user.removeFromFavorites(recipe);
-  }
-}
-
-function toggleRecipesToCook(recipe) {
-  if (!user.recipesToCook.includes(recipe)) {
-    user.addToRecipesToCook(recipe);
-  } else {
-    user.removeFromRecipesToCook(recipe);
-  }
-}
-
 function hideAll() {
   homeSection.classList.add('hidden');
   favoritesWrapper.classList.add('hidden');
   recipesToCookSection.classList.add('hidden');
   searchSection.classList.add('hidden');
   popout.classList.add('hidden');
+}
+
+function removeTag(tag, section) {
+  recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
+    return tag !== tag;
+  })
+  if (recipeRepo.selectedTags.length) {
+    const filteredRecipes = recipeRepo.filterByTag();
+    displayRecipes(filteredRecipes, section);
+  } else {
+    displayRecipes(recipeRepo.matchingRecipes, section);
+  }
 }
 
 function show(...views) {
@@ -242,19 +237,19 @@ function showFavorites() {
   displayRecipes(user.favorites, favoritesResultsSection);
 }
 
+function showHome() {
+  hideAll();
+  show(homeSection);
+}
+
 function showRecipesToCook() {
   hideAll();
   show(recipesToCookSection);
   if (!user.recipesToCook.length) {
-    recipesToCookSection.innerHTML =
+    recipesToCookResults.innerHTML =
     `<p>You haven't yet saved any recipes to cook this week</p>`
   }
   displayRecipes(user.recipesToCook, recipesToCookResults)
-}
-
-function showHome() {
-  hideAll();
-  show(homeSection);
 }
 
 function showResults(event, section, searchBox, recipes, tagsSection) {
@@ -264,34 +259,42 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
   }
 }
 
-function filterResultsByTag(event, section) {
-  const checkbox = event.target;
-  const tag = checkbox.name;
-  if (!checkbox.matches('[type="checkbox"]')) {
-    return;
-  } else if (checkbox.checked) {
-    addTag(tag, section);
+function storeData(arrays) {
+  arrays[0].forEach((user) => userData.push(user));
+  arrays[1].forEach((ingredient) => ingredientsData.push(ingredient));
+  arrays[2].forEach((recipe) => recipeData.push(recipe));
+  user = new User(userData[randomUserDataIndex]);
+  recipeRepo = new RecipeRepository(recipeData);
+  displayRecipes(recipeRepo.recipes, homeSection);
+}
+
+function toggleFavorites(recipe) {
+  if (!user.favorites.includes(recipe)) {
+    user.addToFavorites(recipe);
   } else {
-    removeTag(tag, section);
+    user.removeFromFavorites(recipe);
   }
 }
 
-function addTag(tag, section) {
-  recipeRepo.selectedTags.push(tag);
-  const filteredRecipes = recipeRepo.filterByTag();
-  displayRecipes(filteredRecipes, section);
+function toggleRecipesToCook(recipe) {
+  if (!user.recipesToCook.includes(recipe)) {
+    user.addToRecipesToCook(recipe);
+  } else {
+    user.removeFromRecipesToCook(recipe);
+  }
 }
 
-function removeTag(tag, section) {
-  recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
-    return tag !== tag;
+function updateBtnToClicked(selectedRecipe) {
+  user.favorites.forEach(favoriteRecipe => {
+    if (favoriteRecipe.id === selectedRecipe.id) {
+      document.querySelector('.js-add-favorite-btn').classList.add('clicked');
+    }
   })
-  if (recipeRepo.selectedTags.length) {
-    const filteredRecipes = recipeRepo.filterByTag();
-    displayRecipes(filteredRecipes, section);
-  } else {
-    displayRecipes(recipeRepo.matchingRecipes, section);
-  }
+  user.recipesToCook.forEach(recipe => {
+    if (recipe.id === selectedRecipe.id) {
+      document.querySelector('.js-add-recipe-btn').classList.add('clicked')
+    }
+  })
 }
 
 export { ingredientsData }

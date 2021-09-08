@@ -53,7 +53,6 @@ class RecipeRepository {
       this.matchingRecipes.push(recipe)
     }
   }
-
 }
 
 export default RecipeRepository;
