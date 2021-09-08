@@ -8,7 +8,7 @@
   - [Install + Setup](#install--setup)
   - [Contributors](#contributors)
 	- [Wins](#wins)
-	- [Challenges + Improvements](#challenges-+-Improvements)
+	- [Challenges + Improvements](#challenges--improvements)
   - [Project Specs](#project-specs)
 
 ## Abstract
