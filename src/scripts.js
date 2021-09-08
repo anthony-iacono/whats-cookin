@@ -246,7 +246,7 @@ function showRecipesToCook() {
   hideAll();
   show(recipesToCookSection);
   if (!user.recipesToCook.length) {
-    recipesToCookSection.innerHTML =
+    recipesToCookResults.innerHTML =
     `<p>You haven't yet saved any recipes to cook this week</p>`
   }
   displayRecipes(user.recipesToCook, recipesToCookResults)

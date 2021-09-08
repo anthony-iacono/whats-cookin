@@ -22,8 +22,8 @@ class User {
   }
 
   removeFromRecipesToCook(recipe) {
-    this.recipesToCook = this.recipesToCook.filter(recipe => {
-      return recipe !== recipe;
+    this.recipesToCook = this.recipesToCook.filter(recipeToCook => {
+      return recipeToCook !== recipe;
     });
   }
 }
