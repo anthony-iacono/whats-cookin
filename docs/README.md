@@ -1,22 +1,19 @@
 
 # What's Cookin'
-- Mod2 2107 FE
+- Module 2 Cohort 2107 Frongt-End Engineering
 
 ## Table of Contents
   - [Abstract](#abstract)
+  - [Demo](#demo)
   - [Technologies](#technologies)
   - [Install + Setup](#install--setup)
   - [Contributors](#contributors)
   - [Wins](#wins)
-  - [Challenges + Improvements](#challenges--improvements)
-  - [Project Specs](#project-specs)
-  - [Future Iterations] (#future-iterations)
+  - [Challenges](#challenges)
+  - [Future Iterations](#future-iterations)
 
 ## Abstract
-This project is designed to allow the user to search through a repository of recipes. The user should be able to select recipes as one of their favorites
-as well as select recipes to cook that week. After clicking on the favorites tab you should be able to see every recipe you've denoted as your favorite, and
-you should be able to filter them by their tags, or search keywords to pull up the most relevant ones. You can also search the entire repository by using keywords,
-and from there you can further filter your results with the relevant tags that populate below the nav bar.
+This project allows the user to search through a repository of recipes. The user may favorite recipes or add them to a list of recipes to cook, which may be viewed on the Favorites and Recipes to Cook pages, respectively. There, the user may filter the recipes by tag or searched by keyword. The user may also search the entire repository using keywords, and then further filter the results by tag.
 
 ## Demo
 ![whats-cookin-demo](https://user-images.githubusercontent.com/72999840/132435408-ce5e42aa-cbfb-4cda-8294-c49c38b36ce0.gif)
@@ -32,9 +29,9 @@ and from there you can further filter your results with the relevant tags that p
  
 ## Install + Setup
   - Fork [this](https://github.com/annnuuuh/whats-cookin) repo
-  - Clone the repo and cd into it
-  - Run ```npm install```
-  - Run ```npm start```
+  - Clone the repository and cd into it
+  - Run `npm install`
+  - Run `npm start`
   - Copy the local host address to your browser, and enjoy!
 
 ## Contributors
@@ -42,17 +39,17 @@ and from there you can further filter your results with the relevant tags that p
   - [Anthony Iacono](https://github.com/anthony-iacono)
   - [Tony Hsu](https://github.com/tonydhsu)
   - [Joshua Benefield](https://github.com/jabene)
+  - [Nik Seif](https://github.com/niksseif) (PM)
 
   - [Project specifications](https://frontend.turing.edu/projects/whats-cookin-part-one.html) and starter files provided by Turing School of Software & Design @turingschool
 
 ## Wins
   - Completed the MVP on time
-  - Worked great as a team, and everyone brought something unique to the project
+  - Worked well as a team with everyone bringing something unique to the project
 
-## Challenges + Improvements
-  - We can still improve on how often we're commiting
-  - Getting the API to work correctly was a challange
-  - Making the search functions and methods dynamic
+## Challenges
+  - Connecting to remote data with Fetch API
+  - Making the search functions and tag filtering methods dynamic
 
 ## Future Iterations
 - Add user log-in page
