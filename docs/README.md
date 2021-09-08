@@ -1,28 +1,78 @@
-# What's Cookin'? Starter Kit 
 
-****
-Overview of project and goals
-Overview of technologies used, your code architecture, challenges, wins, and any other reflections
-Screenshots/gifs of your app
-****
+# What's Cookin'
+- Module 2 Cohort 2107 Front-End Engineering
 
-The details of this project are outlined in the <a href="https://frontend.turing.edu/projects/What%27sCookin-PartOne.html" target="\__blank">project spec</a>.
+## Table of Contents
+  - [Abstract](#abstract)
+  - [Demo](#demo)
+  - [Goals](#goals)
+  - [Architecture](#architecture)
+  - [Technologies](#technologies)
+  - [Setup](#setup)
+  - [Contributors](#contributors)
+  - [Planning](#planning)
+  - [Wins](#wins)
+  - [Challenges](#challenges)
+  - [Future Iterations](#future-iterations)
 
-## Set Up 
+## Abstract
+This app allows users to browse a repository of recipes, which they can add to their favorites or to a list of recipes to cook. Recipes added to Favorites or Recipes to Cook may be filtered by tags or searched by keywords. The user may also search the entire repository using keywords or filter the recipes by tags.
 
-1. Within your group, decide on one person to have the project repository on their Github account. This person will *fork* this repository - on the top right corner of the page, click the fork button. 
-2. All group members should then clone down the forked repository (make sure that everyone is added as a collaborator as well). Since you don't want your project to be named "whats-cookin-starter-kit", add an optional argument after the repo url when cloning. The command should look like this: `git clone [remote-address] [what you want to name the repo]`.
-3. Once you have cloned the repo, change into the directory and install the project dependencies. Run `npm install` or `npm i` to install project dependencies.
-4. Run `npm start` and visit `localhost:8080`
-5. Make sure both members of your team are collaborators on the forked repo.
+## Demo
+![whats-cookin-demo](https://user-images.githubusercontent.com/72999840/132435408-ce5e42aa-cbfb-4cda-8294-c49c38b36ce0.gif)
 
-## Testing 
+## Goals
+- Implement ES6 classes that communicate with each other as needed
+- Use object and array prototype methods to perform data manipulation
+- Create an easy-to-use user interface that clearly displays information
+- Write modular, reusable code that follows SRP (Single Responsibility Principle)
+- Implement a robust testing suite using TDD
+- Make network requests to retrieve data
 
-Mocha and chai are already set up, with a boilerplate test for you. 
+## Architecture
+- Classes
+  - User  
+  - RecipeRepo
+  - Recipe
+  - Ingredient
 
-## Linting Your Code 
+## Technologies
+  - Javascript
+  - CSS
+  - HTML
+  - Express
+  - Chai & Mocha
+  - Fetch API
+  - Webpack
+ 
+## Setup
+  - Fork [this](https://github.com/annnuuuh/whats-cookin) repo
+  - Clone the repository and cd into it
+  - Run `npm install`
+  - Run `npm start`
+  - Copy the local host address to your browser, and enjoy!
 
-Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit, but that's ok - the linter is still running successfully.
+## Contributors
+  - [Anna Johnson](https://github.com/annnuuuh)
+  - [Anthony Iacono](https://github.com/anthony-iacono)
+  - [Tony Hsu](https://github.com/tonydhsu)
+  - [Joshua Benefield](https://github.com/jabene)
+  - [Nik Seif](https://github.com/niksseif) (PM)
 
-Your linter will look only at the JavaScript files you have within the src and the test directories.
+  - [Project specifications](https://frontend.turing.edu/projects/whats-cookin-part-one.html) and starter files provided by Turing School of Software & Design @turingschool
 
+## Planning
+App development planned and tracked via [GitHub Project](https://github.com/annnuuuh/whats-cookin/projects/1)
+
+## Wins
+  - Completed the MVP on time
+  - Worked well as a team with everyone bringing something unique to the project
+
+## Challenges
+  - Connecting to remote data with Fetch API
+  - Making the search functions and tag filtering methods dynamic
+
+## Future Iterations
+- Add user log-in page
+- Add ability to easily share recipe links
+- Add third-party libraries to create modals, carousels, etc.
