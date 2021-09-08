@@ -1,4 +1,4 @@
-import { ingredientsData } from '../apiCalls';
+import { ingredientsData } from '../scripts';
 
 class Ingredient {
   constructor(ingredient) {
@@ -10,8 +10,10 @@ class Ingredient {
   }
 
   getCost() {
-    const matchingIng = ingredientsData.find(ingredient => ingredient.id === this.id)
-    return matchingIng.estimatedCostInCents * this.amount
+    const matchingIng = ingredientsData.find(ingredient => {
+      return ingredient.id === this.id;
+    })
+    return matchingIng.estimatedCostInCents * this.amount;
   }
 
   getName() {
