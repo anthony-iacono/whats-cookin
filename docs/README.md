@@ -1,22 +1,40 @@
 
 # What's Cookin'
-- Module 2 Cohort 2107 Frongt-End Engineering
+- Module 2 Cohort 2107 Front-End Engineering
 
 ## Table of Contents
   - [Abstract](#abstract)
   - [Demo](#demo)
+  - [Goals](#goals)
+  - [Architecture](#architecture)
   - [Technologies](#technologies)
-  - [Install + Setup](#install--setup)
+  - [Setup](#setup)
   - [Contributors](#contributors)
+  - [Planning](#planning)
   - [Wins](#wins)
   - [Challenges](#challenges)
   - [Future Iterations](#future-iterations)
 
 ## Abstract
-This project allows the user to search through a repository of recipes. The user may favorite recipes or add them to a list of recipes to cook, which may be viewed on the Favorites and Recipes to Cook pages, respectively. There, the user may filter the recipes by tag or searched by keyword. The user may also search the entire repository using keywords, and then further filter the results by tag.
+This app allows users to browse a repository of recipes, which they can add to their favorites or to a list of recipes to cook. Recipes added to Favorites or Recipes to Cook may be filtered by tags or searched by keywords. The user may also search the entire repository using keywords or filter the recipes by tags.
 
 ## Demo
 ![whats-cookin-demo](https://user-images.githubusercontent.com/72999840/132435408-ce5e42aa-cbfb-4cda-8294-c49c38b36ce0.gif)
+
+## Goals
+- Implement ES6 classes that communicate with each other as needed
+- Use object and array prototype methods to perform data manipulation
+- Create an easy-to-use user interface that clearly displays information
+- Write modular, reusable code that follows SRP (Single Responsibility Principle)
+- Implement a robust testing suite using TDD
+- Make network requests to retrieve data
+
+## Architecture
+- Classes
+  - User  
+  - RecipeRepo
+  - Recipe
+  - Ingredient
 
 ## Technologies
   - Javascript
@@ -27,7 +45,7 @@ This project allows the user to search through a repository of recipes. The user
   - Fetch API
   - Webpack
  
-## Install + Setup
+## Setup
   - Fork [this](https://github.com/annnuuuh/whats-cookin) repo
   - Clone the repository and cd into it
   - Run `npm install`
@@ -42,6 +60,9 @@ This project allows the user to search through a repository of recipes. The user
   - [Nik Seif](https://github.com/niksseif) (PM)
 
   - [Project specifications](https://frontend.turing.edu/projects/whats-cookin-part-one.html) and starter files provided by Turing School of Software & Design @turingschool
+
+## Planning
+App development planned and tracked via [GitHub Project](https://github.com/annnuuuh/whats-cookin/projects/1)
 
 ## Wins
   - Completed the MVP on time
