@@ -7,8 +7,9 @@ import RecipeRepository from './classes/RecipeRepository';
 
 // let recipeData = [];
 // let userData = [];
-let ingredientsData = [];
-// let recipeRepo;
+// let ingredientsData = [];
+let recipeRepo;
+let user;
 
 const favoritesBtn = document.querySelector('.js-favorites-btn');
 const favoritesResultsSection = document.querySelector('.favorites-results-section');
@@ -26,7 +27,6 @@ const recipesToCookResults = document.querySelector('.js-recipes-to-cook-results
 const resultsSection = document.querySelector('.js-results-section');
 const searchSection = document.querySelector('.js-search-section');
 const searchTagsSection = document.querySelector('.js-tags-section');
-let user;
 
 window.addEventListener('load', getApis)
 favoritesBtn.addEventListener('click', showFavorites);
@@ -180,10 +180,11 @@ function filterTags() {
 async function getApis() {
   const usersData = await Promise.resolve(fetchUsers());
   const recipesData = await Promise.resolve(fetchRecipes());
-  ingredientsData = await Promise.resolve(fetchIngredients());
+  const ingredientsData = await Promise.resolve(fetchIngredients());
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
-  const user = new User(usersData[randomUsersDataIndex]);
-  const recipeRepo = new RecipeRepository(recipesData);
+  user = new User(usersData[randomUsersDataIndex]);
+  recipeRepo = new RecipeRepository(recipesData);
+  recipeRepo.getRecipesInformation(ingredientsData);
   displayRecipes(recipeRepo.recipes, homeSection);
 }
 
@@ -291,4 +292,4 @@ function updateBtnToClicked(selectedRecipe) {
   })
 }
 
-export { ingredientsData }
+// export { ingredientsData }
