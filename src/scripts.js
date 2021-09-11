@@ -297,4 +297,4 @@ function updateBtnToClicked(selectedRecipe) {
   })
 }
 
-export { ingredientsData }
+// export { ingredientsData }
