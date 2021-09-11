@@ -6,6 +6,8 @@ import {
 } from './apiCalls'
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
+import Recipe from './classes/Recipe';
+import Ingredient from './classes/Ingredient';
 
 let recipeData = [];
 let userData = [];
