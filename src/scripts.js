@@ -1,8 +1,8 @@
 import './styles.css';
 import {
   fetchUsers,
-  fetchIngredients,
   fetchRecipes,
+  fetchIngredients,
 } from './apiCalls'
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
@@ -299,4 +299,4 @@ function updateBtnToClicked(selectedRecipe) {
   })
 }
 
-// export { ingredientsData }
+export { ingredientsData }
