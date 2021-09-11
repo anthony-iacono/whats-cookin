@@ -2,6 +2,8 @@ function fetchUsers() {
   return fetch("https://what-s-cookin-starter-kit.herokuapp.com/api/v1/users")
     .then((response) => response.json())
     .then((data) => data.usersData)
+    console.log('data: ', data)
+    console.log('data.usersData: ', data.usersData)
     .catch(error => console.error(error))
 }
 
@@ -20,6 +22,6 @@ function fetchIngredients() {
 }
 export {
   fetchUsers,
-  fetchRecipes
-  fetchIngredients,
+  fetchRecipes,
+  fetchIngredients
 }

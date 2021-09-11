@@ -1,18 +1,14 @@
 import './styles.css';
-import {
-  fetchUsers,
-  fetchRecipes,
-  fetchIngredients,
-} from './apiCalls'
+import { fetchUsers, fetchRecipes, fetchIngredients } from './apiCalls';
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
-import Recipe from './classes/Recipe';
-import Ingredient from './classes/Ingredient';
+// import Recipe from './classes/Recipe';
+// import Ingredient from './classes/Ingredient';
 
-let recipeData = [];
-let userData = [];
+// let recipeData = [];
+// let userData = [];
 let ingredientsData = [];
-let recipeRepo;
+// let recipeRepo;
 
 const favoritesBtn = document.querySelector('.js-favorites-btn');
 const favoritesResultsSection = document.querySelector('.favorites-results-section');
@@ -24,7 +20,6 @@ const homeSection = document.querySelector('.js-home-section');
 const homeBtn = document.querySelector('.js-home-btn');
 const mainSearchBox = document.querySelector('.js-search-box');
 const popout = document.querySelector('.js-recipe-popout');
-const randomUserDataIndex = Math.round(Math.random() * (userData.length + 1));
 const recipesToCookSection = document.querySelector('.js-recipes-to-cook-section');
 const recipesToCookBtn = document.querySelector('.js-recipes-to-cook-btn');
 const recipesToCookResults = document.querySelector('.js-recipes-to-cook-results')
@@ -182,9 +177,14 @@ function filterTags() {
   })
 }
 
-function getApis() {
-  Promise.all([fetchUsers(), fetchIngredients(), fetchRecipes()])
-  .then(allArrays => storeData(allArrays));
+async function getApis() {
+  const usersData = await Promise.resolve(fetchUsers());
+  const recipesData = await Promise.resolve(fetchRecipes());
+  ingredientsData = await Promise.resolve(fetchIngredients());
+  const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
+  const user = new User(usersData[randomUsersDataIndex]);
+  const recipeRepo = new RecipeRepository(recipesData);
+  displayRecipes(recipeRepo.recipes, homeSection);
 }
 
 function addFavoriteOrRecipeToCook(event) {
@@ -261,14 +261,6 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
   }
 }
 
-function storeData(arrays) {
-  arrays[0].forEach((user) => userData.push(user));
-  arrays[1].forEach((ingredient) => ingredientsData.push(ingredient));
-  arrays[2].forEach((recipe) => recipeData.push(recipe));
-  user = new User(userData[randomUserDataIndex]);
-  recipeRepo = new RecipeRepository(recipeData);
-  displayRecipes(recipeRepo.recipes, homeSection);
-}
 
 function toggleFavorites(recipe) {
   if (!user.favorites.includes(recipe)) {

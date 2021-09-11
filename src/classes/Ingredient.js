@@ -1,4 +1,4 @@
-// import { ingredientsData } from '../scripts';
+import { ingredientsData } from '../scripts';
 // import { sampleIngredientsData } from '../data/sample-ingredients';
 
 class Ingredient {
