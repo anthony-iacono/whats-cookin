@@ -4,10 +4,10 @@
 class Ingredient {
   constructor(ingredient) {
     this.id = ingredient.id;
-    this.amount = ingredient.amount;
-    this.unit = ingredient.unit;
-    this.cost;
+    this.amount = ingredient.quantity.amount;
+    this.unit = ingredient.quantity.unit;
     this.name;
+    this.cost;
   }
 
   retrieveNameAndCost(ingredientsData) {

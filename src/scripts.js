@@ -119,6 +119,7 @@ function displayTags(tagsSection) {
 
 function fillIngredients(selectedRecipe) {
   selectedRecipe.ingredients.forEach(ingredient => {
+    console.log(ingredient);
     document.querySelector('.js-ingredients').innerHTML +=
     `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
   });
@@ -184,6 +185,7 @@ async function getApis() {
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
   recipeRepo = new RecipeRepository(recipesData);
+  console.log(ingredientsData);
   recipeRepo.getRecipesInformation(ingredientsData);
   displayRecipes(recipeRepo.recipes, homeSection);
 }
