@@ -12,8 +12,8 @@ class Ingredient {
 
   retrieveNameAndCost(ingredientsData) {
     const ingredient = ingredientsData.find(ingredient => ingredient.id === this.id);
-    this.name = ingredient.name
-    this.cost = ingredient.estimatedCostInCents * this.amount / 100;
+    this.name = ingredient.name;
+    this.cost = ingredient.estimatedCostInCents * this.amount;
   }
   //
   // calculateCost() {
@@ -25,7 +25,6 @@ class Ingredient {
   //   })
   //   return matchingIng.estimatedCostInCents * this.amount;
   // }
-
 }
 
 export default Ingredient;

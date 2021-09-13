@@ -14,6 +14,12 @@ class RecipeRepository {
     })
   }
 
+  getRecipeCost() {
+    this.recipes.forEach(recipe => {
+      recipe.getCost();
+    })
+  }
+
   filterByTag() {
     let filteredRecipes = []
     this.selectedTags.forEach(tag => {
