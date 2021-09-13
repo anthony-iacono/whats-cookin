@@ -1,4 +1,4 @@
-# What's Cookin' DTR
+# DTR - What's Cookin' Part One
 
 ## Group Members
 - Tony Hsu
