@@ -8,22 +8,28 @@ class Recipe {
     this.instructions = recipe.instructions;
     this.name = recipe.name;
     this.tags = recipe.tags;
-    this.cost = this.getCost();
+    this.cost;
+  }
+
+  getIngredientsInformation(ingredientsData) {
+    this.ingredients.forEach(ingredient => ingredient.retrieveNameAndCost(ingredientsData));
   }
 
   findIngredientsName() {
     return this.ingredients.map(ingredient => ingredient.name);
-  };
+  }
 
   getCost() {
     let total = 0;
     this.ingredients.forEach(ingredient => {
       total = total + ingredient.cost;
     })
+
     const dollars = Math.round(total / 100);
+    console.log('recipe.name and total: ', this.name, total)
     const cents = Math.round(total % 100) / 100;
     const totalCost = (dollars + cents).toFixed(2)
-    return `$ ${totalCost}`;
+    this.cost = `$ ${totalCost}`;
   }
 
   getInstructions() {

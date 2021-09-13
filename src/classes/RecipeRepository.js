@@ -8,6 +8,18 @@ class RecipeRepository {
     this.selectedTags = [];
   }
 
+  getRecipesInformation(ingredientsData) {
+    this.recipes.forEach(recipe => {
+      recipe.getIngredientsInformation(ingredientsData);
+    })
+  }
+
+  getRecipeCost() {
+    this.recipes.forEach(recipe => {
+      recipe.getCost();
+    })
+  }
+
   filterByTag() {
     let filteredRecipes = []
     this.selectedTags.forEach(tag => {

@@ -2,13 +2,8 @@ function fetchUsers() {
   return fetch("https://what-s-cookin-starter-kit.herokuapp.com/api/v1/users")
     .then((response) => response.json())
     .then((data) => data.usersData)
-    .catch(error => console.error(error))
-}
-
-function fetchIngredients() {
-  return fetch("https://what-s-cookin-starter-kit.herokuapp.com/api/v1/ingredients")
-    .then((response) => response.json())
-    .then((data) => data.ingredientsData)
+    console.log('data: ', data)
+    console.log('data.usersData: ', data.usersData)
     .catch(error => console.error(error))
 }
 
@@ -19,8 +14,14 @@ function fetchRecipes() {
     .catch(error => console.error(error))
 }
 
+function fetchIngredients() {
+  return fetch("https://what-s-cookin-starter-kit.herokuapp.com/api/v1/ingredients")
+  .then((response) => response.json())
+  .then((data) => data.ingredientsData)
+  .catch(error => console.error(error))
+}
 export {
   fetchUsers,
-  fetchIngredients,
-  fetchRecipes
+  fetchRecipes,
+  fetchIngredients
 }
