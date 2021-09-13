@@ -26,7 +26,6 @@ class Recipe {
     })
 
     const dollars = Math.round(total / 100);
-    console.log('recipe.name and total: ', this.name, total)
     const cents = Math.round(total % 100) / 100;
     const totalCost = (dollars + cents).toFixed(2)
     this.cost = `$ ${totalCost}`;
