@@ -9,20 +9,20 @@
 
 ### Schedule Expectations
 (All times MT)
-- Day 1, Monday, 9/13: 
-- Day 2, Tuesday, 9/14: 
-- Day 3, Wednesday, 9/15: 
-- Day 4, Thursday, 9/16: 
-- Day 5, Friday, 9/17: 
-- Day 6, Saturday, 9/18: 
-- Day 7, Sunday, 9/19: 
-- Day 8, Monday, 9/20: 
+- Day 1, Monday, 9/13: 3-5pm
+- Day 2, Tuesday, 9/14: 3-5pm
+- Day 3, Wednesday, 9/15: 3-5pm
+- Day 4, Thursday, 9/16: 4-6pm
+- Day 5, Friday, 9/17: 4-6pm
+- Day 6, Saturday, 9/18: 1-5pm
+- Day 7, Sunday, 9/19: 1-5pm
+- Day 8, Monday, 9/20: 3-5pm
 
 ### Communication
 - Slack group messages
-- Daily stand-up (see above)
-- Decisions by consensus or, when there's disagreement, whoever feels the strongest about the issue 
-- Proactively bring up and make space for expressing feelings about how things are going'
+- Daily group work (see above)
+- Decisions by consensus or, when there's disagreement, whoever feels the strongest about the issue
+- Proactively bring up and make space for expressing feelings about how things are going
 - When working independently, make sure all group members know what you're working on to avoid duplicating efforts
 
 ### Workload Expectations
