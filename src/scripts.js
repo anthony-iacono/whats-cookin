@@ -287,5 +287,3 @@ function updateBtnToClicked(selectedRecipe) {
     }
   })
 }
-
-// export { ingredientsData }
