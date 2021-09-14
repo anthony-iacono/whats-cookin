@@ -16,7 +16,7 @@ const resultsSection = document.querySelector('.js-results-section');
 const searchSection = document.querySelector('.js-search-section');
 const searchTagsSection = document.querySelector('.js-tags-section');
 
-// DOM METHODS OBJECT
+// DOM UPDATE METHODS OBJECT
 const domUpdates = {
   hideAll() {
     homeSection.classList.add('hidden');
@@ -25,11 +25,22 @@ const domUpdates = {
     searchSection.classList.add('hidden');
     popout.classList.add('hidden');
   },
-  homeSection,
+  favoritesBtn,
+  favoritesResultsSection,
+  favoritesSearchBox,
+  favoritesSection,
+  favoritesTagsSection,
   favoritesWrapper,
+  homeSection,
+  homeBtn,
+  mainSearchBox,
+  popout,
   recipesToCookSection,
+  recipesToCookBtn,
+  recipesToCookResults,
+  resultsSection,
   searchSection,
-  popout
+  searchTagsSection
 }
 
 export default domUpdates;
