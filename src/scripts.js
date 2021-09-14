@@ -2,12 +2,6 @@ import './styles.css';
 import { fetchUsers, fetchRecipes, fetchIngredients } from './apiCalls';
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
-// import Recipe from './classes/Recipe';
-// import Ingredient from './classes/Ingredient';
-
-// let recipeData = [];
-// let userData = [];
-// let ingredientsData = [];
 let recipeRepo;
 let user;
 
@@ -184,6 +178,7 @@ async function getApis() {
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
   recipeRepo = new RecipeRepository(recipesData);
+  recipeRepo.addRecipes();
   recipeRepo.getRecipesInformation(ingredientsData);
   recipeRepo.getRecipeCost();
   displayRecipes(recipeRepo.recipes, homeSection);
