@@ -2,10 +2,14 @@ import Recipe from './Recipe';
 
 class RecipeRepository {
   constructor(recipes) {
-    this.recipes = recipes.map(recipe => new Recipe(recipe));
+    this.recipes = recipes;
     this.matchingRecipes;
     this.matchingTags;
     this.selectedTags = [];
+  }
+
+  addRecipes() {
+    this.recipes = this.recipes.map(recipe => new Recipe(recipe));
   }
 
   getRecipesInformation(ingredientsData) {
