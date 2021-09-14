@@ -2,6 +2,7 @@ import './styles.css';
 import { fetchUsers, fetchRecipes, fetchIngredients } from './apiCalls';
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
+import domUpdates from './domUpdates'
 let recipeRepo;
 let user;
 
@@ -198,13 +199,6 @@ function addFavoriteOrRecipeToCook(event) {
   }
 }
 
-function hideAll() {
-  homeSection.classList.add('hidden');
-  favoritesWrapper.classList.add('hidden');
-  recipesToCookSection.classList.add('hidden');
-  searchSection.classList.add('hidden');
-  popout.classList.add('hidden');
-}
 
 function removeTag(tag, section) {
   recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
@@ -223,7 +217,7 @@ function show(...views) {
 }
 
 function showFavorites() {
-  hideAll();
+  domUpdates.hideAll();
   show(favoritesWrapper);
   recipeRepo.matchingRecipes = user.favorites
   filterTags()
