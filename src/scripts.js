@@ -52,7 +52,7 @@ searchTagsSection.addEventListener('click', function(event) {
 function addTag(tag, section) {
   recipeRepo.selectedTags.push(tag);
   const filteredRecipes = recipeRepo.filterByTag();
-  displayRecipes(filteredRecipes, section);
+  domUpdates.displayRecipes(filteredRecipes, section);
 }
 
 function displayPopout(event) {
@@ -71,22 +71,22 @@ function displayPopout(event) {
   domUpdates.fillInstructions(selectedRecipe);
 }
 
-function displayRecipes(recipes, section) {
-  section.innerHTML = '';
-  if (!recipes.length) {
-    section.innerHTML =
-    `<p>We couldn't find any recipes that matches your search criteria.</p>`
-  } else {
-    recipes.forEach(recipe => {
-      const recipeCard =
-      `<article class="recipe ${recipe.id}">
-      <img class="recipe-image ${recipe.id}" src="${recipe.image}" alt="plate of ${recipe.name}">
-      <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
-      </article>`;
-      section.innerHTML += recipeCard;
-    });
-  }
-}
+// function displayRecipes(recipes, section) {
+//   section.innerHTML = '';
+//   if (!recipes.length) {
+//     section.innerHTML =
+//     `<p>We couldn't find any recipes that matches your search criteria.</p>`
+//   } else {
+//     recipes.forEach(recipe => {
+//       const recipeCard =
+//       `<article class="recipe ${recipe.id}">
+//       <img class="recipe-image ${recipe.id}" src="${recipe.image}" alt="plate of ${recipe.name}">
+//       <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
+//       </article>`;
+//       section.innerHTML += recipeCard;
+//     });
+//   }
+// }
 
 function displayResults(keywords, section, recipes, tagsSection) {
   domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
@@ -98,7 +98,7 @@ function displayResults(keywords, section, recipes, tagsSection) {
   recipeRepo.search(keywords, recipes);
   filterTags();
   displayTags(tagsSection);
-  displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
+  domUpdates.displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
 }
 
 function displayTags(tagsSection) {
@@ -145,7 +145,7 @@ async function getApis() {
   recipeRepo.addRecipes();
   recipeRepo.getRecipesInformation(ingredientsData);
   recipeRepo.getRecipeCost();
-  displayRecipes(recipeRepo.recipes, homeSection);
+  domUpdates.displayRecipes(recipeRepo.recipes, homeSection);
 }
 
 function addFavoriteOrRecipeToCook(event) {
@@ -169,9 +169,9 @@ function removeTag(tag, section) {
   })
   if (recipeRepo.selectedTags.length) {
     const filteredRecipes = recipeRepo.filterByTag();
-    displayRecipes(filteredRecipes, section);
+    domUpdates.displayRecipes(filteredRecipes, section);
   } else {
-    displayRecipes(recipeRepo.matchingRecipes, section);
+    domUpdates.displayRecipes(recipeRepo.matchingRecipes, section);
   }
 }
 
@@ -186,7 +186,7 @@ function showFavorites() {
     `<p>You haven't yet saved any recipes to your favorites.</p>`
     return;
   }
-  displayRecipes(user.favorites, favoritesResultsSection);
+  domUpdates.displayRecipes(user.favorites, favoritesResultsSection);
 }
 
 function showHome() {
@@ -201,7 +201,7 @@ function showRecipesToCook() {
     recipesToCookResults.innerHTML =
     `<p>You haven't yet saved any recipes to cook this week</p>`
   }
-  displayRecipes(user.recipesToCook, recipesToCookResults)
+  domUpdates.displayRecipes(user.recipesToCook, recipesToCookResults)
 }
 
 function showResults(event, section, searchBox, recipes, tagsSection) {

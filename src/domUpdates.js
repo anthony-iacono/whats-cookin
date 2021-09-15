@@ -59,7 +59,25 @@ const domUpdates = {
     </div>
     </article>`;
     this.updateBtnToClicked(selectedRecipe, user);
+  },
+
+  displayRecipes(recipes, section) {
+    section.innerHTML = '';
+    if (!recipes.length) {
+      section.innerHTML =
+      `<p>We couldn't find any recipes that matches your search criteria.</p>`
+    } else {
+      recipes.forEach(recipe => {
+        const recipeCard =
+        `<article class="recipe ${recipe.id}">
+        <img class="recipe-image ${recipe.id}" src="${recipe.image}" alt="plate of ${recipe.name}">
+        <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
+        </article>`;
+        section.innerHTML += recipeCard;
+      });
+    }
   }
+
 }
 
 export default domUpdates;
