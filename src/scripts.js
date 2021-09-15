@@ -66,9 +66,9 @@ function displayPopout(event) {
     return event.target.classList.contains(recipe.id)
   });
 
-  fillPopout(selectedRecipe);
-  fillIngredients(selectedRecipe);
-  fillInstructions(selectedRecipe);
+  domUpdates.fillPopout(selectedRecipe, user, popout);
+  domUpdates.fillIngredients(selectedRecipe);
+  domUpdates.fillInstructions(selectedRecipe);
 }
 
 function displayRecipes(recipes, section) {
@@ -110,43 +110,6 @@ function displayTags(tagsSection) {
     </label>`;
     tagsSection.innerHTML += tagCard;
   })
-}
-
-function fillIngredients(selectedRecipe) {
-  selectedRecipe.ingredients.forEach(ingredient => {
-    document.querySelector('.js-ingredients').innerHTML +=
-    `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
-  });
-}
-
-function fillInstructions(selectedRecipe) {
-  selectedRecipe.instructions.forEach(instruction => {
-    document.querySelector('.js-instructions').innerHTML +=
-    `<li>${instruction.instruction}</li>`;
-  });
-}
-
-function fillPopout(selectedRecipe) {
-  popout.innerHTML =
-    `<article class="full-recipe" id="${selectedRecipe.id}">
-      <img src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
-      <h2>${selectedRecipe.name}</h2>
-      <button class="add-favorite-btn js-add-favorite-btn">Add to Favorites</button>
-      <button class="add-recipe-btn js-add-recipe-btn">Add to Recipes to Cook</button>
-      <div class="test">
-        <h3>Ingredients</h3>
-        <ul class="js-ingredients"></ul>
-      </div>
-      <div class="test-two">
-        <h3>Directions</h3>
-        <ol class="js-instructions"></ol>
-      </div>
-      <div class="test-three">
-        <h3>Cost</h3>
-        <p class="cost js-cost">${selectedRecipe.cost}</p>
-      </div>
-    </article>`;
-  updateBtnToClicked(selectedRecipe);
 }
 
 function filterResultsByTag(event, section) {
@@ -263,17 +226,4 @@ function toggleRecipesToCook(recipe) {
   } else {
     user.removeFromRecipesToCook(recipe);
   }
-}
-
-function updateBtnToClicked(selectedRecipe) {
-  user.favorites.forEach(favoriteRecipe => {
-    if (favoriteRecipe.id === selectedRecipe.id) {
-      document.querySelector('.js-add-favorite-btn').classList.add('clicked');
-    }
-  })
-  user.recipesToCook.forEach(recipe => {
-    if (recipe.id === selectedRecipe.id) {
-      document.querySelector('.js-add-recipe-btn').classList.add('clicked')
-    }
-  })
 }
