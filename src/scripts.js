@@ -84,17 +84,6 @@ function displayResults(keywords, section, recipes, tagsSection) {
   domUpdates.displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
 }
 
-// function displayTags(tagsSection) {
-//   tagsSection.innerHTML = ''
-//   recipeRepo.matchingTags.forEach(tag => {
-//     const tagCard =
-//     `<label class="tags">
-//     <input class="tag" type="checkbox" name="${tag}">${tag}
-//     </label>`;
-//     tagsSection.innerHTML += tagCard;
-//   })
-// }
-
 function filterResultsByTag(event, section) {
   const checkbox = event.target;
   const tag = checkbox.name;
@@ -106,17 +95,6 @@ function filterResultsByTag(event, section) {
     removeTag(tag, section);
   }
 }
-
-// function filterTags() {
-//   recipeRepo.matchingTags = [];
-//   recipeRepo.matchingRecipes.forEach(recipe => {
-//     recipe.tags.forEach(tag => {
-//       if (!recipeRepo.matchingTags.includes(tag)) {
-//         recipeRepo.matchingTags.push(tag);
-//       }
-//     })
-//   })
-// }
 
 async function getApis() {
   const usersData = await Promise.resolve(fetchUsers());
@@ -143,7 +121,6 @@ function addFavoriteOrRecipeToCook(event) {
   }
 }
 
-
 function removeTag(tag, section) {
   recipeRepo.selectedTags = recipeRepo.selectedTags.filter(tag => {
     return tag !== tag;
@@ -163,8 +140,7 @@ function showFavorites() {
   recipeRepo.filterTags()
   domUpdates.displayTags(favoritesTagsSection, recipeRepo)
   if (!user.favorites.length) {
-    favoritesResultsSection.innerHTML =
-    `<p>You haven't yet saved any recipes to your favorites.</p>`
+    domUpdates.displayNoRecipeMsg(favoritesResultsSection);
     return;
   }
   domUpdates.displayRecipes(user.favorites, favoritesResultsSection);
@@ -180,6 +156,7 @@ function showRecipesToCook() {
   domUpdates.show(recipesToCookSection);
   if (!user.recipesToCook.length) {
     domUpdates.displayNoRecipeMsg(recipesToCookResults)
+    return
   }
   domUpdates.displayRecipes(user.recipesToCook, recipesToCookResults)
 }
@@ -190,7 +167,6 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
     displayResults(searchBox.value.toLowerCase(), section, recipes, tagsSection);
   }
 }
-
 
 function toggleFavorites(recipe) {
   if (!user.favorites.includes(recipe)) {

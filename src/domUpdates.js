@@ -1,4 +1,3 @@
-// DOM UPDATE METHODS OBJECT
 const domUpdates = {
   hide(...elements) {
     elements.forEach(element => {
@@ -9,7 +8,6 @@ const domUpdates = {
   show(...views) {
     views.forEach(view => view.classList.remove('hidden'));
   },
-
 
   fillIngredients(selectedRecipe) {
     selectedRecipe.ingredients.forEach(ingredient => {
@@ -87,9 +85,9 @@ const domUpdates = {
     }
   },
 
-  displayNoRecipeMsg(recipesToCookResults) {
-    recipesToCookResults.innerHTML =
-    `<p>You haven't yet saved any recipes to cook this week</p>`
+  displayNoRecipeMsg(section) {
+    section.innerHTML =
+    `<p>You haven't added any recipes yet</p>`
   },
 
   displayTags(tagsSection, recipeRepo) {
@@ -102,7 +100,6 @@ const domUpdates = {
       tagsSection.innerHTML += tagCard;
     })
   }
-
 }
 
 export default domUpdates;
