@@ -85,6 +85,22 @@ const domUpdates = {
     } else if (btn.matches('.js-add-recipe-btn')) {
       btn.classList.toggle('clicked')
     }
+  },
+
+  displayNoRecipeMsg(recipesToCookResults) {
+    recipesToCookResults.innerHTML =
+    `<p>You haven't yet saved any recipes to cook this week</p>`
+  },
+
+  displayTags(tagsSection, recipeRepo) {
+    tagsSection.innerHTML = ''
+    recipeRepo.matchingTags.forEach(tag => {
+      const tagCard =
+      `<label class="tags">
+      <input class="tag" type="checkbox" name="${tag}">${tag}
+      </label>`;
+      tagsSection.innerHTML += tagCard;
+    })
   }
 
 }

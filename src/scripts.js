@@ -71,23 +71,6 @@ function displayPopout(event) {
   domUpdates.fillInstructions(selectedRecipe);
 }
 
-// function displayRecipes(recipes, section) {
-//   section.innerHTML = '';
-//   if (!recipes.length) {
-//     section.innerHTML =
-//     `<p>We couldn't find any recipes that matches your search criteria.</p>`
-//   } else {
-//     recipes.forEach(recipe => {
-//       const recipeCard =
-//       `<article class="recipe ${recipe.id}">
-//       <img class="recipe-image ${recipe.id}" src="${recipe.image}" alt="plate of ${recipe.name}">
-//       <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
-//       </article>`;
-//       section.innerHTML += recipeCard;
-//     });
-//   }
-// }
-
 function displayResults(keywords, section, recipes, tagsSection) {
   domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
   if (section === favoritesResultsSection) {
@@ -96,21 +79,21 @@ function displayResults(keywords, section, recipes, tagsSection) {
     domUpdates.show(searchSection);
   }
   recipeRepo.search(keywords, recipes);
-  filterTags();
-  displayTags(tagsSection);
+  recipeRepo.filterTags();
+  domUpdates.displayTags(tagsSection, recipeRepo);
   domUpdates.displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
 }
 
-function displayTags(tagsSection) {
-  tagsSection.innerHTML = ''
-  recipeRepo.matchingTags.forEach(tag => {
-    const tagCard =
-    `<label class="tags">
-    <input class="tag" type="checkbox" name="${tag}">${tag}
-    </label>`;
-    tagsSection.innerHTML += tagCard;
-  })
-}
+// function displayTags(tagsSection) {
+//   tagsSection.innerHTML = ''
+//   recipeRepo.matchingTags.forEach(tag => {
+//     const tagCard =
+//     `<label class="tags">
+//     <input class="tag" type="checkbox" name="${tag}">${tag}
+//     </label>`;
+//     tagsSection.innerHTML += tagCard;
+//   })
+// }
 
 function filterResultsByTag(event, section) {
   const checkbox = event.target;
@@ -124,16 +107,16 @@ function filterResultsByTag(event, section) {
   }
 }
 
-function filterTags() {
-  recipeRepo.matchingTags = [];
-  recipeRepo.matchingRecipes.forEach(recipe => {
-    recipe.tags.forEach(tag => {
-      if (!recipeRepo.matchingTags.includes(tag)) {
-        recipeRepo.matchingTags.push(tag);
-      }
-    })
-  })
-}
+// function filterTags() {
+//   recipeRepo.matchingTags = [];
+//   recipeRepo.matchingRecipes.forEach(recipe => {
+//     recipe.tags.forEach(tag => {
+//       if (!recipeRepo.matchingTags.includes(tag)) {
+//         recipeRepo.matchingTags.push(tag);
+//       }
+//     })
+//   })
+// }
 
 async function getApis() {
   const usersData = await Promise.resolve(fetchUsers());
@@ -177,8 +160,8 @@ function showFavorites() {
   domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
   domUpdates.show(favoritesWrapper);
   recipeRepo.matchingRecipes = user.favorites
-  filterTags()
-  displayTags(favoritesTagsSection)
+  recipeRepo.filterTags()
+  domUpdates.displayTags(favoritesTagsSection, recipeRepo)
   if (!user.favorites.length) {
     favoritesResultsSection.innerHTML =
     `<p>You haven't yet saved any recipes to your favorites.</p>`
@@ -196,8 +179,7 @@ function showRecipesToCook() {
   domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
   domUpdates.show(recipesToCookSection);
   if (!user.recipesToCook.length) {
-    recipesToCookResults.innerHTML =
-    `<p>You haven't yet saved any recipes to cook this week</p>`
+    domUpdates.displayNoRecipeMsg(recipesToCookResults)
   }
   domUpdates.displayRecipes(user.recipesToCook, recipesToCookResults)
 }

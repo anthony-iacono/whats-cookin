@@ -24,6 +24,17 @@ class RecipeRepository {
     })
   }
 
+  filterTags() {
+    this.matchingTags = [];
+    this.matchingRecipes.forEach(recipe => {
+      recipe.tags.forEach(tag => {
+        if (!this.matchingTags.includes(tag)) {
+          this.matchingTags.push(tag);
+        }
+      })
+    })
+  }
+
   filterByTag() {
     let filteredRecipes = []
     this.selectedTags.forEach(tag => {
