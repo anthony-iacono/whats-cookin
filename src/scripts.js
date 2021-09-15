@@ -153,11 +153,9 @@ function addFavoriteOrRecipeToCook(event) {
   const btn = event.target;
   const recipeId = btn.parentNode.id;
   const recipe = recipeRepo.recipes.find(recipe => recipe.id === parseInt(recipeId));
-  if (btn.matches('.js-add-favorite-btn')) {
-    btn.classList.toggle('clicked')
+  if (domUpdates.determineClickedBtn(btn)) {
     toggleFavorites(recipe)
-  } else if (btn.matches('.js-add-recipe-btn')) {
-    btn.classList.toggle('clicked')
+  } else {
     toggleRecipesToCook(recipe)
   }
 }

@@ -76,6 +76,15 @@ const domUpdates = {
         section.innerHTML += recipeCard;
       });
     }
+  },
+
+  determineClickedBtn(btn) {
+    if (btn.matches('.js-add-favorite-btn')) {
+      btn.classList.toggle('clicked')
+      return "Favorites"
+    } else if (btn.matches('.js-add-recipe-btn')) {
+      btn.classList.toggle('clicked')
+    }
   }
 
 }
