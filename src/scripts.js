@@ -60,8 +60,8 @@ function displayPopout(event) {
     && !event.target.classList.contains('recipe')) {
     return;
   }
-  hideAll();
-  show(popout);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(popout);
   const selectedRecipe = recipeRepo.recipes.find(recipe => {
     return event.target.classList.contains(recipe.id)
   });
@@ -89,11 +89,11 @@ function displayRecipes(recipes, section) {
 }
 
 function displayResults(keywords, section, recipes, tagsSection) {
-  hideAll();
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
   if (section === favoritesResultsSection) {
-    show(favoritesWrapper)
+    domUpdates.show(favoritesWrapper)
   } else {
-    show(searchSection);
+    domUpdates.show(searchSection);
   }
   recipeRepo.search(keywords, recipes);
   filterTags();
@@ -212,13 +212,9 @@ function removeTag(tag, section) {
   }
 }
 
-function show(...views) {
-  views.forEach(view => view.classList.remove('hidden'));
-}
-
 function showFavorites() {
-  domUpdates.hideAll();
-  show(favoritesWrapper);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(favoritesWrapper);
   recipeRepo.matchingRecipes = user.favorites
   filterTags()
   displayTags(favoritesTagsSection)
@@ -231,13 +227,13 @@ function showFavorites() {
 }
 
 function showHome() {
-  hideAll();
-  show(homeSection);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(homeSection);
 }
 
 function showRecipesToCook() {
-  hideAll();
-  show(recipesToCookSection);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(recipesToCookSection);
   if (!user.recipesToCook.length) {
     recipesToCookResults.innerHTML =
     `<p>You haven't yet saved any recipes to cook this week</p>`
