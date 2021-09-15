@@ -179,6 +179,7 @@ function filterTags() {
 
 async function getApis() {
   const usersData = await Promise.resolve(fetchUsers());
+  console.log(usersData);
   const recipesData = await Promise.resolve(fetchRecipes());
   const ingredientsData = await Promise.resolve(fetchIngredients());
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
