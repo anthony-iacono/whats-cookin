@@ -3,10 +3,10 @@ import Pantry from '../src/classes/Pantry';
 import sampleUsersData from '../src/data/sampleUsersData'
 
 describe.only('Pantry', function () {
-  let pantry = new Pantry();
+  let pantry;
 
   beforeEach(function() {
-
+    pantry = new Pantry(sampleUsersData[0].pantry);
   })
 
   it('should be a function', function() {
