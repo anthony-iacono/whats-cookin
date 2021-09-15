@@ -185,6 +185,7 @@ async function getApis() {
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
   recipeRepo = new RecipeRepository(recipesData);
+  console.log(recipeRepo);
   recipeRepo.getRecipesInformation(ingredientsData);
   recipeRepo.getRecipeCost();
   displayRecipes(recipeRepo.recipes, homeSection);

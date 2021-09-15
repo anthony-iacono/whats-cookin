@@ -13,8 +13,9 @@ Pantry User Stories
 */
 
 class Pantry {
-  constructor() {
-
+  constructor(pantry) {
+    this.id = ;
+    this.amount = ;
   }
 }
 
