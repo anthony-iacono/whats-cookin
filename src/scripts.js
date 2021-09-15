@@ -2,12 +2,7 @@ import './styles.css';
 import { fetchUsers, fetchRecipes, fetchIngredients } from './apiCalls';
 import User from './classes/User'
 import RecipeRepository from './classes/RecipeRepository';
-// import Recipe from './classes/Recipe';
-// import Ingredient from './classes/Ingredient';
-
-// let recipeData = [];
-// let userData = [];
-// let ingredientsData = [];
+import domUpdates from './domUpdates'
 let recipeRepo;
 let user;
 
@@ -57,7 +52,7 @@ searchTagsSection.addEventListener('click', function(event) {
 function addTag(tag, section) {
   recipeRepo.selectedTags.push(tag);
   const filteredRecipes = recipeRepo.filterByTag();
-  displayRecipes(filteredRecipes, section);
+  domUpdates.displayRecipes(filteredRecipes, section);
 }
 
 function displayPopout(event) {
@@ -65,93 +60,28 @@ function displayPopout(event) {
     && !event.target.classList.contains('recipe')) {
     return;
   }
-  hideAll();
-  show(popout);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(popout);
   const selectedRecipe = recipeRepo.recipes.find(recipe => {
     return event.target.classList.contains(recipe.id)
   });
 
-  fillPopout(selectedRecipe);
-  fillIngredients(selectedRecipe);
-  fillInstructions(selectedRecipe);
-}
-
-function displayRecipes(recipes, section) {
-  section.innerHTML = '';
-  if (!recipes.length) {
-    section.innerHTML =
-    `<p>We couldn't find any recipes that matches your search criteria.</p>`
-  } else {
-    recipes.forEach(recipe => {
-      const recipeCard =
-      `<article class="recipe ${recipe.id}">
-      <img class="recipe-image ${recipe.id}" src="${recipe.image}" alt="plate of ${recipe.name}">
-      <h2 class="article-title card-title ${recipe.id}">${recipe.name}</h2>
-      </article>`;
-      section.innerHTML += recipeCard;
-    });
-  }
+  domUpdates.fillPopout(selectedRecipe, user, popout);
+  domUpdates.fillIngredients(selectedRecipe);
+  domUpdates.fillInstructions(selectedRecipe);
 }
 
 function displayResults(keywords, section, recipes, tagsSection) {
-  hideAll();
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
   if (section === favoritesResultsSection) {
-    show(favoritesWrapper)
+    domUpdates.show(favoritesWrapper)
   } else {
-    show(searchSection);
+    domUpdates.show(searchSection);
   }
   recipeRepo.search(keywords, recipes);
-  filterTags();
-  displayTags(tagsSection);
-  displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
-}
-
-function displayTags(tagsSection) {
-  tagsSection.innerHTML = ''
-  recipeRepo.matchingTags.forEach(tag => {
-    const tagCard =
-    `<label class="tags">
-    <input class="tag" type="checkbox" name="${tag}">${tag}
-    </label>`;
-    tagsSection.innerHTML += tagCard;
-  })
-}
-
-function fillIngredients(selectedRecipe) {
-  selectedRecipe.ingredients.forEach(ingredient => {
-    document.querySelector('.js-ingredients').innerHTML +=
-    `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
-  });
-}
-
-function fillInstructions(selectedRecipe) {
-  selectedRecipe.instructions.forEach(instruction => {
-    document.querySelector('.js-instructions').innerHTML +=
-    `<li>${instruction.instruction}</li>`;
-  });
-}
-
-function fillPopout(selectedRecipe) {
-  popout.innerHTML =
-    `<article class="full-recipe" id="${selectedRecipe.id}">
-      <img src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
-      <h2>${selectedRecipe.name}</h2>
-      <button class="add-favorite-btn js-add-favorite-btn">Add to Favorites</button>
-      <button class="add-recipe-btn js-add-recipe-btn">Add to Recipes to Cook</button>
-      <div class="test">
-        <h3>Ingredients</h3>
-        <ul class="js-ingredients"></ul>
-      </div>
-      <div class="test-two">
-        <h3>Directions</h3>
-        <ol class="js-instructions"></ol>
-      </div>
-      <div class="test-three">
-        <h3>Cost</h3>
-        <p class="cost js-cost">${selectedRecipe.cost}</p>
-      </div>
-    </article>`;
-  updateBtnToClicked(selectedRecipe);
+  recipeRepo.filterTags();
+  domUpdates.displayTags(tagsSection, recipeRepo);
+  domUpdates.displayRecipes(recipeRepo.matchingRecipes, section || resultsSection);
 }
 
 function filterResultsByTag(event, section) {
@@ -166,17 +96,6 @@ function filterResultsByTag(event, section) {
   }
 }
 
-function filterTags() {
-  recipeRepo.matchingTags = [];
-  recipeRepo.matchingRecipes.forEach(recipe => {
-    recipe.tags.forEach(tag => {
-      if (!recipeRepo.matchingTags.includes(tag)) {
-        recipeRepo.matchingTags.push(tag);
-      }
-    })
-  })
-}
-
 async function getApis() {
   const usersData = await Promise.resolve(fetchUsers());
   console.log(usersData);
@@ -185,10 +104,10 @@ async function getApis() {
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
   recipeRepo = new RecipeRepository(recipesData);
-  console.log(recipeRepo);
+  recipeRepo.addRecipes();
   recipeRepo.getRecipesInformation(ingredientsData);
   recipeRepo.getRecipeCost();
-  displayRecipes(recipeRepo.recipes, homeSection);
+  domUpdates.displayRecipes(recipeRepo.recipes, homeSection);
 }
 
 function addFavoriteOrRecipeToCook(event) {
@@ -196,21 +115,11 @@ function addFavoriteOrRecipeToCook(event) {
   const btn = event.target;
   const recipeId = btn.parentNode.id;
   const recipe = recipeRepo.recipes.find(recipe => recipe.id === parseInt(recipeId));
-  if (btn.matches('.js-add-favorite-btn')) {
-    btn.classList.toggle('clicked')
+  if (domUpdates.determineClickedBtn(btn)) {
     toggleFavorites(recipe)
-  } else if (btn.matches('.js-add-recipe-btn')) {
-    btn.classList.toggle('clicked')
+  } else {
     toggleRecipesToCook(recipe)
   }
-}
-
-function hideAll() {
-  homeSection.classList.add('hidden');
-  favoritesWrapper.classList.add('hidden');
-  recipesToCookSection.classList.add('hidden');
-  searchSection.classList.add('hidden');
-  popout.classList.add('hidden');
 }
 
 function removeTag(tag, section) {
@@ -219,43 +128,38 @@ function removeTag(tag, section) {
   })
   if (recipeRepo.selectedTags.length) {
     const filteredRecipes = recipeRepo.filterByTag();
-    displayRecipes(filteredRecipes, section);
+    domUpdates.displayRecipes(filteredRecipes, section);
   } else {
-    displayRecipes(recipeRepo.matchingRecipes, section);
+    domUpdates.displayRecipes(recipeRepo.matchingRecipes, section);
   }
-}
-
-function show(...views) {
-  views.forEach(view => view.classList.remove('hidden'));
 }
 
 function showFavorites() {
-  hideAll();
-  show(favoritesWrapper);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(favoritesWrapper);
   recipeRepo.matchingRecipes = user.favorites
-  filterTags()
-  displayTags(favoritesTagsSection)
+  recipeRepo.filterTags()
+  domUpdates.displayTags(favoritesTagsSection, recipeRepo)
   if (!user.favorites.length) {
-    favoritesResultsSection.innerHTML =
-    `<p>You haven't yet saved any recipes to your favorites.</p>`
+    domUpdates.displayNoRecipeMsg(favoritesResultsSection);
     return;
   }
-  displayRecipes(user.favorites, favoritesResultsSection);
+  domUpdates.displayRecipes(user.favorites, favoritesResultsSection);
 }
 
 function showHome() {
-  hideAll();
-  show(homeSection);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(homeSection);
 }
 
 function showRecipesToCook() {
-  hideAll();
-  show(recipesToCookSection);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(recipesToCookSection);
   if (!user.recipesToCook.length) {
-    recipesToCookResults.innerHTML =
-    `<p>You haven't yet saved any recipes to cook this week</p>`
+    domUpdates.displayNoRecipeMsg(recipesToCookResults)
+    return
   }
-  displayRecipes(user.recipesToCook, recipesToCookResults)
+  domUpdates.displayRecipes(user.recipesToCook, recipesToCookResults)
 }
 
 function showResults(event, section, searchBox, recipes, tagsSection) {
@@ -264,7 +168,6 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
     displayResults(searchBox.value.toLowerCase(), section, recipes, tagsSection);
   }
 }
-
 
 function toggleFavorites(recipe) {
   if (!user.favorites.includes(recipe)) {
@@ -281,18 +184,3 @@ function toggleRecipesToCook(recipe) {
     user.removeFromRecipesToCook(recipe);
   }
 }
-
-function updateBtnToClicked(selectedRecipe) {
-  user.favorites.forEach(favoriteRecipe => {
-    if (favoriteRecipe.id === selectedRecipe.id) {
-      document.querySelector('.js-add-favorite-btn').classList.add('clicked');
-    }
-  })
-  user.recipesToCook.forEach(recipe => {
-    if (recipe.id === selectedRecipe.id) {
-      document.querySelector('.js-add-recipe-btn').classList.add('clicked')
-    }
-  })
-}
-
-// export { ingredientsData }
