@@ -1,8 +1,9 @@
 import { expect } from 'chai';
+import Pantry from '../src/classes/Pantry';
 
-describe('Pantry', function () {
+describe.only('Pantry', function () {
   let pantry = new Pantry();
-  
+
   beforeEach(function() {
 
   })
