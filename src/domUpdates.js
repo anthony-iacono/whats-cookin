@@ -37,26 +37,43 @@ const domUpdates = {
   },
 
   fillPopout(selectedRecipe, user, popout) {
+    console.log(selectedRecipe);
     popout.innerHTML =
     `<article class="full-recipe" id="${selectedRecipe.id}">
-    <img src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
-    <h2>${selectedRecipe.name}</h2>
-    <button class="add-favorite-btn js-add-favorite-btn">Add to Favorites</button>
-    <button class="add-recipe-btn js-add-recipe-btn">Add to Recipes to Cook</button>
-    <div class="test">
-    <h3>Ingredients</h3>
-    <ul class="js-ingredients"></ul>
-    </div>
-    <div class="test-two">
-    <h3>Directions</h3>
-    <ol class="js-instructions"></ol>
-    </div>
-    <div class="test-three">
-    <h3>Cost</h3>
-    <p class="cost js-cost">${selectedRecipe.cost}</p>
-    </div>
+      <img src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
+      <h2>${selectedRecipe.name}</h2>
+      <button class="add-favorite-btn js-add-favorite-btn">Add to Favorites</button>
+      <button class="add-recipe-btn js-add-recipe-btn">Add to Recipes to Cook</button>
+      <button class="make-recipe-btn js-make-recipe-btn hidden">Make this Recipe</button>
+      <div class="test">
+        <h3>Ingredients</h3>
+        <ul class="js-ingredients"></ul>
+      </div>
+      <div class="js-ingredients-needed-container hidden">
+        <h3>You Need</h3>
+        <ul class="js-ingredients-needed-list"></ul>
+      </div>
+      <div class="test-two">
+        <h3>Directions</h3>
+        <ol class="js-instructions"></ol>
+      </div>
+      <div class="test-three">
+        <h3>Cost</h3>
+        <p class="cost js-cost">${selectedRecipe.cost}</p>
+      </div>
     </article>`;
     this.updateBtnToClicked(selectedRecipe, user);
+  },
+
+  fillDifferences(ingredientsNeeded) {
+    if (!ingredientsNeeded) {
+      return;
+    }
+    show(document.querySelector('.js-make-recipe-btn'));
+    ingredients.forEach(ingredient => {
+      document.querySelector('.js-ingredients-needed-list).innerHTML +=
+      `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
+    });
   },
 
   displayRecipes(recipes, section) {

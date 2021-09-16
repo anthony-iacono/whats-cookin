@@ -23,7 +23,33 @@ class Pantry {
     this.ingredients = ingredients;
   }
 
-  
+  checkForEnoughIngredients(recipeIngredients) {
+    const differences = recipeIngredients.map(recipeIngredient => {
+      if (user.pantry.includes(recipeIngredient)) {
+        return {
+          recipeID:
+          // user.pantry[recipeIngredient]
+        }
+      }
+    })
+  }
+// Brainstorm: maybe flatMap to break out arrays and compare?
+
+// when user clicks a recipe, a recipe popout display
+// the popout includes a list of the ingredient differences
+// if all the ingredients differences are greater than 0,
+// then display a cook recipe button
+// which removes the amounts of each ingredient from Pantry
+
+// while checking ingredient diff, save ingredient name to the array of objects in lieu of the ingredientID
+// if the array returns lenght of 0, then display button to cook meal, otherwise display disparity.
+
+
+// Input: array of recipe ingredients
+// Output: object storing ingredientID and difference from ingredient in pantry
+
+// given a recipe, check the recipes ingredients against pantry ingredients
+
 }
 
 export default Pantry;

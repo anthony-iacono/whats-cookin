@@ -21,4 +21,8 @@ describe.only('Pantry', function () {
     expect(pantry.ingredients).to.equal(sampleUsersData[0].pantry);
   })
 
+  it('should be able to check whether user\'s pantry has enough ingredients to cook a given meal', function() {
+    expect(pantry.checkForEnoughIngredients()).to.be.true;
+  })
+
 })
