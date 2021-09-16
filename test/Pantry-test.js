@@ -17,4 +17,8 @@ describe.only('Pantry', function () {
     expect(pantry).to.be.an.instanceof(Pantry);
   })
 
+  it('should store ingredient data', function() {
+    expect(pantry.ingredients).to.equal(sampleUsersData[0].pantry);
+  })
+
 })

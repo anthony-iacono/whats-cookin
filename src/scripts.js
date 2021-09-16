@@ -103,6 +103,7 @@ async function getApis() {
   const ingredientsData = await Promise.resolve(fetchIngredients());
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
+  user.addPantry()
   recipeRepo = new RecipeRepository(recipesData);
   recipeRepo.addRecipes();
   recipeRepo.getRecipesInformation(ingredientsData);
