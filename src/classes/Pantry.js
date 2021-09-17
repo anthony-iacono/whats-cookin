@@ -25,13 +25,11 @@ class Pantry {
   }
 
   checkPantry(recipeIngredients) {
-    console.log(this.ingredients)
     const differences = recipeIngredients.reduce((previous, current) => {
       const matchingPantryIngredient = this.ingredients.find(ingredient => {
         return current.id === ingredient.ingredient
       })
       if (!matchingPantryIngredient) {
-        console.log(current)
         previous.push({name: current.name, difference: current.amount, unit: current.unit})
       } else if (matchingPantryIngredient.amount < current.amount) {
         previous.push({name: current.name, difference: current.amount - matchingPantryIngredient.amount, unit: current.unit})

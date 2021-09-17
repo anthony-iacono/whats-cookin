@@ -32,12 +32,12 @@ const domUpdates = {
     user.recipesToCook.forEach(recipe => {
       if (recipe.id === selectedRecipe.id) {
         document.querySelector('.js-add-recipe-btn').classList.add('clicked')
+        this.fillDifferences(user.pantry.checkPantry(selectedRecipe.ingredients))
       }
     })
   },
 
   fillPopout(selectedRecipe, user, popout) {
-    console.log(selectedRecipe);
     popout.innerHTML =
     `<article class="full-recipe" id="${selectedRecipe.id}">
       <img src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
