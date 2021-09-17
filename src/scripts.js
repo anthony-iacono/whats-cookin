@@ -22,6 +22,8 @@ const recipesToCookResults = document.querySelector('.js-recipes-to-cook-results
 const resultsSection = document.querySelector('.js-results-section');
 const searchSection = document.querySelector('.js-search-section');
 const searchTagsSection = document.querySelector('.js-tags-section');
+const userProfileBtn = document.querySelector('.js-user-profile-btn');
+const userPantrySection = document.querySelector('.js-user-pantry');
 
 window.addEventListener('load', getApis)
 favoritesBtn.addEventListener('click', showFavorites);
@@ -48,6 +50,8 @@ mainSearchBox.addEventListener('keypress', function(event) {
 searchTagsSection.addEventListener('click', function(event) {
   filterResultsByTag(event, resultsSection);
 });
+userProfileBtn.addEventListener('click', showPantry);
+
 
 function addTag(tag, section) {
   recipeRepo.selectedTags.push(tag);
@@ -168,6 +172,11 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
     event.preventDefault();
     displayResults(searchBox.value.toLowerCase(), section, recipes, tagsSection);
   }
+}
+
+function showPantry() {
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(userPantrySection);
 }
 
 function toggleFavorites(recipe) {
