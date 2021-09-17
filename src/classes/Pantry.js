@@ -21,29 +21,36 @@ Pantry User Stories
 class Pantry {
   constructor(ingredients) {
     this.ingredients = ingredients;
+    this.neededIngredients = [];
   }
 
-  checkForEnoughIngredients(recipeIngredients) {
-    const differences = recipeIngredients.map(recipeIngredient => {
-      if (user.pantry.includes(recipeIngredient)) {
-        return {
-          recipeID:
-          // user.pantry[recipeIngredient]
-        }
+  checkPantry(recipeIngredients) {
+    console.log(this.ingredients)
+    const differences = recipeIngredients.reduce((previous, current) => {
+      const matchingPantryIngredient = this.ingredients.find(ingredient => {
+        return current.id === ingredient.ingredient
+      })
+      if (!matchingPantryIngredient) {
+        console.log(current)
+        previous.push({name: current.name, difference: current.amount, unit: current.unit})
+      } else if (matchingPantryIngredient.amount < current.amount) {
+        previous.push({name: current.name, difference: current.amount - matchingPantryIngredient.amount, unit: current.unit})
       }
-    })
+      return previous;
+    }, [])
+    return differences;
   }
 // Brainstorm: maybe flatMap to break out arrays and compare?
 
-// when user clicks a recipe, a recipe popout display
+// when user clicks a recipe IN RTC, a recipe popout display
 // the popout includes a list of the ingredient differences
-// if all the ingredients differences are greater than 0,
+// if all the ingredients differences are greater than or equal to 0,
 // then display a cook recipe button
-// which removes the amounts of each ingredient from Pantry
-
-// while checking ingredient diff, save ingredient name to the array of objects in lieu of the ingredientID
-// if the array returns lenght of 0, then display button to cook meal, otherwise display disparity.
-
+// which, when clicked, removes the amounts of each ingredient from Pantry and removed the recipe from the user's RTC section.
+// if any differences are less than 0, the app tells the user that they need to make a  grocery run with a grocery list!
+// while checking ingredient diff, save ingredient name to the array of objects (pantry.neededIngredients) in lieu of the ingredientID
+// if the array returns length of 0, then display button to cook meal, otherwise display disparity.
+// we have a method on pantry that takes in one array, selectedRecipeIngredients as a parameter, and call filter on it. first we find in pantry.ingredients and returns first instance of what it finds.
 
 // Input: array of recipe ingredients
 // Output: object storing ingredientID and difference from ingredient in pantry

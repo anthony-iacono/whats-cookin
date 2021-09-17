@@ -69,6 +69,7 @@ function displayPopout(event) {
   domUpdates.fillPopout(selectedRecipe, user, popout);
   domUpdates.fillIngredients(selectedRecipe);
   domUpdates.fillInstructions(selectedRecipe);
+  domUpdates.fillDifferences(user.pantry.checkPantry(selectedRecipe.ingredients));
 }
 
 function displayResults(keywords, section, recipes, tagsSection) {
@@ -103,7 +104,8 @@ async function getApis() {
   const ingredientsData = await Promise.resolve(fetchIngredients());
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
-  // user.addPantry()
+  user.addPantry();
+  console.log(user.pantry);
   recipeRepo = new RecipeRepository(recipesData);
   recipeRepo.addRecipes();
   recipeRepo.getRecipesInformation(ingredientsData);

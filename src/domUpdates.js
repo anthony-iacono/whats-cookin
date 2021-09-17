@@ -66,13 +66,14 @@ const domUpdates = {
   },
 
   fillDifferences(ingredientsNeeded) {
-    if (!ingredientsNeeded) {
+    if (!ingredientsNeeded.length) {
+      this.show(document.querySelector('.js-make-recipe-btn'));
       return;
     }
-    show(document.querySelector('.js-make-recipe-btn'));
-    ingredients.forEach(ingredient => {
-      document.querySelector('.js-ingredients-needed-list).innerHTML +=
-      `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`;
+    this.show(document.querySelector('.js-ingredients-needed-container'))
+    ingredientsNeeded.forEach(ingredientNeeded => {
+      document.querySelector('.js-ingredients-needed-list').innerHTML +=
+      `<li>${ingredientNeeded.name} ${ingredientNeeded.difference} ${ingredientNeeded.unit}</li>`;
     });
   },
 
