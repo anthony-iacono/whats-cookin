@@ -177,6 +177,7 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
 function showPantry() {
   domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
   domUpdates.show(userPantrySection);
+  domUpdates.fillPantry(user.pantry);
 }
 
 function toggleFavorites(recipe) {

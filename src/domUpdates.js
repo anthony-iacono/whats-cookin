@@ -41,6 +41,15 @@ const domUpdates = {
     })
   },
 
+  fillPantry(userPantry) {
+    console.log('boo', userPantry);
+    userPantry.ingredients.forEach(item => {
+      console.log('item', item);
+      document.querySelector('.js-pantry-inventory').innerHTML +=
+      `<li> ${item.ingredient} </li>`
+    })
+  },
+
   fillPopout(selectedRecipe, user, popout) {
     popout.innerHTML =
     `<article class="full-recipe" id="${selectedRecipe.id}">
