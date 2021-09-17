@@ -1,4 +1,8 @@
 const domUpdates = {
+  addUserName(userName) {
+    document.querySelector('.js-user-profile-btn').innerText = userName;
+  },
+
   hide(...elements) {
     elements.forEach(element => {
       element.classList.add('hidden');
