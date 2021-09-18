@@ -38,23 +38,14 @@ class Pantry {
     }, [])
     return differences;
   }
-// Brainstorm: maybe flatMap to break out arrays and compare?
-
-// when user clicks a recipe IN RTC, a recipe popout display
-// the popout includes a list of the ingredient differences
-// if all the ingredients differences are greater than or equal to 0,
-// then display a cook recipe button
-// which, when clicked, removes the amounts of each ingredient from Pantry and removed the recipe from the user's RTC section.
-// if any differences are less than 0, the app tells the user that they need to make a  grocery run with a grocery list!
-// while checking ingredient diff, save ingredient name to the array of objects (pantry.neededIngredients) in lieu of the ingredientID
-// if the array returns length of 0, then display button to cook meal, otherwise display disparity.
-// we have a method on pantry that takes in one array, selectedRecipeIngredients as a parameter, and call filter on it. first we find in pantry.ingredients and returns first instance of what it finds.
-
-// Input: array of recipe ingredients
-// Output: object storing ingredientID and difference from ingredient in pantry
-
-// given a recipe, check the recipes ingredients against pantry ingredients
-
+  nameIngredients(ingredientsData) {
+    return this.ingredients.map(ingredient => {
+      let matchingIng = ingredientsData.find(ingData => {
+        return ingData.id === ingredient.ingredient
+      })
+      return `<li>${ingredient.amount} ${matchingIng.name}</li>`
+    })
+  }
 }
 
 export default Pantry;

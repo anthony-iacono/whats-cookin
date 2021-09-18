@@ -107,12 +107,14 @@ async function getApis() {
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
   user.addPantry();
+  const pantry = user.pantry.nameIngredients(ingredientsData)
   domUpdates.addUserName(user.name);
   recipeRepo = new RecipeRepository(recipesData);
   recipeRepo.addRecipes();
   recipeRepo.getRecipesInformation(ingredientsData);
   recipeRepo.getRecipeCost();
   domUpdates.displayRecipes(recipeRepo.recipes, homeSection);
+  domUpdates.fillPantry(pantry)
 }
 
 function addFavoriteOrRecipeToCook(event) {
@@ -143,7 +145,7 @@ function removeTag(tag, section) {
 }
 
 function showFavorites() {
-  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout, userPantrySection);
   domUpdates.show(favoritesWrapper);
   recipeRepo.matchingRecipes = user.favorites
   recipeRepo.filterTags()
@@ -156,12 +158,12 @@ function showFavorites() {
 }
 
 function showHome() {
-  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout, userPantrySection);
   domUpdates.show(homeSection);
 }
 
 function showRecipesToCook() {
-  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout, userPantrySection);
   domUpdates.show(recipesToCookSection);
   if (!user.recipesToCook.length) {
     domUpdates.displayNoRecipeMsg(recipesToCookResults)
@@ -180,7 +182,6 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
 function showPantry() {
   domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
   domUpdates.show(userPantrySection);
-  domUpdates.fillPantry(user.pantry);
 }
 
 function toggleFavorites(recipe) {

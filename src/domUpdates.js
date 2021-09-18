@@ -41,11 +41,9 @@ const domUpdates = {
     })
   },
 
-  fillPantry(userPantry) {
-    userPantry.ingredients.forEach(item => {
-      ingredientsData.forEach()
-      document.querySelector('.js-pantry-inventory').innerHTML +=
-      `<li> ${item.ingredient} </li>`
+  fillPantry(ingElms) {
+    ingElms.forEach(elm => {
+      document.querySelector('.js-pantry-list').innerHTML += elm
     })
   },
 
