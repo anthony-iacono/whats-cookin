@@ -33,10 +33,12 @@ const domUpdates = {
         document.querySelector('.js-add-favorite-btn').classList.add('clicked');
       }
     })
-    user.recipesToCook.forEach(recipe => {
-      if (recipe.id === selectedRecipe.id) {
-        document.querySelector('.js-add-recipe-btn').classList.add('clicked')
-        this.fillDifferences(user.pantry.checkPantry(selectedRecipe.ingredients))
+    user.recipesToCook.forEach(recipeToCook => {
+      console.log('recipe.id: ', recipeToCook.id)
+      console.log('selectedRecipe.id: ', selectedRecipe.id);
+      if (recipeToCook.id === selectedRecipe.id) {
+        document.querySelector('.js-add-recipe-btn').classList.add('clicked');
+        this.fillDifferences(user.pantry.checkPantry(selectedRecipe.ingredients));
       }
     })
   },
@@ -90,11 +92,11 @@ const domUpdates = {
   },
 
   displayRecipes(recipes, section) {
-    section.innerHTML = '';
     if (!recipes.length) {
       section.innerHTML =
       `<p>We couldn't find any recipes that matches your search criteria.</p>`
     } else {
+      section.innerHTML = '';
       recipes.forEach(recipe => {
         const recipeCard =
         `<article class="recipe ${recipe.id}">
