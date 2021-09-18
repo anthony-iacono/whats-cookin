@@ -61,13 +61,15 @@ class Pantry {
   }
 
   increaseIngredient(ingredientId, ingredientAmount) {
+    ingredientId = parseInt(ingredientId);
+    ingredientAmount = parseInt(ingredientAmount)
     const ingredientIds = this.ingredients.map(ingredient => ingredient.ingredient)
-    if(!ingredientIds.includes(parseInt(ingredientId))) {
-      this.ingredients.push({ingredient: parseInt(ingredientId), amount: parseInt(ingredientAmount)})
+    if(!ingredientIds.includes(ingredientId)) {
+      this.ingredients.push({ingredient: ingredientId, amount: ingredientAmount})
     }
     this.ingredients.forEach(ingredient => {
-      if(ingredient.ingredient === parseInt(ingredientId)) {
-        ingredient.amount += parseInt(ingredientAmount)
+      if(ingredient.ingredient === ingredientId) {
+        ingredient.amount += ingredientAmount
       }
     })
   }
