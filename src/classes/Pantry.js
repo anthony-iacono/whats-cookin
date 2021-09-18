@@ -38,13 +38,26 @@ class Pantry {
     }, [])
     return differences;
   }
-  nameIngredients(ingredientsData) {
+  nameIngredients(ingredientsData, recipeRepo) {
     return this.ingredients.map(ingredient => {
       let matchingIng = ingredientsData.find(ingData => {
         return ingData.id === ingredient.ingredient
       })
-      return `<li>${ingredient.amount} ${matchingIng.name}</li>`
+      const unit = this.findIngredientUnit(ingredient, recipeRepo)
+      return `<li>${ingredient.amount} ${unit} ${matchingIng.name}</li>`
     })
+  }
+
+  findIngredientUnit(ingredient, recipeRepo) {
+    let ingredientUnit;
+    recipeRepo.recipes.forEach(recipe => {
+      recipe.ingredients.forEach(recipeIngredient => {
+        if (recipeIngredient.id === ingredient.ingredient) {
+          ingredientUnit = recipeIngredient.unit
+        }
+      })
+    })
+    return ingredientUnit
   }
 }
 
