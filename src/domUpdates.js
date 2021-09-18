@@ -42,9 +42,8 @@ const domUpdates = {
   },
 
   fillPantry(userPantry) {
-    console.log('boo', userPantry);
     userPantry.ingredients.forEach(item => {
-      console.log('item', item);
+      ingredientsData.forEach()
       document.querySelector('.js-pantry-inventory').innerHTML +=
       `<li> ${item.ingredient} </li>`
     })
