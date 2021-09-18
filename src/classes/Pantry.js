@@ -65,6 +65,11 @@ class Pantry {
     if(!ingredientIds.includes(parseInt(ingredientId))) {
       this.ingredients.push({ingredient: parseInt(ingredientId), amount: parseInt(ingredientAmount)})
     }
+    this.ingredients.forEach(ingredient => {
+      if(ingredient.ingredient === parseInt(ingredientId)) {
+        ingredient.amount += parseInt(ingredientAmount)
+      }
+    })
   }
 }
 
