@@ -51,9 +51,17 @@ const domUpdates = {
   fillIngredientDropdown(recipeRepo) {
     recipeRepo.ingredientsData.forEach(ingredient => {
       document.querySelector('.js-ingredients-dropdown').innerHTML += `
-        <option>${ingredient.name}</option>
+        <option id="${ingredient.id}">${ingredient.name}</option>
       `
     })
+  },
+
+  fillIngredientAmountDropdown() {
+    for (let i = 0; i < 99; i++) {
+      document.querySelector('.js-ingredients-amount-dropdown').innerHTML += `
+        <option>${i+1}</option>
+      `
+    }
   },
 
   fillPopout(selectedRecipe, user, popout) {

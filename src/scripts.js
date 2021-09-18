@@ -24,6 +24,7 @@ const searchSection = document.querySelector('.js-search-section');
 const searchTagsSection = document.querySelector('.js-tags-section');
 const userProfileBtn = document.querySelector('.js-user-profile-btn');
 const userPantrySection = document.querySelector('.js-user-pantry');
+const addIngredientsForm = document.querySelector('.js-add-to-pantry');
 
 window.addEventListener('load', getApis)
 favoritesBtn.addEventListener('click', showFavorites);
@@ -51,7 +52,16 @@ searchTagsSection.addEventListener('click', function(event) {
   filterResultsByTag(event, resultsSection);
 });
 userProfileBtn.addEventListener('click', showPantry);
+addIngredientsForm.addEventListener('submit', addIngredient);
 
+function addIngredient(event) {
+  event.preventDefault()
+  const dropdown = document.querySelector(".js-ingredients-dropdown");
+  const ingredientId = dropdown.options[dropdown.selectedIndex].id;
+  const ingredientAmount = document.querySelector('.js-ingredients-amount-dropdown').value
+  user.pantry.increaseIngredient(ingredientId, ingredientAmount)
+  showPantry();
+}
 
 function addTag(tag, section) {
   recipeRepo.selectedTags.push(tag);
@@ -183,6 +193,7 @@ function showPantry() {
   const pantry = user.pantry.nameIngredients(recipeRepo)
   domUpdates.fillPantry(pantry)
   domUpdates.fillIngredientDropdown(recipeRepo)
+  domUpdates.fillIngredientAmountDropdown()
 }
 
 function toggleFavorites(recipe) {

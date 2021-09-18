@@ -40,7 +40,7 @@ class Pantry {
   }
   nameIngredients(recipeRepo) {
     return this.ingredients.map(ingredient => {
-      let matchingIng = recipeRepo.ingredientsData.find(ingData => {
+      const matchingIng = recipeRepo.ingredientsData.find(ingData => {
         return ingData.id === ingredient.ingredient
       })
       const unit = this.findIngredientUnit(ingredient, recipeRepo)
@@ -58,6 +58,13 @@ class Pantry {
       })
     })
     return ingredientUnit
+  }
+
+  increaseIngredient(ingredientId, ingredientAmount) {
+    const ingredientIds = this.ingredients.map(ingredient => ingredient.ingredient)
+    if(!ingredientIds.includes(parseInt(ingredientId))) {
+      this.ingredients.push({ingredient: parseInt(ingredientId), amount: parseInt(ingredientAmount)})
+    }
   }
 }
 
