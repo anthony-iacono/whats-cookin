@@ -59,7 +59,7 @@ const domUpdates = {
   fillIngredientAmountDropdown() {
     for (let i = 0; i < 99; i++) {
       document.querySelector('.js-ingredients-amount-dropdown').innerHTML += `
-        <option>${i+1}</option>
+        <option>${i + 1}</option>
       `
     }
   },
