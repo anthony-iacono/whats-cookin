@@ -182,6 +182,7 @@ function showPantry() {
   domUpdates.show(userPantrySection);
   const pantry = user.pantry.nameIngredients(recipeRepo)
   domUpdates.fillPantry(pantry)
+  domUpdates.fillIngredientDropdown(recipeRepo)
 }
 
 function toggleFavorites(recipe) {

@@ -48,6 +48,14 @@ const domUpdates = {
     })
   },
 
+  fillIngredientDropdown(recipeRepo) {
+    recipeRepo.ingredientsData.forEach(ingredient => {
+      document.querySelector('.js-ingredients-dropdown').innerHTML += `
+        <option>${ingredient.name}</option>
+      `
+    })
+  },
+
   fillPopout(selectedRecipe, user, popout) {
     popout.innerHTML =
     `<article class="full-recipe" id="${selectedRecipe.id}">
