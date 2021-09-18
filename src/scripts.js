@@ -116,7 +116,10 @@ async function getApis() {
 }
 
 function addFavoriteOrRecipeToCook(event) {
-  event.preventDefault()
+  event.preventDefault();
+  if (!event.target.matches('button')) {
+    return;
+  }
   const btn = event.target;
   const recipeId = btn.parentNode.id;
   const recipe = recipeRepo.recipes.find(recipe => recipe.id === parseInt(recipeId));

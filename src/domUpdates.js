@@ -34,8 +34,6 @@ const domUpdates = {
       }
     })
     user.recipesToCook.forEach(recipeToCook => {
-      console.log('recipe.id: ', recipeToCook.id)
-      console.log('selectedRecipe.id: ', selectedRecipe.id);
       if (recipeToCook.id === selectedRecipe.id) {
         document.querySelector('.js-add-recipe-btn').classList.add('clicked');
         this.fillDifferences(user.pantry.checkPantry(selectedRecipe.ingredients));
