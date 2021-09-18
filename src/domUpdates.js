@@ -42,6 +42,7 @@ const domUpdates = {
   },
 
   fillPantry(ingElms) {
+    document.querySelector('.js-pantry-list').innerHTML = ""
     ingElms.forEach(elm => {
       document.querySelector('.js-pantry-list').innerHTML += elm
     })
