@@ -38,9 +38,9 @@ class Pantry {
     }, [])
     return differences;
   }
-  nameIngredients(ingredientsData, recipeRepo) {
+  nameIngredients(recipeRepo) {
     return this.ingredients.map(ingredient => {
-      let matchingIng = ingredientsData.find(ingData => {
+      let matchingIng = recipeRepo.ingredientsData.find(ingData => {
         return ingData.id === ingredient.ingredient
       })
       const unit = this.findIngredientUnit(ingredient, recipeRepo)

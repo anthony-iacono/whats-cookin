@@ -108,13 +108,11 @@ async function getApis() {
   user = new User(usersData[randomUsersDataIndex]);
   user.addPantry();
   domUpdates.addUserName(user.name);
-  recipeRepo = new RecipeRepository(recipesData);
+  recipeRepo = new RecipeRepository(recipesData, ingredientsData);
   recipeRepo.addRecipes();
-  recipeRepo.getRecipesInformation(ingredientsData);
+  recipeRepo.getRecipesInformation();
   recipeRepo.getRecipeCost();
   domUpdates.displayRecipes(recipeRepo.recipes, homeSection);
-  const pantry = user.pantry.nameIngredients(ingredientsData, recipeRepo)
-  domUpdates.fillPantry(pantry)
 }
 
 function addFavoriteOrRecipeToCook(event) {
@@ -182,6 +180,8 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
 function showPantry() {
   domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
   domUpdates.show(userPantrySection);
+  const pantry = user.pantry.nameIngredients(recipeRepo)
+  domUpdates.fillPantry(pantry)
 }
 
 function toggleFavorites(recipe) {
