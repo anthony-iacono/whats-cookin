@@ -10,12 +10,14 @@ class Pantry {
         return current.id === ingredient.ingredient
       })
       if (!matchingPantryIngredient) {
-        previous.push({name: current.name, difference: current.amount, unit: current.unit})
+        previous.push({id: current.id, name: current.name, difference: current.amount, unit: current.unit})
       } else if (matchingPantryIngredient.amount < current.amount) {
-        previous.push({name: current.name, difference: current.amount - matchingPantryIngredient.amount, unit: current.unit})
+        previous.push({id: current.id, name: current.name, difference: current.amount - matchingPantryIngredient.amount, unit: current.unit})
       }
       return previous;
     }, [])
+    console.log('ingredients', this.ingredients)
+    console.log('differences', differences)
     return differences;
   }
   nameIngredients(recipeRepo) {
@@ -44,8 +46,8 @@ class Pantry {
     ingredientId = parseInt(ingredientId);
     ingredientAmount = parseInt(ingredientAmount)
     const ingredientIds = this.ingredients.map(ingredient => ingredient.ingredient)
-    if(!ingredientIds.includes(ingredientId)) {
-      this.ingredients.push({ingredient: ingredientId, amount: ingredientAmount})
+    if (!ingredientIds.includes(ingredientId)) {
+      return this.ingredients.push({ingredient: ingredientId, amount: ingredientAmount})
     }
     this.ingredients.forEach(ingredient => {
       if(ingredient.ingredient === ingredientId) {
@@ -56,3 +58,6 @@ class Pantry {
 }
 
 export default Pantry;
+
+// User should be able to indicate that they cooked a meal and then those ingredients + quantities used in the recipe will be removed from their pantry.
+// button should only be usable when the user's pantry has enough ingredients.

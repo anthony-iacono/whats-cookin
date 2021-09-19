@@ -98,6 +98,7 @@ const domUpdates = {
       return;
     }
     this.show(document.querySelector('.js-ingredients-needed-container'))
+    console.log(ingredientsNeeded);
     ingredientsNeeded.forEach(ingredientNeeded => {
       document.querySelector('.js-ingredients-needed-list').innerHTML +=
       `<li>${ingredientNeeded.name} ${ingredientNeeded.difference} ${ingredientNeeded.unit}</li>`;
