@@ -1,7 +1,8 @@
 class Pantry {
-  constructor(ingredients) {
+  constructor(ingredients, userId) {
     this.ingredients = ingredients;
     this.neededIngredients = [];
+    this.id = userId;
   }
 
   checkPantry(recipeIngredients) {
@@ -34,25 +35,44 @@ class Pantry {
         }
       })
     })
+    this.postToPantry();
   }
-// go through each recipe ingredient with reduce pantryIngredient
-//
+
+  postToPantry(ingredientId, difference) {
+    fetch("http://localhost:3001/api/v1/users", {
+      method: 'POST',
+      body: JSON.stringify({
+        userID: this.id,
+        ingredientID: ingredientId,
+        ingredientModification: difference
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(json => updateIngredient())
+    .catch(err => /*do something with the error*/);
+  }
+
   removeRecipeIngredients(recipeIngredients) {
     this.ingredients = this.ingredients.reduce((acc, pantryIng) => {
       const recipeIngredient = recipeIngredients.find(recipeIng => {
         return pantryIng.ingredient === recipeIng.id
       })
       if (recipeIngredient) {
-        pantryIng.amount -= recipeIngredient.amount
+        pantryIng.amount -= recipeIngredient.amount;
+        const amountDifference = -recipeIngredient.amount;
+        this.postToPantry(pantryIngredient.ingredient, amountDifference);
         if (pantryIng.amount > 0) {
           acc.push(pantryIng)
         }
         return acc;
       }
-      acc.push(pantryIng)
+      acc.push(pantryIng);
       return acc;
     }, [])
   }
+
+  //
 
   nameIngredients(recipeRepo) {
     return this.ingredients.map(ingredient => {
