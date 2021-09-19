@@ -19,6 +19,8 @@
           <input type="text" name="search" placeholder="search all recipes..."class="js-search-box">Search All Recipes</input>
         </label>
       </form>
+      <button class="js-user-profile-btn">
+      </button>
       </nav>
     </header>
     <main>
@@ -47,7 +49,18 @@
         <section class="js-recipes-to-cook-results">
         </section>
       </section>
+      <section class="js-user-pantry hidden">
+        <section class="js-pantry-inventory">
+          <ul class="js-pantry-list"></ul>
+        </section>
+        <form class="js-add-to-pantry">
+          <label for="ingredients-dropdown">Ingredient</label>
+          <select name="ingredients" id="ingredients-dropdown" class="js-ingredients-dropdown"></select>
+          <label for="ingredients-amount-dropdown">Amount</label>
+          <select name="ingredient-amount" id="ingredients-amount-dropdown" class="js-ingredients-amount-dropdown"></select>
+          <button>Add</button>
+        </form>
+      </section>
     </main >
   </body>
-  <!-- <script type="text/javascript" src="scripts.js"></script> -->
 </html>

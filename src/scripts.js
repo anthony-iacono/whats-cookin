@@ -22,6 +22,9 @@ const recipesToCookResults = document.querySelector('.js-recipes-to-cook-results
 const resultsSection = document.querySelector('.js-results-section');
 const searchSection = document.querySelector('.js-search-section');
 const searchTagsSection = document.querySelector('.js-tags-section');
+const userProfileBtn = document.querySelector('.js-user-profile-btn');
+const userPantrySection = document.querySelector('.js-user-pantry');
+const addIngredientsForm = document.querySelector('.js-add-to-pantry');
 
 window.addEventListener('load', getApis)
 favoritesBtn.addEventListener('click', showFavorites);
@@ -48,6 +51,17 @@ mainSearchBox.addEventListener('keypress', function(event) {
 searchTagsSection.addEventListener('click', function(event) {
   filterResultsByTag(event, resultsSection);
 });
+userProfileBtn.addEventListener('click', showPantry);
+addIngredientsForm.addEventListener('submit', addIngredient);
+
+function addIngredient(event) {
+  event.preventDefault()
+  const dropdown = document.querySelector(".js-ingredients-dropdown");
+  const ingredientId = dropdown.options[dropdown.selectedIndex].id;
+  const ingredientAmount = document.querySelector('.js-ingredients-amount-dropdown').value
+  user.pantry.increaseIngredient(ingredientId, ingredientAmount)
+  showPantry();
+}
 
 function addTag(tag, section) {
   recipeRepo.selectedTags.push(tag);
@@ -102,22 +116,32 @@ async function getApis() {
   const ingredientsData = await Promise.resolve(fetchIngredients());
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
-  recipeRepo = new RecipeRepository(recipesData);
+  user.addPantry();
+  domUpdates.addUserName(user.name);
+  recipeRepo = new RecipeRepository(recipesData, ingredientsData);
   recipeRepo.addRecipes();
-  recipeRepo.getRecipesInformation(ingredientsData);
+  recipeRepo.getRecipesInformation();
   recipeRepo.getRecipeCost();
   domUpdates.displayRecipes(recipeRepo.recipes, homeSection);
 }
 
 function addFavoriteOrRecipeToCook(event) {
-  event.preventDefault()
+  event.preventDefault();
+  if (!event.target.matches('button')) {
+    return;
+  }
   const btn = event.target;
   const recipeId = btn.parentNode.id;
   const recipe = recipeRepo.recipes.find(recipe => recipe.id === parseInt(recipeId));
-  if (domUpdates.determineClickedBtn(btn)) {
+  const clickedBtn = domUpdates.determineClickedBtn(btn)
+  if (clickedBtn === 'Favorites') {
     toggleFavorites(recipe)
-  } else {
+  } else if (clickedBtn === 'RTC') {
     toggleRecipesToCook(recipe)
+  } else if (clickedBtn === 'Buy Now') {
+    user.pantry.buyIngredients();
+  } else if (clickedBtn === 'Make Recipe') {
+    user.pantry.removeRecipeIngredients(recipe.ingredients)
   }
 }
 
@@ -134,7 +158,7 @@ function removeTag(tag, section) {
 }
 
 function showFavorites() {
-  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout, userPantrySection);
   domUpdates.show(favoritesWrapper);
   recipeRepo.matchingRecipes = user.favorites
   recipeRepo.filterTags()
@@ -147,12 +171,12 @@ function showFavorites() {
 }
 
 function showHome() {
-  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout, userPantrySection);
   domUpdates.show(homeSection);
 }
 
 function showRecipesToCook() {
-  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout, userPantrySection);
   domUpdates.show(recipesToCookSection);
   if (!user.recipesToCook.length) {
     domUpdates.displayNoRecipeMsg(recipesToCookResults)
@@ -166,6 +190,15 @@ function showResults(event, section, searchBox, recipes, tagsSection) {
     event.preventDefault();
     displayResults(searchBox.value.toLowerCase(), section, recipes, tagsSection);
   }
+}
+
+function showPantry() {
+  domUpdates.hide(homeSection, favoritesWrapper, recipesToCookSection, searchSection, popout);
+  domUpdates.show(userPantrySection);
+  const pantry = user.pantry.nameIngredients(recipeRepo)
+  domUpdates.fillPantry(pantry)
+  domUpdates.fillIngredientDropdown(recipeRepo)
+  domUpdates.fillIngredientAmountDropdown()
 }
 
 function toggleFavorites(recipe) {
