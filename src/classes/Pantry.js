@@ -35,6 +35,24 @@ class Pantry {
       })
     })
   }
+// go through each recipe ingredient with reduce pantryIngredient
+//
+  removeRecipeIngredients(recipeIngredients) {
+    this.ingredients = this.ingredients.reduce((acc, pantryIng) => {
+      const recipeIngredient = recipeIngredients.find(recipeIng => {
+        return pantryIng.ingredient === recipeIng.id
+      })
+      if (recipeIngredient) {
+        pantryIng.amount -= recipeIngredient.amount
+        if (pantryIng.amount > 0) {
+          acc.push(pantryIng)
+        }
+        return acc;
+      }
+      acc.push(pantryIng)
+      return acc;
+    }, [])
+  }
 
   nameIngredients(recipeRepo) {
     return this.ingredients.map(ingredient => {

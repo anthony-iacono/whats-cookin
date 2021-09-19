@@ -140,6 +140,8 @@ function addFavoriteOrRecipeToCook(event) {
     toggleRecipesToCook(recipe)
   } else if (clickedBtn === 'Buy Now') {
     user.pantry.buyIngredients();
+  } else if (clickedBtn === 'Make Recipe') {
+    user.pantry.removeRecipeIngredients(recipe.ingredients)
   }
 }
 

@@ -134,6 +134,8 @@ const domUpdates = {
       this.hide(btn, document.querySelector('.js-ingredients-needed-container'));
       this.show(document.querySelector('.js-make-recipe-btn'))
       return 'Buy Now'
+    } else if (btn.matches('.js-make-recipe-btn')) {
+      return 'Make Recipe'
     }
   },
 
