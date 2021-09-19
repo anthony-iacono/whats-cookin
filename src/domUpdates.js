@@ -72,13 +72,14 @@ const domUpdates = {
       <button class="add-favorite-btn js-add-favorite-btn">Add to Favorites</button>
       <button class="add-recipe-btn js-add-recipe-btn">Add to Recipes to Cook</button>
       <button class="make-recipe-btn js-make-recipe-btn hidden">Make this Recipe</button>
+      <button class="buy-ingredients-btn js-buy-ingredients-btn hidden">Buy Ingredients</button>
+      <div class="js-ingredients-needed-container hidden">
+        <h3>To Make This Recipe You Need:</h3>
+        <ul class="js-ingredients-needed-list"></ul>
+      </div>
       <div class="test">
         <h3>Ingredients</h3>
         <ul class="js-ingredients"></ul>
-      </div>
-      <div class="js-ingredients-needed-container hidden">
-        <h3>You Need</h3>
-        <ul class="js-ingredients-needed-list"></ul>
       </div>
       <div class="test-two">
         <h3>Directions</h3>
@@ -98,7 +99,7 @@ const domUpdates = {
       return;
     }
     this.show(document.querySelector('.js-ingredients-needed-container'))
-    console.log(ingredientsNeeded);
+    this.show(document.querySelector('.js-buy-ingredients-btn'))
     ingredientsNeeded.forEach(ingredientNeeded => {
       document.querySelector('.js-ingredients-needed-list').innerHTML +=
       `<li>${ingredientNeeded.name} ${ingredientNeeded.difference} ${ingredientNeeded.unit}</li>`;
@@ -125,9 +126,14 @@ const domUpdates = {
   determineClickedBtn(btn) {
     if (btn.matches('.js-add-favorite-btn')) {
       btn.classList.toggle('clicked')
-      return "Favorites"
+      return 'Favorites'
     } else if (btn.matches('.js-add-recipe-btn')) {
       btn.classList.toggle('clicked')
+      return 'RTC'
+    } else if (btn.matches('.js-buy-ingredients-btn')) {
+      this.hide(btn, document.querySelector('.js-ingredients-needed-container'));
+      this.show(document.querySelector('.js-make-recipe-btn'))
+      return 'Buy Now'
     }
   },
 

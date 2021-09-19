@@ -16,10 +16,26 @@ class Pantry {
       }
       return previous;
     }, [])
-    console.log('ingredients', this.ingredients)
-    console.log('differences', differences)
+    this.neededIngredients = differences;
     return differences;
   }
+
+  buyIngredients() {
+    this.neededIngredients.forEach(neededIngredient => {
+      const matchingIngredient = this.ingredients.find(pantryIngredient => {
+        return pantryIngredient.ingredient === neededIngredient.id
+      })
+      if (!matchingIngredient) {
+        return this.ingredients.push({ingredient: neededIngredient.id, amount: neededIngredient.difference})
+      }
+      this.ingredients.forEach(ingredient => {
+        if (ingredient.ingredient === neededIngredient.id) {
+          ingredient.amount += neededIngredient.difference
+        }
+      })
+    })
+  }
+
   nameIngredients(recipeRepo) {
     return this.ingredients.map(ingredient => {
       const matchingIng = recipeRepo.ingredientsData.find(ingData => {

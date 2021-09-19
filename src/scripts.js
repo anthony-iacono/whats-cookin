@@ -133,10 +133,13 @@ function addFavoriteOrRecipeToCook(event) {
   const btn = event.target;
   const recipeId = btn.parentNode.id;
   const recipe = recipeRepo.recipes.find(recipe => recipe.id === parseInt(recipeId));
-  if (domUpdates.determineClickedBtn(btn)) {
+  const clickedBtn = domUpdates.determineClickedBtn(btn)
+  if (clickedBtn === 'Favorites') {
     toggleFavorites(recipe)
-  } else {
+  } else if (clickedBtn === 'RTC') {
     toggleRecipesToCook(recipe)
+  } else if (clickedBtn === 'Buy Now') {
+    user.pantry.buyIngredients();
   }
 }
 
