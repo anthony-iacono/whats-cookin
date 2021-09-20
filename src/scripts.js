@@ -25,7 +25,6 @@ const searchTagsSection = document.querySelector('.js-tags-section');
 const userProfileBtn = document.querySelector('.js-user-profile-btn');
 const userPantrySection = document.querySelector('.js-user-pantry');
 const addIngredientsForm = document.querySelector('.js-add-to-pantry');
-const errorSection = document.querySelector('.js-error-section');
 
 window.addEventListener('load', getApis)
 favoritesBtn.addEventListener('click', showFavorites);
@@ -142,6 +141,10 @@ function addFavoriteOrRecipeToCook(event) {
   } else if (clickedBtn === 'Buy Now') {
     user.pantry.buyIngredients();
   } else if (clickedBtn === 'Make Recipe') {
+    user.recipesToCook = user.recipesToCook.filter(recipeToCook => {
+      return recipeToCook.id !== parseInt(recipeId)
+    })
+    showRecipesToCook()
     user.pantry.removeRecipeIngredients(recipe.ingredients)
   }
 }

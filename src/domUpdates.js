@@ -135,6 +135,7 @@ const domUpdates = {
       this.show(document.querySelector('.js-make-recipe-btn'))
       return 'Buy Now'
     } else if (btn.matches('.js-make-recipe-btn')) {
+
       return 'Make Recipe'
     }
   },
@@ -153,12 +154,6 @@ const domUpdates = {
       </label>`;
       tagsSection.innerHTML += tagCard;
     })
-  },
-
-  displayError(err) {
-    document.querySelector('.js-error-section')
-    .innerHTML = `<p> ${err} </p>`
-
   }
 }
 
