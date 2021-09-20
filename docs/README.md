@@ -19,7 +19,7 @@
 This app allows users to browse a repository of recipes, which they can add to their favorites or to a list of recipes to cook. Recipes added to Favorites or Recipes to Cook may be filtered by tags or searched by keywords. The user may also search the entire repository using keywords or filter the recipes by tags.
 
 ## Demo
-![whats-cookin-demo](https://user-images.githubusercontent.com/72999840/132435408-ce5e42aa-cbfb-4cda-8294-c49c38b36ce0.gif)
+[insert video link here]
 
 ## Goals
 - Implement ES6 classes that communicate with each other as needed
@@ -28,10 +28,16 @@ This app allows users to browse a repository of recipes, which they can add to t
 - Write modular, reusable code that follows SRP (Single Responsibility Principle)
 - Implement a robust testing suite using TDD
 - Make network requests to retrieve data
+- Work with a local server and make network requests to API endpoints to retrieve and manipulate data
+- Refactor code and use inheritance to DRY up repetitive logic
+- Follow best practices for accessibility
+- Leverage SASS to DRY up CSS
+- Practice talking about code and high-level technical concepts
 
 ## Architecture
 - Classes
-  - User  
+  - User
+  - Pantry
   - RecipeRepo
   - Recipe
   - Ingredient
@@ -41,6 +47,7 @@ This app allows users to browse a repository of recipes, which they can add to t
   - CSS
   - HTML
   - Express
+  - Node
   - Chai & Mocha
   - Fetch API
   - Webpack
@@ -66,10 +73,12 @@ App development planned and tracked using [GitHub Projects](https://github.com/a
 
 ## Wins
   - Completed the MVP on time
+  - Refactored early, which saved time later in the project
   - Worked well as a team with everyone bringing something unique to the project
 
 ## Challenges
-  - Connecting to remote data with Fetch API
+  - Connecting to remote and local servers with Fetch API
+  - Planning class interations
   - Making the search functions and tag filtering methods dynamic
 
 ## Future Iterations
