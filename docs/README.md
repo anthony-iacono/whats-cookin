@@ -62,7 +62,7 @@ This app allows users to browse a repository of recipes, which they can add to t
   - [Project specifications](https://frontend.turing.edu/projects/whats-cookin-part-one.html) and starter files provided by Turing School of Software & Design @turingschool
 
 ## Planning
-App development planned and tracked via [GitHub Project](https://github.com/annnuuuh/whats-cookin/projects/1)
+App development planned and tracked using [GitHub Projects](https://github.com/annnuuuh/whats-cookin/projects/1)
 
 ## Wins
   - Completed the MVP on time
