@@ -153,6 +153,12 @@ const domUpdates = {
       </label>`;
       tagsSection.innerHTML += tagCard;
     })
+  },
+
+  displayError(err) {
+    document.querySelector('.js-error-section')
+    .innerHTML = `<p> ${err} </p>`
+
   }
 }
 

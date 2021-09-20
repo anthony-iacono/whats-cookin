@@ -25,6 +25,7 @@ const searchTagsSection = document.querySelector('.js-tags-section');
 const userProfileBtn = document.querySelector('.js-user-profile-btn');
 const userPantrySection = document.querySelector('.js-user-pantry');
 const addIngredientsForm = document.querySelector('.js-add-to-pantry');
+const errorSection = document.querySelector('.js-error-section');
 
 window.addEventListener('load', getApis)
 favoritesBtn.addEventListener('click', showFavorites);
@@ -111,9 +112,9 @@ function filterResultsByTag(event, section) {
 }
 
 async function getApis() {
-  const usersData = await Promise.resolve(fetchUsers());
-  const recipesData = await Promise.resolve(fetchRecipes());
-  const ingredientsData = await Promise.resolve(fetchIngredients());
+ let usersData = await fetchUsers();
+ let ingredientsData = await fetchIngredients();
+ let recipesData = await fetchRecipes();
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
   user.addPantry();
