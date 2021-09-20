@@ -27,15 +27,16 @@ class Pantry {
         return pantryIngredient.ingredient === neededIngredient.id
       })
       if (!matchingIngredient) {
+        this.postToPantry(neededIngredient.id, neededIngredient.difference)
         return this.ingredients.push({ingredient: neededIngredient.id, amount: neededIngredient.difference})
       }
       this.ingredients.forEach(ingredient => {
         if (ingredient.ingredient === neededIngredient.id) {
           ingredient.amount += neededIngredient.difference
+          this.postToPantry(neededIngredient.id, neededIngredient.difference)
         }
       })
     })
-    this.postToPantry();
   }
 
   postToPantry(ingredientId, difference) {
@@ -49,8 +50,8 @@ class Pantry {
       headers: { 'Content-Type': 'application/json' }
     })
     .then(response => response.json())
-    .then(json => updateIngredient())
-    .catch(err => /*do something with the error*/);
+    .then(json => console.log(json))
+    .catch(err => console.log(err));
   }
 
   removeRecipeIngredients(recipeIngredients) {
@@ -61,7 +62,7 @@ class Pantry {
       if (recipeIngredient) {
         pantryIng.amount -= recipeIngredient.amount;
         const amountDifference = -recipeIngredient.amount;
-        this.postToPantry(pantryIngredient.ingredient, amountDifference);
+        this.postToPantry(pantryIng.ingredient, amountDifference);
         if (pantryIng.amount > 0) {
           acc.push(pantryIng)
         }
@@ -101,10 +102,12 @@ class Pantry {
     ingredientAmount = parseInt(ingredientAmount)
     const ingredientIds = this.ingredients.map(ingredient => ingredient.ingredient)
     if (!ingredientIds.includes(ingredientId)) {
+      this.postToPantry(ingredientId, ingredientAmount)
       return this.ingredients.push({ingredient: ingredientId, amount: ingredientAmount})
     }
     this.ingredients.forEach(ingredient => {
       if(ingredient.ingredient === ingredientId) {
+        this.postToPantry(ingredientId, ingredientAmount)
         ingredient.amount += ingredientAmount
       }
     })
@@ -112,6 +115,3 @@ class Pantry {
 }
 
 export default Pantry;
-
-// User should be able to indicate that they cooked a meal and then those ingredients + quantities used in the recipe will be removed from their pantry.
-// button should only be usable when the user's pantry has enough ingredients.
