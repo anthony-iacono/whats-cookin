@@ -1,7 +1,8 @@
 class Pantry {
-  constructor(ingredients) {
+  constructor(ingredients, userId) {
     this.ingredients = ingredients;
     this.neededIngredients = [];
+    this.id = userId;
   }
 
   checkPantry(recipeIngredients) {
@@ -26,33 +27,51 @@ class Pantry {
         return pantryIngredient.ingredient === neededIngredient.id
       })
       if (!matchingIngredient) {
+        this.postToPantry(neededIngredient.id, neededIngredient.difference)
         return this.ingredients.push({ingredient: neededIngredient.id, amount: neededIngredient.difference})
       }
       this.ingredients.forEach(ingredient => {
         if (ingredient.ingredient === neededIngredient.id) {
           ingredient.amount += neededIngredient.difference
+          this.postToPantry(neededIngredient.id, neededIngredient.difference)
         }
       })
     })
   }
-// go through each recipe ingredient with reduce pantryIngredient
-//
+
+  postToPantry(ingredientId, difference) {
+    fetch("http://localhost:3001/api/v1/users", {
+      method: 'POST',
+      body: JSON.stringify({
+        userID: this.id,
+        ingredientID: ingredientId,
+        ingredientModification: difference
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .catch(err => console.log(err));
+  }
+
   removeRecipeIngredients(recipeIngredients) {
     this.ingredients = this.ingredients.reduce((acc, pantryIng) => {
       const recipeIngredient = recipeIngredients.find(recipeIng => {
         return pantryIng.ingredient === recipeIng.id
       })
       if (recipeIngredient) {
-        pantryIng.amount -= recipeIngredient.amount
+        pantryIng.amount -= recipeIngredient.amount;
+        const amountDifference = -recipeIngredient.amount;
+        this.postToPantry(pantryIng.ingredient, amountDifference);
         if (pantryIng.amount > 0) {
           acc.push(pantryIng)
         }
         return acc;
       }
-      acc.push(pantryIng)
+      acc.push(pantryIng);
       return acc;
     }, [])
   }
+
+  //
 
   nameIngredients(recipeRepo) {
     return this.ingredients.map(ingredient => {
@@ -81,10 +100,12 @@ class Pantry {
     ingredientAmount = parseInt(ingredientAmount)
     const ingredientIds = this.ingredients.map(ingredient => ingredient.ingredient)
     if (!ingredientIds.includes(ingredientId)) {
+      this.postToPantry(ingredientId, ingredientAmount)
       return this.ingredients.push({ingredient: ingredientId, amount: ingredientAmount})
     }
     this.ingredients.forEach(ingredient => {
       if(ingredient.ingredient === ingredientId) {
+        this.postToPantry(ingredientId, ingredientAmount)
         ingredient.amount += ingredientAmount
       }
     })
@@ -92,6 +113,3 @@ class Pantry {
 }
 
 export default Pantry;
-
-// User should be able to indicate that they cooked a meal and then those ingredients + quantities used in the recipe will be removed from their pantry.
-// button should only be usable when the user's pantry has enough ingredients.

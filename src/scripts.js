@@ -111,9 +111,9 @@ function filterResultsByTag(event, section) {
 }
 
 async function getApis() {
-  const usersData = await Promise.resolve(fetchUsers());
-  const recipesData = await Promise.resolve(fetchRecipes());
-  const ingredientsData = await Promise.resolve(fetchIngredients());
+ let usersData = await fetchUsers();
+ let ingredientsData = await fetchIngredients();
+ let recipesData = await fetchRecipes();
   const randomUsersDataIndex = Math.round(Math.random() * (usersData.length + 1));
   user = new User(usersData[randomUsersDataIndex]);
   user.addPantry();
@@ -141,6 +141,10 @@ function addFavoriteOrRecipeToCook(event) {
   } else if (clickedBtn === 'Buy Now') {
     user.pantry.buyIngredients();
   } else if (clickedBtn === 'Make Recipe') {
+    user.recipesToCook = user.recipesToCook.filter(recipeToCook => {
+      return recipeToCook.id !== parseInt(recipeId)
+    })
+    showRecipesToCook()
     user.pantry.removeRecipeIngredients(recipe.ingredients)
   }
 }

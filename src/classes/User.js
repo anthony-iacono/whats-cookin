@@ -10,7 +10,7 @@ class User {
   }
 
   addPantry() {
-    this.pantry = new Pantry(this.pantry);
+    this.pantry = new Pantry(this.pantry, this.id);
   }
 
   addToFavorites(recipe) {
