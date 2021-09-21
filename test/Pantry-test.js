@@ -21,6 +21,10 @@ describe.only('Pantry', function () {
     expect(pantry.ingredients).to.equal(sampleUsersData[0].pantry);
   })
 
+  it('should store the user ID', function() {
+    expect(pantry.id).to.equal()
+  })
+
   it('should be able to hold needed ingredients', function() {
     pantry.neededIngredients.push({name: 'rice', amount: 2});
     expect(pantry.neededIngredients).to.deep.equal([{name: 'rice', amount: 2}])

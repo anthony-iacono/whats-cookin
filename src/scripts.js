@@ -156,9 +156,9 @@ function removeTag(tag, section) {
   if (recipeRepo.selectedTags.length) {
     const filteredRecipes = recipeRepo.filterByTag();
     domUpdates.displayRecipes(filteredRecipes, section);
-  } else {
-    domUpdates.displayRecipes(recipeRepo.matchingRecipes, section);
   }
+  
+  domUpdates.displayRecipes(recipeRepo.matchingRecipes, section);
 }
 
 function showFavorites() {
