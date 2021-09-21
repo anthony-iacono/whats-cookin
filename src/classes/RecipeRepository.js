@@ -61,13 +61,18 @@ class RecipeRepository {
     this.matchingRecipes = [];
     keywords = keywords.split(' ');
     recipes.forEach(recipe => {
-      keywords.forEach(keyword => {
-        this.checkNames(keyword, recipe);
-        this.checkIngredients(keyword, recipe);
-        this.checkTags(keyword, recipe);
-      })
+      this.checkNamesIngredientsAndTags(keywords, recipe);
     })
   }
+
+  checkNamesIngredientsAndTags(keywords, recipe) {
+    keywords.forEach(keyword => {
+      this.checkNames(keyword, recipe);
+      this.checkIngredients(keyword, recipe);
+      this.checkTags(keyword, recipe);
+    })
+  }
+
 
   checkNames(keyword, recipe, containsRecipe) {
     if (recipe.name.toLowerCase().includes(keyword)
