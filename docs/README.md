@@ -21,7 +21,7 @@ This app allows users to browse a repository of recipes, which they can add to t
 ## Demo 
 ![whats-cookin-demo](https://user-images.githubusercontent.com/72999840/132435408-ce5e42aa-cbfb-4cda-8294-c49c38b36ce0.gif)
 
-[Project Demo Video](https://youtu.be/Xx22z-O_jOA)
+[<img width="1440" alt="Screen Shot 2021-09-21 at 8 36 35 AM" src="https://user-images.githubusercontent.com/72999840/134201836-6cd5c65f-8db8-4f57-b67e-de5028bfd97a.png">](https://youtu.be/Xx22z-O_jOA)
 
 ## Goals
 - Implement ES6 classes that communicate with each other as needed
