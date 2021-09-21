@@ -4,7 +4,7 @@ class Recipe {
   constructor(recipe) {
     this.id = recipe.id;
     this.image = recipe.image;
-    this.ingredients = recipe.ingredients.map(ingredient => new Ingredient(ingredient));
+    this.ingredients;
     this.instructions = recipe.instructions;
     this.name = recipe.name;
     this.tags = recipe.tags;

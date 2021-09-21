@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import Pantry from '../src/classes/Pantry';
 import sampleUsersData from '../src/data/sampleUsersData'
 
-describe.only('Pantry', function () {
+describe('Pantry', function () {
   let pantry;
 
   beforeEach(function() {
@@ -19,6 +19,10 @@ describe.only('Pantry', function () {
 
   it('should store ingredient data', function() {
     expect(pantry.ingredients).to.equal(sampleUsersData[0].pantry);
+  })
+
+  it('should store the user ID', function() {
+    expect(pantry.id).to.equal()
   })
 
   it('should be able to hold needed ingredients', function() {
