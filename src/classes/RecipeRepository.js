@@ -1,4 +1,5 @@
 import Recipe from './Recipe';
+import Ingredient from './Ingredient';
 
 class RecipeRepository {
   constructor(recipes, ingredientsData) {
@@ -10,7 +11,11 @@ class RecipeRepository {
   }
 
   addRecipes() {
-    this.recipes = this.recipes.map(recipe => new Recipe(recipe));
+    this.recipes = this.recipes.map(recipe => {
+      const newRecipe = new Recipe(recipe);
+      newRecipe.ingredients = recipe.ingredients.map(ingredient => new Ingredient(ingredient));
+      return newRecipe;
+    });
   }
 
   getRecipesInformation() {
@@ -38,14 +43,18 @@ class RecipeRepository {
 
   filterByTag() {
     let filteredRecipes = []
-    this.selectedTags.forEach(tag => {
-      this.matchingRecipes.forEach(recipe => {
-        if(recipe.tags.includes(tag) && !filteredRecipes.includes(recipe)){
-          filteredRecipes.push(recipe)
-        }
-      })
-    })
+    this.selectedTags.forEach(selectedTag => {
+      this.addToFilteredRecipe(selectedTag, filteredRecipes);
+    });
     return filteredRecipes;
+  }
+
+  addToFilteredRecipe(selectedTag, filteredRecipes) {
+    this.matchingRecipes.forEach(matchingRecipe => {
+      if(matchingRecipe.tags.includes(selectedTag) && !filteredRecipes.includes(matchingRecipe)){
+        filteredRecipes.push(matchingRecipe)
+      }
+    });
   }
 
   search(keywords, recipes) {
