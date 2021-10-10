@@ -2,19 +2,6 @@
 # What's Cookin'
 - Module 2 Cohort 2107 Front-End Engineering
 
-## Table of Contents
-  - [Abstract](#abstract)
-  - [Demo](#demo)
-  - [Goals](#goals)
-  - [Architecture](#architecture)
-  - [Technologies](#technologies)
-  - [Setup](#setup)
-  - [Contributors](#contributors)
-  - [Planning](#planning)
-  - [Wins](#wins)
-  - [Challenges](#challenges)
-  - [Future Iterations](#future-iterations)
-
 ## Abstract
 This app allows users to browse a repository of recipes, which they can add to their favorites or to a list of recipes to cook. Recipes added to Favorites or Recipes to Cook may be filtered by tags or searched by keywords. The user may also search the entire repository using keywords or filter the recipes by tags. User may also view the ingredients in their pantry, add ingredients, and buy the necessary ingredients at once to make any given recipe.
 
@@ -69,6 +56,7 @@ This app allows users to browse a repository of recipes, which they can add to t
   - [Nik Seif](https://github.com/niksseif) (PM)
 
   - [Project specifications](https://frontend.turing.edu/projects/whats-cookin-part-one.html) and starter files provided by Turing School of Software & Design @turingschool
+  - This repo is a detached fork from the [original](https://github.com/annnuuuh/whats-cookin)
 
 ## Planning
 App development planned and tracked using [GitHub Projects](https://github.com/annnuuuh/whats-cookin/projects/1)
