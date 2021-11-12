@@ -1,4 +1,3 @@
-
 function fetchUsers() {
   return fetch("https://whats-cookin-api-data.herokuapp.com/api/v1/users")
     .then((response) => response.json())
