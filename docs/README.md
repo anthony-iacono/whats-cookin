@@ -1,3 +1,4 @@
+# What's Cookin'
 ## Abstract
 This app allows users to browse a repository of recipes, which they can add to their favorites or to a list of recipes to cook. Recipes added to Favorites or Recipes to Cook may be filtered by tags or searched by keywords. The user may also search the entire repository using keywords or filter the recipes by tags. User may also view the ingredients in their pantry, add ingredients, and buy the necessary ingredients at once to make any given recipe.
 
